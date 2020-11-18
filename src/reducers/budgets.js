@@ -11,11 +11,31 @@ export const budgetsReducer = (state = [], action) => {
     }
 }
 
-export const budgetModal = (state = false, action) => {
+export const newBudget = (state = false, action) => {
     switch(action.type){
         case "OPEN":
             return !state
         default:
             return state
+    }
+}
+
+export const newBudgetType = (state = "", action) => {
+    switch(action.type){
+        case "budget":
+            return action.type
+        case "fullPlan":
+            return action.type
+        default:
+            return ""
+    }
+}
+
+export const currentBudget = (state = null, action) => {
+    switch(action.type){
+        case "VIEW":
+            return action.payload
+        default:
+            return null
     }
 }

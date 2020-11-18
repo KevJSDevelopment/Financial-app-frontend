@@ -1,12 +1,11 @@
 import React, {useEffect} from 'react';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import {useSelector, useDispatch} from 'react-redux'
-import {setBudgets, openBudgetModal} from './actions'
-import Grid from '@material-ui/core/Grid'
-import BudgetCard from './BudgetCard'
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
+import {setBudgets, openNewBudget, setCurrentBudget} from './actions'
 import NewBudget from './NewBudget'
+import BudgetList from './BudgetList'
+import ViewBudget from './ViewBudget';
 
 // import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
@@ -26,6 +25,8 @@ const App = () => {
   const classes = useStyles()
   const budgets = useSelector(state => state.budgets)
   const open = useSelector(state => state.budgetOpen)
+  const currentBudget = useSelector(state => state.currentBudget)
+  // console.log(currentBudget)
   const dispatch = useDispatch()
 
   const getBudgets = async () => {
@@ -35,45 +36,65 @@ const App = () => {
     dispatch(setBudgets(data.budgets))
   }
 
-  const handleBudgetModel = () => {
-    dispatch(openBudgetModal())
+  const handleBudget = () => {
+    dispatch(openNewBudget())
   }
 
-  const addBudget = async (event) => {
-    const meta = {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({})
+  const addBudget = async (ev) => {
+    ev.preventDefault()
+
+    if(ev.target[0] === ""){
+      alert("You must identify what type of plan you are creating")
     }
-    const res = await fetch('http://localhost:3000/budgets', meta)
+    else if(ev.target[1] === ""){
+      alert("Please give a name for your financial plan")
+    }
+    else {
+      const meta = {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({name: ev.target[1].value, type: ev.target[0].value, date_from: ev.target[2].value, date_to: ev.target[4].value})
+      }
+      const res = await fetch('http://localhost:3000/budgets', meta)
+      const data = await res.json()
+
+      dispatch(setCurrentBudget({ budget: data.budget, expenses: data.expenses }))
+      localStorage.setItem("currentBudgetId", data.budget.id)
+    }
+  }
+
+  const viewBudget = async(budgetId) => {
+    const res = await fetch(`http://localhost:3000/budgets/${budgetId}`)
     const data = await res.json()
-    console.log(data)
+    dispatch(setCurrentBudget({ budget: data.budget, expenses: data.expenses }))
   }
 
   useEffect(() => {
+    if(localStorage.getItem("currentBudgetId")){
+      viewBudget(localStorage.getItem("currentBudgetId"))
+    }
       getBudgets()
   }, [])
 
   return (
-    <div>
-      {/* top container */}
-
-      {/* budgets */}
-      <Grid container alignItems="center" spacing={3}>
-      {budgets.map(budget => {
-        return  <Grid item xs={4}>
-                  <BudgetCard budget={budget} classes={classes}/>
-                </Grid>
-      })}
-        <Grid item xs={4}>
-            <Fab onClick={() => handleBudgetModel()}className={classes.icon} aria-label="add">
-              <AddIcon />
-            </Fab>
-        </Grid>
-      </Grid>
-      
-      <NewBudget open={open} handleBudgetModel={handleBudgetModel}/>
-    </div>
+    <Router>
+      {/* <Navbar /> */}
+      <div className="App">
+        {!currentBudget ? 
+        <Switch>
+          <Route path="/" exact render={() => !open ? <BudgetList classes={classes} budgets={budgets} handleBudget={handleBudget} viewBudget={viewBudget}/> : <Redirect to="/newPlan"/>}/> 
+          <Route path="/newPlan" exact render={() => open ? <NewBudget open={open} handleBudgetModel={handleBudget} addBudget={addBudget} /> : <Redirect to="/" />}/>
+          <Redirect to="/" />
+          {/* <Route path="/viewPlan" exact render={() => } */}
+        </Switch> : 
+        <Switch>
+          <Route path="/viewPlan" render={() => <ViewBudget budget={currentBudget} />}/> 
+          <Redirect to="/viewPlan" />
+        </Switch>
+        }
+        
+      </div>
+    </Router>
   );
 }
 
