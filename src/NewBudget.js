@@ -58,8 +58,9 @@ const NewBudget = (props) => {
                     }}
                   >
                     <option aria-label="None" value="" />
-                    <option value={"budget"}>Simple Budget</option>
-                    <option value={"fullPlan"}>Comprehensive plan</option>
+                    <option value={"simple"}>Simple Budget</option>
+                    <option value={"plan"}>Planned Budget</option>
+                    <option value={"full"}>Comprehensive plan</option>
                   </Select>
                   </Grid>
                 </Grid>

@@ -22,9 +22,11 @@ export const newBudget = (state = false, action) => {
 
 export const newBudgetType = (state = "", action) => {
     switch(action.type){
+        case "simple":
+            return action.type
         case "budget":
             return action.type
-        case "fullPlan":
+        case "full":
             return action.type
         default:
             return ""

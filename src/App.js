@@ -1,32 +1,19 @@
 import React, {useEffect} from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@material-ui/core/styles';
 import {useSelector, useDispatch} from 'react-redux'
-import {setBudgets, openNewBudget, setCurrentBudget} from './actions'
+import {setBudgets, openNewBudget, setCurrentBudget, isLoading} from './actions'
 import NewBudget from './NewBudget'
 import BudgetList from './BudgetList'
 import ViewBudget from './ViewBudget';
 
 // import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
-const useStyles = makeStyles({
-  icon: {
-    color: "white",
-    backgroundColor: "#00ca00",
-    '&:hover': {
-      backgroundColor: "#59dd44",
-    },
-    marginLeft: "30%"
-  },
-  
-});
-
 const App = () => {
-  const classes = useStyles()
-  const budgets = useSelector(state => state.budgets)
   const open = useSelector(state => state.budgetOpen)
   const currentBudget = useSelector(state => state.currentBudget)
-  // console.log(currentBudget)
+  const loading = useSelector(state => state.loading)
+  
   const dispatch = useDispatch()
 
   const getBudgets = async () => {
@@ -34,10 +21,6 @@ const App = () => {
     const data = await res.json()
     // debugger
     dispatch(setBudgets(data.budgets))
-  }
-
-  const handleBudget = () => {
-    dispatch(openNewBudget())
   }
 
   const addBudget = async (ev) => {
@@ -62,22 +45,14 @@ const App = () => {
     }
   }
 
-  const viewBudget = async(budgetId) => {
+  const viewBudget = async (budgetId) => {
     const res = await fetch(`http://localhost:3000/budgets/${budgetId}`)
     const data = await res.json()
     dispatch(setCurrentBudget({ budget: data.budget, expenseInfo: data.expenseInfo}))
     localStorage.setItem("currentBudgetId", data.budget.id)
   }
 
-  //temporary
-  let i = 0
   useEffect(() => {
-
-    //temporary to reload budgetlist on refresh
-    if(i === 0){
-      localStorage.removeItem("currentBudgetId")
-      i++
-    }
 
     if(localStorage.getItem("currentBudgetId")){
       viewBudget(localStorage.getItem("currentBudgetId"))
@@ -88,21 +63,21 @@ const App = () => {
   return (
     <Router>
       {/* <Navbar /> */}
+      {/* {!loading ?  */}
       <div className="App">
         {!currentBudget ? 
         <Switch>
-          <Route path="/" exact render={() => !open ? <BudgetList classes={classes} budgets={budgets} handleBudget={handleBudget} viewBudget={viewBudget}/> : <Redirect to="/newPlan"/>}/> 
-          <Route path="/newPlan" exact render={() => open ? <NewBudget open={open} handleBudgetModel={handleBudget} addBudget={addBudget} /> : <Redirect to="/" />}/>
+          <Route path="/" exact render={() => !open ? <BudgetList/> : <Redirect to="/newPlan"/>}/> 
+          <Route path="/newPlan" exact render={() => open ? <NewBudget open={open} addBudget={addBudget} /> : <Redirect to="/" />}/>
           <Redirect to="/" />
-          {/* <Route path="/viewPlan" exact render={() => } */}
         </Switch> : 
         <Switch>
-          <Route path="/viewPlan" render={() => <ViewBudget budget={currentBudget} />}/> 
+          <Route path="/viewPlan" render={() => <ViewBudget/>}/> 
           <Redirect to="/viewPlan" />
         </Switch>
-        }
-        
-      </div>
+        } 
+      </div> 
+      {/* : <div>Loading...</div>} */}
     </Router>
   );
 }

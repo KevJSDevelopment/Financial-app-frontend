@@ -1,33 +1,46 @@
-import React from 'react'
-import {Grid} from '@material-ui/core'
+import React, {useEffect} from 'react'
+import {Grid, FormControl, Select} from '@material-ui/core'
+import {useSelector, useDispatch} from 'react-redux'
 import { ResponsivePie } from '@nivo/pie'
+import {setCategoryList, setCategory, isLoading} from './actions'
 
-const ViewBudget = (props) => {
-    let data = []
-    props.budget.expenseInfo.map(category => {
-        let sum = 0
-        category.expenses.forEach(expense => {
-            sum += expense.cost
+const ViewBudget = () => {
+    const currentBudget = useSelector(state => state.currentBudget)
+    const categoryList = useSelector(state => state.categoryList)
+    const category = useSelector(state => state.category)
+    const dispatch = useDispatch()
+    const getData = () => {
+        let catArr = []
+        const dataArr = currentBudget.expenseInfo.map(category => {
+            let sum = 0
+            category.expenses.forEach(expense => {
+                sum += expense.cost
+            })
+            const obj = {
+                "id": category.cat.name,
+                "label": category.cat.name,
+                "value": sum
+            }
+            catArr.push(category.cat.name)
+            return obj
         })
-        const obj = {
-            "id": category.cat.name,
-            "label": category.cat.name,
-            "value": sum,
-            "color": "green"
-        }
-        data.push(obj)
-    })
-    
+        // dispatch(setCategoryList(catArr))
+        return dataArr
+    }
+    useEffect(() => {
+        getData()
+        // dispatch(isLoading())
+    }, [])
     return (
         <Grid container direction="row" spacing={3}>
             <Grid style={{height: "500px" }} item xs={6}>
                 <ResponsivePie
-                    data={data}
+                    data={getData()}
                     margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
                     innerRadius={0.5}
                     padAngle={0.7}
                     cornerRadius={3}
-                    colors={{ scheme: 'nivo' }}
+                    colors={{ scheme: 'set1' }}
                     borderWidth={1}
                     borderColor={{ from: 'color', modifiers: [ [ 'darker', 0.2 ] ] }}
                     radialLabelsSkipAngle={10}
@@ -56,54 +69,54 @@ const ViewBudget = (props) => {
                         }
                     ]}
                     fill={[
-                        {
-                            match: {
-                                id: 'ruby'
-                            },
-                            id: 'dots'
-                        },
-                        {
-                            match: {
-                                id: 'c'
-                            },
-                            id: 'dots'
-                        },
-                        {
-                            match: {
-                                id: 'go'
-                            },
-                            id: 'dots'
-                        },
-                        {
-                            match: {
-                                id: 'python'
-                            },
-                            id: 'dots'
-                        },
-                        {
-                            match: {
-                                id: 'scala'
-                            },
-                            id: 'lines'
-                        },
-                        {
-                            match: {
-                                id: 'lisp'
-                            },
-                            id: 'lines'
-                        },
-                        {
-                            match: {
-                                id: 'elixir'
-                            },
-                            id: 'lines'
-                        },
-                        {
-                            match: {
-                                id: 'javascript'
-                            },
-                            id: 'lines'
-                        }
+                        // {
+                        //     match: {
+                        //         id: 'ruby'
+                        //     },
+                        //     id: 'dots'
+                        // },
+                        // {
+                        //     match: {
+                        //         id: 'c'
+                        //     },
+                        //     id: 'dots'
+                        // },
+                        // {
+                        //     match: {
+                        //         id: 'go'
+                        //     },
+                        //     id: 'dots'
+                        // },
+                        // {
+                        //     match: {
+                        //         id: 'python'
+                        //     },
+                        //     id: 'dots'
+                        // },
+                        // {
+                        //     match: {
+                        //         id: 'scala'
+                        //     },
+                        //     id: 'lines'
+                        // },
+                        // {
+                        //     match: {
+                        //         id: 'lisp'
+                        //     },
+                        //     id: 'lines'
+                        // },
+                        // {
+                        //     match: {
+                        //         id: 'elixir'
+                        //     },
+                        //     id: 'lines'
+                        // },
+                        // {
+                        //     match: {
+                        //         id: 'javascript'
+                        //     },
+                        //     id: 'lines'
+                        // }
                     ]}
                     legends={[
                         {
@@ -133,9 +146,21 @@ const ViewBudget = (props) => {
                 />
             </Grid>
             <Grid item xs={6}>
-                <div>
-                    hi
-                </div>
+                <FormControl>
+                <Select
+                    native
+                    value={category}
+                    onChange={(ev) => {
+                      // debugger
+                      dispatch(setCategory(ev.target.value))
+                    }}
+                  >
+                      <option value=""></option>
+                    {categoryList.map(category => {
+                        return <option value={category}>{category}</option>
+                    })}
+                  </Select>
+                </FormControl>
             </Grid>
         </Grid>
     )

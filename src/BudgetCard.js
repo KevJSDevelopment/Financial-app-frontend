@@ -7,13 +7,25 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid'
+import {useSelector, useDispatch} from 'react-redux'
+import {setCurrentBudget} from './actions'
 
 const BudgetCard = (props) => {
+
+  const dispatch = useDispatch()
+
+  const viewBudget = async (budgetId) => {
+    const res = await fetch(`http://localhost:3000/budgets/${budgetId}`)
+    const data = await res.json()
+    dispatch(setCurrentBudget({ budget: data.budget, expenseInfo: data.expenseInfo}))
+    localStorage.setItem("currentBudgetId", data.budget.id)
+  }
+
     return (
       <Grid item xs={4}>
-        <Card className={props.classes.root}>
+        <Card>
         <CardActionArea>
-          <CardContent onClick={() => props.viewBudget(props.budget.id)}>
+          <CardContent onClick={() => viewBudget(props.budget.id)}>
           <Typography gutterBottom variant="h5" component="h2">
               {props.budget.name}
             </Typography>
@@ -26,7 +38,7 @@ const BudgetCard = (props) => {
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Button onClick={() => props.viewBudget(props.budget.id)} size="small" color="primary">
+          <Button onClick={() => viewBudget(props.budget.id)} size="small" color="primary">
             View
           </Button>
           <Button size="small" color="primary">

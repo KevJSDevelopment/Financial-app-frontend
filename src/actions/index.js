@@ -21,12 +21,39 @@ export const setCurrentBudget = (budgetObject) => {
     switch(budgetObject){
         case null:
             return {
-                type: "none"
+                type: "no object"
             }
         default: 
             return {
                 type: "VIEW",
                 payload: budgetObject
             }
+    }
+}
+
+export const isLoading = () => {
+    return {
+        type: "LOAD"
+    }
+}
+
+export const setCategoryList = (array) => {
+    switch(array.length){
+        case 0:
+            return {
+                type: "no categories"
+            }
+        default:
+            return {
+                type: "SETLIST",
+                payload: array
+            }
+    }   
+}
+
+export const setCategory = (string) => {
+    return {
+        type: "CATEGORY",
+        payload: string
     }
 }
