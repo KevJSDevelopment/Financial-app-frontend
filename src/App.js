@@ -58,18 +58,27 @@ const App = () => {
       const res = await fetch('http://localhost:3000/budgets', meta)
       const data = await res.json()
 
-      dispatch(setCurrentBudget({ budget: data.budget, expenses: data.expenses }))
-      localStorage.setItem("currentBudgetId", data.budget.id)
+      viewBudget(data.budget.id)
     }
   }
 
   const viewBudget = async(budgetId) => {
     const res = await fetch(`http://localhost:3000/budgets/${budgetId}`)
     const data = await res.json()
-    dispatch(setCurrentBudget({ budget: data.budget, expenses: data.expenses }))
+    dispatch(setCurrentBudget({ budget: data.budget, expenseInfo: data.expenseInfo}))
+    localStorage.setItem("currentBudgetId", data.budget.id)
   }
 
+  //temporary
+  let i = 0
   useEffect(() => {
+
+    //temporary to reload budgetlist on refresh
+    if(i === 0){
+      localStorage.removeItem("currentBudgetId")
+      i++
+    }
+
     if(localStorage.getItem("currentBudgetId")){
       viewBudget(localStorage.getItem("currentBudgetId"))
     }

@@ -2,44 +2,22 @@ import React from 'react'
 import {Grid} from '@material-ui/core'
 import { ResponsivePie } from '@nivo/pie'
 
-const data = [
-    {
-      "id": "hack",
-      "label": "hack",
-      "value": 45,
-      "color": "hsl(97, 70%, 50%)"
-    },
-    {
-      "id": "erlang",
-      "label": "erlang",
-      "value": 96,
-      "color": "hsl(337, 70%, 50%)"
-    },
-    {
-      "id": "rust",
-      "label": "rust",
-      "value": 455,
-      "color": "hsl(14, 70%, 50%)"
-    },
-    {
-      "id": "elixir",
-      "label": "elixir",
-      "value": 370,
-      "color": "hsl(39, 70%, 50%)"
-    },
-    {
-      "id": "lisp",
-      "label": "lisp",
-      "value": 241,
-      "color": "hsl(86, 70%, 50%)"
-    }
-  ]
 const ViewBudget = (props) => {
-    // props.budget.expenses.map(expense => {
-    //     {
-    //         id: expense.name
-    //     }
-    // })
+    let data = []
+    props.budget.expenseInfo.map(category => {
+        let sum = 0
+        category.expenses.forEach(expense => {
+            sum += expense.cost
+        })
+        const obj = {
+            "id": category.cat.name,
+            "label": category.cat.name,
+            "value": sum,
+            "color": "green"
+        }
+        data.push(obj)
+    })
+    
     return (
         <Grid container direction="row" spacing={3}>
             <Grid style={{height: "500px" }} item xs={6}>
