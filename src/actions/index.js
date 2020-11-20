@@ -17,25 +17,26 @@ export const setNewBudgetType = (string) => {
     }
 }
 
-export const setCurrentBudget = (budgetObject) => {
-    switch(budgetObject){
-        case null:
-            return {
-                type: "no object"
-            }
-        default: 
-            return {
+export const setCurrentBudget = (budgetId) => {
+    // debugger
+    return (dispatch) => {
+        fetch(`http://localhost:3000/budgets/${budgetId}`)
+        .then(res => res.json())
+        .then(data => {
+            const budgetObject = { budget: data.budget, expenseInfo: data.expenseInfo }
+            dispatch({
                 type: "VIEW",
                 payload: budgetObject
-            }
+            })
+        })
     }
 }
 
-export const isLoading = () => {
-    return {
-        type: "LOAD"
-    }
-}
+// export const doneLoading = () => {
+//     return {
+//         type: "LOAD"
+//     }
+// }
 
 export const setCategoryList = (array) => {
     switch(array.length){
@@ -55,5 +56,12 @@ export const setCategory = (string) => {
     return {
         type: "CATEGORY",
         payload: string
+    }
+}
+
+export const setDataArr = (arr) => {
+    return {
+        type: "ARRAY",
+        payload: arr
     }
 }

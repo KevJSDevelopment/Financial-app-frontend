@@ -1,45 +1,53 @@
 import React, {useEffect} from 'react'
-import {Grid, FormControl, Select} from '@material-ui/core'
+import {Grid, FormControl, Select, MenuItem} from '@material-ui/core'
 import {useSelector, useDispatch} from 'react-redux'
-import { ResponsivePie } from '@nivo/pie'
-import {setCategoryList, setCategory, isLoading} from './actions'
+// import {PieChart, Pie, Sector, Cell} from 'recharts';
+import {ResponsivePie} from '@nivo/pie'
+import {setCategoryList, setCategory, setDataArr} from './actions'
 
 const ViewBudget = () => {
-    const currentBudget = useSelector(state => state.currentBudget)
     const categoryList = useSelector(state => state.categoryList)
     const category = useSelector(state => state.category)
     const dispatch = useDispatch()
+    // const COLORS = ["#59e008", "#d2624d", "#22456a", "#eec0b7", "#6f3fc9", "#f293e7", "#69eabd", "#f9b1c3", "#23d5f9", "#dd9228", "#5d919c", "#a72751", "#326568", "#cefba8", "#81485b", "#887c91"]
+    const dataArr = useSelector(state => state.dataArr)
     const getData = () => {
-        let catArr = []
-        const dataArr = currentBudget.expenseInfo.map(category => {
-            let sum = 0
-            category.expenses.forEach(expense => {
-                sum += expense.cost
+        // debugger
+        fetch(`http://localhost:3000/budgets/${localStorage.getItem("budgetId")}`)
+        .then(res => res.json())
+        .then(data => {
+            const budgetObject = { budget: data.budget, expenseInfo: data.expenseInfo }
+            let dataArr = []
+            let catArr = []
+            budgetObject.expenseInfo.map(category => {
+                let sum = 0
+                category.expenses.forEach(expense => {
+                    sum += expense.cost
+                })
+                const obj = {
+                    "id": category.cat.name,
+
+                    "value": sum
+                }
+                catArr.push(category.cat.name)
+                dataArr.push(obj)
             })
-            const obj = {
-                "id": category.cat.name,
-                "label": category.cat.name,
-                "value": sum
-            }
-            catArr.push(category.cat.name)
-            return obj
+            dispatch(setCategoryList(catArr))
+            dispatch(setDataArr(dataArr))
         })
-        // dispatch(setCategoryList(catArr))
-        return dataArr
     }
     useEffect(() => {
         getData()
-        // dispatch(isLoading())
     }, [])
+
     return (
         <Grid container direction="row" spacing={3}>
             <Grid style={{height: "500px" }} item xs={6}>
                 <ResponsivePie
-                    data={getData()}
+                    data={dataArr}
                     margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
                     innerRadius={0.5}
-                    padAngle={0.7}
-                    cornerRadius={3}
+                    cornerRadius={4}
                     colors={{ scheme: 'set1' }}
                     borderWidth={1}
                     borderColor={{ from: 'color', modifiers: [ [ 'darker', 0.2 ] ] }}
@@ -48,76 +56,6 @@ const ViewBudget = () => {
                     radialLabelsLinkColor={{ from: 'color' }}
                     sliceLabelsSkipAngle={10}
                     sliceLabelsTextColor="#333333"
-                    defs={[
-                        {
-                            id: 'dots',
-                            type: 'patternDots',
-                            background: 'inherit',
-                            color: 'rgba(255, 255, 255, 0.3)',
-                            size: 4,
-                            padding: 1,
-                            stagger: true
-                        },
-                        {
-                            id: 'lines',
-                            type: 'patternLines',
-                            background: 'inherit',
-                            color: 'rgba(255, 255, 255, 0.3)',
-                            rotation: -45,
-                            lineWidth: 6,
-                            spacing: 10
-                        }
-                    ]}
-                    fill={[
-                        // {
-                        //     match: {
-                        //         id: 'ruby'
-                        //     },
-                        //     id: 'dots'
-                        // },
-                        // {
-                        //     match: {
-                        //         id: 'c'
-                        //     },
-                        //     id: 'dots'
-                        // },
-                        // {
-                        //     match: {
-                        //         id: 'go'
-                        //     },
-                        //     id: 'dots'
-                        // },
-                        // {
-                        //     match: {
-                        //         id: 'python'
-                        //     },
-                        //     id: 'dots'
-                        // },
-                        // {
-                        //     match: {
-                        //         id: 'scala'
-                        //     },
-                        //     id: 'lines'
-                        // },
-                        // {
-                        //     match: {
-                        //         id: 'lisp'
-                        //     },
-                        //     id: 'lines'
-                        // },
-                        // {
-                        //     match: {
-                        //         id: 'elixir'
-                        //     },
-                        //     id: 'lines'
-                        // },
-                        // {
-                        //     match: {
-                        //         id: 'javascript'
-                        //     },
-                        //     id: 'lines'
-                        // }
-                    ]}
                     legends={[
                         {
                             anchor: 'bottom',
@@ -147,19 +85,18 @@ const ViewBudget = () => {
             </Grid>
             <Grid item xs={6}>
                 <FormControl>
-                <Select
-                    native
-                    value={category}
-                    onChange={(ev) => {
-                      // debugger
-                      dispatch(setCategory(ev.target.value))
-                    }}
-                  >
-                      <option value=""></option>
-                    {categoryList.map(category => {
-                        return <option value={category}>{category}</option>
-                    })}
-                  </Select>
+                    <Select
+                        native
+                        value={category}
+                        onChange={(ev) => {
+                        dispatch(setCategory(ev.target.value))
+                        }}
+                    >
+                        <option value="">None</option>
+                        {categoryList.map(category => {
+                            return <option value={category}>{category}</option>
+                        })}
+                    </Select>
                 </FormControl>
             </Grid>
         </Grid>

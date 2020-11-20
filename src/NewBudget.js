@@ -6,6 +6,8 @@ import Grid from '@material-ui/core/Grid'
 import { TextField, Select, Button} from '@material-ui/core';
 import {MuiPickersUtilsProvider,KeyboardDatePicker} from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import { useHistory } from 'react-router-dom';
+import {setCurrentBudget} from './actions'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -30,15 +32,46 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const NewBudget = (props) => {
+const NewBudget = () => {
     const classes = useStyles()
     const budgetType = useSelector(state => state.newBudgetType)
     const [dateFrom, setDateFrom] = useState(new Date())
     const [dateTo, setDateTo] = useState(new Date())
     const dispatch = useDispatch()
+
+    const history = useHistory()
+
+    function handleClick(budgetId) {
+      localStorage.setItem("budgetId", budgetId)
+      dispatch(setCurrentBudget(budgetId))
+      history.push(`/viewPlan/${budgetId}`);
+    }
+
+    const addBudget = async (ev) => {
+      ev.preventDefault()
+  
+      if(ev.target[0] === ""){
+        alert("You must identify what type of plan you are creating")
+      }
+      else if(ev.target[1] === ""){
+        alert("Please give a name for your financial plan")
+      }
+      else {
+        const meta = {
+          method: "POST",
+          headers: {"Content-Type":"application/json"},
+          body: JSON.stringify({name: ev.target[1].value, type: ev.target[0].value, date_from: ev.target[2].value, date_to: ev.target[4].value})
+        }
+        const res = await fetch('http://localhost:3000/budgets', meta)
+        const data = await res.json()
+  
+        handleClick(data.budget.id)
+      }
+    }
+
     return (
         <div>
-          <form onSubmit={(ev) => props.addBudget(ev)}>
+          <form onSubmit={(ev) => addBudget(ev)}>
             <Grid className={classes.grid} container spacing={3} alignItems="center" direction="column">
               <Grid item xs={3}>
                 <Grid container direction='column'>
@@ -53,7 +86,6 @@ const NewBudget = (props) => {
                     native
                     value={budgetType}
                     onChange={(ev) => {
-                      // debugger
                       dispatch(setNewBudgetType(ev.target.value))
                     }}
                   >

@@ -1,8 +1,8 @@
-export const loading = (state = false, action) => {
-    switch(action.type){
-        case "LOAD":
-            return !state
-        default:
-            return false
-    }
-}
+// export const loading = (state = true, action) => {
+//     switch(action.type){
+//         case "LOAD":
+//             return false
+//         default:
+//             return state
+//     }
+// }

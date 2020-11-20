@@ -4,7 +4,6 @@ export const budgetsReducer = (state = [], action) => {
         case "ADD_BUDGETS":
             return state.push(action.payload)
         case "SET_BUDGETS":
-            // debugger
             return action.payload
         default:
             return state
@@ -38,6 +37,15 @@ export const currentBudget = (state = null, action) => {
         case "VIEW":
             return action.payload
         default:
-            return null
+            return state
+    }
+}
+
+export const dataArr = (state = [], action) => {
+    switch(action.type){
+        case "ARRAY":
+            return action.payload
+        default:
+            return state
     }
 }

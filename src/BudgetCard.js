@@ -7,38 +7,39 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid'
-import {useSelector, useDispatch} from 'react-redux'
+import {useHistory} from 'react-router-dom'
+import {useDispatch} from 'react-redux'
 import {setCurrentBudget} from './actions'
 
 const BudgetCard = (props) => {
 
   const dispatch = useDispatch()
+  const history = useHistory()
 
-  const viewBudget = async (budgetId) => {
-    const res = await fetch(`http://localhost:3000/budgets/${budgetId}`)
-    const data = await res.json()
-    dispatch(setCurrentBudget({ budget: data.budget, expenseInfo: data.expenseInfo}))
-    localStorage.setItem("currentBudgetId", data.budget.id)
+  function handleClick() {
+    localStorage.setItem("budgetId", props.budget.id)
+    dispatch(setCurrentBudget(props.budget.id))
+    history.push(`/viewPlan/${props.budget.id}`);
   }
 
     return (
       <Grid item xs={4}>
         <Card>
         <CardActionArea>
-          <CardContent onClick={() => viewBudget(props.budget.id)}>
-          <Typography gutterBottom variant="h5" component="h2">
-              {props.budget.name}
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              From: {props.budget.date_from} To: {props.budget.date_to}
-            </Typography>
-            <Typography variant="h6" component="h6">
-              Budget: ${props.budget.total}
-            </Typography>
+          <CardContent onClick={() => handleClick()}>
+              <Typography gutterBottom variant="h5" component="h2">
+                  {props.budget.name}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  From: {props.budget.date_from} To: {props.budget.date_to}
+                </Typography>
+                <Typography variant="h6" component="h6">
+                  Budget: ${props.budget.total}
+                </Typography>
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Button onClick={() => viewBudget(props.budget.id)} size="small" color="primary">
+          <Button onClick={() => handleClick()} size="small" color="primary">
             View
           </Button>
           <Button size="small" color="primary">

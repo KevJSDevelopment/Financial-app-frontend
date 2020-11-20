@@ -6,7 +6,6 @@ export const categoryList = (state = [], action) => {
             return state
     }
 }
-
 export const category = (state = "", action) => {
     switch(action.type){
         case "CATEGORY":

@@ -1,10 +1,11 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {Grid, makeStyles} from '@material-ui/core'
 import BudgetCard from './BudgetCard'
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import {useSelector, useDispatch} from 'react-redux'
 import {openNewBudget} from './actions'
+import {setBudgets} from './actions'
 
 const useStyles = makeStyles({
     icon: {
@@ -22,7 +23,18 @@ const BudgetList = () => {
     // debugger
     const classes = useStyles()
     const budgets = useSelector(state => state.budgets)
+
     const dispatch = useDispatch()
+
+    const getBudgets = async () => {
+      const res = await fetch('http://localhost:3000/budgets')
+      const data = await res.json()
+      dispatch(setBudgets(data.budgets))
+    }
+  
+    useEffect(() => {
+      getBudgets()
+    }, [])
 
     return (
         <div>

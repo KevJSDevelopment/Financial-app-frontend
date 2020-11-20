@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux'
-import {budgetsReducer, newBudget, newBudgetType, currentBudget} from './budgets'
-import {loading} from './loading'
+import {budgetsReducer, newBudget, newBudgetType, currentBudget, dataArr} from './budgets'
 import {categoryList, category} from './categories'
+// import {loading} from './loading'
 
 const reducers = combineReducers({
     budgets: budgetsReducer,
@@ -9,8 +9,9 @@ const reducers = combineReducers({
     newBudgetType: newBudgetType, 
     currentBudget: currentBudget,
     categoryList: categoryList,
-    loading: loading,
-    category: category
+    category: category,
+    dataArr: dataArr
+    // doneLoading: loading
 
 })
 
