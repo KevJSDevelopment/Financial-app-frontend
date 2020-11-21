@@ -100,7 +100,6 @@ const NewBudget = () => {
                     >
                       <option aria-label="None" value="" />
                       <option value={"simple"}>Expense Tracker</option>
-                      <option value={"plan"}>Planned Budget</option>
                       <option value={"full"}>Full financial plan</option>
                     </Select>
                   </Grid>

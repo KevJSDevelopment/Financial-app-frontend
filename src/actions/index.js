@@ -92,6 +92,13 @@ export const changeDisplayGraph = () => {
         type: "GRAPH"
     }
 }
+
+export const setSimpleRows = (array) => {
+    return {
+        type: "SIMPLEROWS",
+        payload: array
+    }
+}
 // //-------using thunk---------
 // export const setCurrentBudget = (budgetId) => {
 //     // debugger

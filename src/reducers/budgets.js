@@ -23,12 +23,10 @@ export const newBudgetType = (state = "", action) => {
     switch(action.type){
         case "simple":
             return action.type
-        case "budget":
-            return action.type
         case "full":
             return action.type
         default:
-            return ""
+            return state
     }
 }
 
@@ -69,6 +67,14 @@ export const toDate = (state = new Date(), action) =>{
 export const total = (state = 0.00, action) => {
     switch(action.type){
         case "TOTAL":
+            return action.payload
+        default:
+            return state
+    }
+}
+export const simpleTableRows = (state = [], action) => {
+    switch(action.type){
+        case "SIMPLEROWS":
             return action.payload
         default:
             return state

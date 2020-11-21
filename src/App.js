@@ -19,7 +19,7 @@ const App = () => {
         <Switch>
           <Route path="/" exact render={() => !open ? <BudgetList/> : <Redirect to="/newPlan"/>}/> 
           <Route path="/newPlan" exact render={() => open ? <NewBudget /> : <Redirect to="/" />}/>
-          <Route path="/viewPlan/:id" exact render={() => <ViewBudget/>}/> 
+          <Route path="/viewPlan/:id" exact render={() => <ViewBudget />}/> 
           <Redirect to="/"/>
         </Switch>
       </div> 

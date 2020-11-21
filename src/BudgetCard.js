@@ -34,7 +34,7 @@ const BudgetCard = (props) => {
                   From: {props.budget.date_from} To: {props.budget.date_to}
                 </Typography>
                 <Typography variant="h6" component="h6">
-                  Budget: ${props.budget.total}
+                  Net: ${props.budget.total}
                 </Typography>
           </CardContent>
         </CardActionArea>

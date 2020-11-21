@@ -1,5 +1,6 @@
-import React from 'react'
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import React, {useEffect} from 'react'
+import {useSelector, useDispatch} from 'react-redux'
+import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -7,70 +8,67 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-
-const StyledTableCell = withStyles((theme) => ({
-  head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  body: {
-    fontSize: 14,
-  },
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
-    },
-  },
-}))(TableRow);
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+import { setCurrentBudget, setSimpleRows} from './actions';
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 700,
+    minWidth: 650,
   },
 });
 
 
 const SimpleLog = () => {
+    
+    const currentBudget = useSelector(state => state.currentBudget)
+    const rows = useSelector(state => state.simpleTableRows)
+    const dispatch = useDispatch()
+
+    function createData(date, description, value, category) {
+      return { date, description, value, category };
+    }
+    
+    
     const classes = useStyles()
+
+    const getExpenses = async () => {
+        const res = await fetch(`http://localhost:3000/budgets/${localStorage.getItem("budgetId")}`)
+        const data = await res.json()
+        const budgetObject = { budget: data.budget, expenseInfo: data.expenseInfo }
+        let tableRows = []
+        await dispatch(setCurrentBudget(budgetObject))
+        currentBudget.expenseInfo.map(category => {
+            category.expenses.forEach(expense => {
+                tableRows.push(createData(expense.date, expense.description, expense.cost.toFixed(2), category.cat.name))
+            });
+        })
+        dispatch(setSimpleRows(tableRows)) 
+    }
+
+    useEffect(() => {
+        getExpenses()
+    }, [])
 
     return (
         <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="customized table">
+        <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-              <StyledTableCell align="right">Calories</StyledTableCell>
-              <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-              <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-              <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
+              <TableCell>Date(mm/dd/yyy)</TableCell>
+              <TableCell align="right">Description&nbsp;</TableCell>
+              <TableCell align="right">Value&nbsp;($)</TableCell>
+              <TableCell align="right">Category&nbsp;</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {rows.map((row) => (
-              <StyledTableRow key={row.name}>
-                <StyledTableCell component="th" scope="row">
-                  {row.name}
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                <StyledTableCell align="right">{row.protein}</StyledTableCell>
-              </StyledTableRow>
+              <TableRow key={row.date}>
+                <TableCell component="th" scope="row">
+                  {row.date}
+                </TableCell>
+                <TableCell align="right">{row.description}</TableCell>
+                <TableCell align="right">{row.value}</TableCell>
+                <TableCell align="right">{row.category}</TableCell>
+              </TableRow>
             ))}
           </TableBody>
         </Table>
