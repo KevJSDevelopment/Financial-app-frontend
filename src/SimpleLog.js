@@ -1,21 +1,9 @@
 import React, {useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 import { setCurrentBudget, setSimpleRows} from './actions';
-
-const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
-  },
-});
-
+import { DataGrid } from '@material-ui/data-grid';
+import { alignBox } from '@nivo/core';
 
 const SimpleLog = () => {
     
@@ -23,56 +11,48 @@ const SimpleLog = () => {
     const rows = useSelector(state => state.simpleTableRows)
     const dispatch = useDispatch()
 
-    function createData(date, description, value, category) {
-      return { date, description, value, category };
-    }
-    
-    
-    const classes = useStyles()
+    const width = 1420 / 5
+    const columns = [
+        { field: 'id', headerName: 'ID', width: width },
+        { field: 'Date', headerName: 'Date', width: width },
+        { field: 'Description', headerName: 'Description', width: width },
+        { 
+        field: 'Cost', 
+        headerName: 'Cost', 
+        type: 'number',
+        width: width
+        },
+        {
+        field: 'Category',
+        headerName: 'Category',
+        width: width,
+        }
+    ];
 
     const getExpenses = async () => {
         const res = await fetch(`http://localhost:3000/budgets/${localStorage.getItem("budgetId")}`)
         const data = await res.json()
         const budgetObject = { budget: data.budget, expenseInfo: data.expenseInfo }
         let tableRows = []
-        await dispatch(setCurrentBudget(budgetObject))
+        dispatch(setCurrentBudget(budgetObject))
         currentBudget.expenseInfo.map(category => {
             category.expenses.forEach(expense => {
-                tableRows.push(createData(expense.date, expense.description, expense.cost.toFixed(2), category.cat.name))
+                tableRows.push({id: expense.id, Date: expense.date, Description: expense.description, Cost: expense.cost.toFixed(2), Category: category.cat.name})
             });
         })
         dispatch(setSimpleRows(tableRows)) 
+        // debugger
     }
+
 
     useEffect(() => {
         getExpenses()
     }, [])
 
     return (
-        <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Date(mm/dd/yyy)</TableCell>
-              <TableCell align="right">Description&nbsp;</TableCell>
-              <TableCell align="right">Value&nbsp;($)</TableCell>
-              <TableCell align="right">Category&nbsp;</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.date}>
-                <TableCell component="th" scope="row">
-                  {row.date}
-                </TableCell>
-                <TableCell align="right">{row.description}</TableCell>
-                <TableCell align="right">{row.value}</TableCell>
-                <TableCell align="right">{row.category}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+        <div style={{ height: window.innerHeight / 1.15, width: "100%" }}>
+            <DataGrid rows={rows} columns={columns} pageSize={25} checkboxSelection />
+        </div>
     )
 }
 
