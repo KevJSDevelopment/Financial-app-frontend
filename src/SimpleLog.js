@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { setCurrentBudget, setSimpleRows} from './actions';
 import { DataGrid } from '@material-ui/data-grid';
 import { alignBox } from '@nivo/core';
+import { Select } from '@material-ui/core';
 
 const SimpleLog = () => {
     
@@ -51,7 +52,20 @@ const SimpleLog = () => {
 
     return (
         <div style={{ height: window.innerHeight / 1.15, width: "100%" }}>
-            <DataGrid rows={rows} columns={columns} pageSize={25} checkboxSelection />
+            <Grid container direction="column" spacing={3}>
+                <Grid item xs={12}>
+                    {/*
+                    - select rows from state, 
+                    - map through rows to get all categories, 
+                    - set select to equal unique categories, 
+                    - on checkbox selection & selecting a category,
+                    - set all checked items to that category 
+                    */}
+                </Grid>
+                <Grid item xs={12}>
+                    <DataGrid rows={rows} columns={columns} pageSize={25} checkboxSelection />
+                </Grid>
+            </Grid>
         </div>
     )
 }
