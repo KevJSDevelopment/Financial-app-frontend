@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {setNewBudgetType} from './actions'
 import {useSelector, useDispatch} from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,7 +7,7 @@ import { TextField, Select, Button} from '@material-ui/core';
 import {MuiPickersUtilsProvider,KeyboardDatePicker} from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { useHistory } from 'react-router-dom';
-import {setCurrentBudget} from './actions'
+import {setCurrentBudget, setFromDate, setToDate} from './actions'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -35,8 +35,8 @@ const useStyles = makeStyles((theme) => ({
 const NewBudget = () => {
     const classes = useStyles()
     const budgetType = useSelector(state => state.newBudgetType)
-    const [dateFrom, setDateFrom] = useState(new Date())
-    const [dateTo, setDateTo] = useState(new Date())
+    const dateFrom = useSelector(state => state.fromDate)
+    const dateTo = useSelector(state => state.toDate)
     const dispatch = useDispatch()
 
     const history = useHistory()
@@ -45,6 +45,15 @@ const NewBudget = () => {
       localStorage.setItem("budgetId", budgetId)
       dispatch(setCurrentBudget(budgetId))
       history.push(`/viewPlan/${budgetId}`);
+    }
+
+    const getDate = (date) => {
+      debugger
+      const dd = String(date.getDate()).padStart(2, '0');
+      const mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+      const yyyy = date.getFullYear();
+      const dateToString = mm + '/' + dd + '/' + yyyy;
+      return dateToString
     }
 
     const addBudget = async (ev) => {
@@ -60,7 +69,7 @@ const NewBudget = () => {
         const meta = {
           method: "POST",
           headers: {"Content-Type":"application/json"},
-          body: JSON.stringify({name: ev.target[1].value, type: ev.target[0].value, date_from: ev.target[2].value, date_to: ev.target[4].value})
+          body: JSON.stringify({name: ev.target[1].value, type: ev.target[0].value, date_from: getDate(dateFrom), date_to: getDate(dateTo)})
         }
         const res = await fetch('http://localhost:3000/budgets', meta)
         const data = await res.json()
@@ -82,18 +91,18 @@ const NewBudget = () => {
                   </Grid>
                   <br/>
                   <Grid item xs={12}>
-                  <Select
-                    native
-                    value={budgetType}
-                    onChange={(ev) => {
-                      dispatch(setNewBudgetType(ev.target.value))
-                    }}
-                  >
-                    <option aria-label="None" value="" />
-                    <option value={"simple"}>Simple Budget</option>
-                    <option value={"plan"}>Planned Budget</option>
-                    <option value={"full"}>Comprehensive plan</option>
-                  </Select>
+                    <Select
+                      native
+                      value={budgetType}
+                      onChange={(ev) => {
+                        dispatch(setNewBudgetType(ev.target.value))
+                      }}
+                    >
+                      <option aria-label="None" value="" />
+                      <option value={"simple"}>Expense Tracker</option>
+                      <option value={"plan"}>Planned Budget</option>
+                      <option value={"full"}>Full financial plan</option>
+                    </Select>
                   </Grid>
                 </Grid>
               </Grid>
@@ -121,7 +130,7 @@ const NewBudget = () => {
                       id="date-picker-inline"
                       label="Plan Start Date"
                       value={dateFrom}
-                      onChange={setDateFrom}
+                      onChange={(value) => dispatch(setFromDate(value))}
                       KeyboardButtonProps={{
                         'aria-label': 'change date',
                       }}
@@ -137,7 +146,9 @@ const NewBudget = () => {
                       id="date-picker-inline"
                       label="Plan End Date"
                       value={dateTo}
-                      onChange={setDateTo}
+                      onChange={(value) => {
+                        // debugger
+                        dispatch(setToDate(value))}}
                       KeyboardButtonProps={{
                         'aria-label': 'change date',
                       }}

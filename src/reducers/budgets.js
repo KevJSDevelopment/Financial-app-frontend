@@ -49,3 +49,28 @@ export const dataArr = (state = [], action) => {
             return state
     }
 }
+
+export const fromDate = (state = new Date(), action) =>{
+    switch(action.type){
+        case "FROMDATE":
+            return action.payload
+        default:
+            return state
+    }
+}
+export const toDate = (state = new Date(), action) =>{
+    switch(action.type){
+        case "TODATE":
+            return action.payload
+        default:
+            return state
+    }
+}
+export const total = (state = 0.00, action) => {
+    switch(action.type){
+        case "TOTAL":
+            return action.payload
+        default:
+            return state
+    }
+}

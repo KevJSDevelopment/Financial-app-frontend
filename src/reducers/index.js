@@ -1,6 +1,8 @@
 import {combineReducers} from 'redux'
-import {budgetsReducer, newBudget, newBudgetType, currentBudget, dataArr} from './budgets'
+import {budgetsReducer, newBudget, newBudgetType, currentBudget, dataArr, fromDate, toDate, total} from './budgets'
 import {categoryList, category} from './categories'
+import {amount, expDate} from './expenses'
+import { displayGraph } from './pageInfo'
 // import {loading} from './loading'
 
 const reducers = combineReducers({
@@ -10,7 +12,14 @@ const reducers = combineReducers({
     currentBudget: currentBudget,
     categoryList: categoryList,
     category: category,
-    dataArr: dataArr
+    dataArr: dataArr,
+    amount: amount,
+    expDate: expDate,
+    fromDate: fromDate,
+    toDate: toDate,
+    total: total,
+    displayGraph: displayGraph
+
     // doneLoading: loading
 
 })

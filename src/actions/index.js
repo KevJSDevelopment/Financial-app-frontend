@@ -17,26 +17,25 @@ export const setNewBudgetType = (string) => {
     }
 }
 
-export const setCurrentBudget = (budgetId) => {
-    // debugger
-    return (dispatch) => {
-        fetch(`http://localhost:3000/budgets/${budgetId}`)
-        .then(res => res.json())
-        .then(data => {
-            const budgetObject = { budget: data.budget, expenseInfo: data.expenseInfo }
-            dispatch({
-                type: "VIEW",
-                payload: budgetObject
-            })
-        })
+export const setExpDate = (date) => {
+    return {
+        type: "EXPDATE",
+        payload: date
     }
 }
 
-// export const doneLoading = () => {
-//     return {
-//         type: "LOAD"
-//     }
-// }
+export const setFromDate = (date) => {
+    return {
+        type: "FROMDATE",
+        payload: date
+    }
+}
+export const setToDate = (date) => {
+    return {
+        type: "TODATE",
+        payload: date
+    }
+}
 
 export const setCategoryList = (array) => {
     switch(array.length){
@@ -65,3 +64,54 @@ export const setDataArr = (arr) => {
         payload: arr
     }
 }
+
+export const setAmount = (amount) => {
+    return {
+        type: "AMOUNT",
+        payload: amount
+    }
+}
+
+export const setTotal = (total) => {
+    return {
+        type: "TOTAL",
+        payload: total
+    }
+}
+
+export const setCurrentBudget = (budgetObject) => {
+    // debugger
+    return {
+            type: "VIEW",
+            payload: budgetObject
+    }
+}
+
+export const changeDisplayGraph = () => {
+    return {
+        type: "GRAPH"
+    }
+}
+// //-------using thunk---------
+// export const setCurrentBudget = (budgetId) => {
+//     // debugger
+//     return (dispatch) => {
+//         fetch(`http://localhost:3000/budgets/${budgetId}`)
+//         .then(res => res.json())
+//         .then(data => {
+//             const budgetObject = { budget: data.budget, expenseInfo: data.expenseInfo }
+//             dispatch({
+//                 type: "VIEW",
+//                 payload: budgetObject
+//             })
+//         })
+//     }
+// }
+// //---------------------------
+
+
+// export const doneLoading = () => {
+//     return {
+//         type: "LOAD"
+//     }
+// }

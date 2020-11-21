@@ -44,7 +44,7 @@ const BudgetList = () => {
             })}
             <Grid item xs={4}>
                 <Fab onClick={() => dispatch(openNewBudget())} className={classes.icon} aria-label="add">
-                <AddIcon />
+                  <AddIcon />
                 </Fab>
             </Grid>
         </Grid>

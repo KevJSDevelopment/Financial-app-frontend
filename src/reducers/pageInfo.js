@@ -6,3 +6,12 @@
 //             return state
 //     }
 // }
+
+export const displayGraph = (state = false, action) => {
+    switch(action.type){
+        case "GRAPH":
+            return !state
+        default:
+            return state
+    }
+}
