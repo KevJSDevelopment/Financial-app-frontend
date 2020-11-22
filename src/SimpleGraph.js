@@ -72,7 +72,7 @@ const SimpleGraph = () => {
                     "label": category.cat.name,
                     "value": sum.toFixed(2)
                 }
-                catArr.push(category.cat.name)
+                catArr.push(category.cat)
                 dataArr.push(obj)
             })
             dispatch(setTotal(total))
@@ -262,7 +262,7 @@ const SimpleGraph = () => {
                                 >
                                     <option value="">Select Category</option>
                                     {categoryList.map(category => {
-                                        return <option value={category}>{category}</option>
+                                        return <option value={category.name} key={category.id}>{category.name}</option>
                                     })}
                                     <option value="New">+New Category</option>
                                 </Select>

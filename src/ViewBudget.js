@@ -18,9 +18,12 @@ const ViewBudget = () => {
     useEffect(() => {
         getPlanType()
     }, [])
+
     return (
         <div>
-            {currentBudget.plan_type !== "simple" ? <SimpleBudget /> : <FullPlan />} 
+            {currentBudget ? 
+            currentBudget.plan_type !== "simple" ? <SimpleBudget /> : <FullPlan />
+            : <div></div>} 
         </div>
     )
 }

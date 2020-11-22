@@ -87,9 +87,10 @@ export const setCurrentBudget = (budgetObject) => {
     }
 }
 
-export const changeDisplayGraph = () => {
+export const changeDisplayGraph = (newState) => {
     return {
-        type: "GRAPH"
+        type: "GRAPH",
+        payload: newState
     }
 }
 
@@ -97,6 +98,13 @@ export const setSimpleRows = (array) => {
     return {
         type: "SIMPLEROWS",
         payload: array
+    }
+}
+
+export const setSelectedArr = (obj) => {
+    return {
+        type: "ADDSELECTED",
+        payload: obj
     }
 }
 // //-------using thunk---------
