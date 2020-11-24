@@ -1,13 +1,25 @@
 import React from 'react'
-import {Grid, TextField, Button} from '@material-ui/core'
+import {Grid, TextField, Button, makeStyles} from '@material-ui/core'
 import {setCurrentUser, setToken} from './actions'
 import {useDispatch} from 'react-redux'
 // import {useHistory} from 'react-router-dom'
-
+const useStyles = makeStyles({
+    form: {
+        border: "2px solid #62727b",
+        width: "75%",
+        borderRadius: "15px",
+        textAlign: "center",
+        marginLeft: "12%"
+    },
+    gridItem: {
+        margin: "5%"
+    }
+})
 const Landing = () => {
 
     const dispatch = useDispatch()
 
+    const classes = useStyles()
     // const history = useHistory()
 
     const login = (ev) => {
@@ -62,21 +74,21 @@ const Landing = () => {
     }
     
     return (
-        <div>
-           <Grid container direction="row" spacing={3}>
-               <Grid item xs={6}>
-                <form onSubmit={(ev) => {
+        <div style={{textAlign:"center"}}>
+           <Grid container direction="row" alignItems="center" style={{marginTop: "10%"}} spacing={3}>
+               <Grid item xs={5}>
+                <form className={classes.form} onSubmit={(ev) => {
                     login(ev)
                 }}>
                     <Grid container direct="column">
-                        <Grid item xs={12}>
+                        <Grid item xs={12} className={classes.gridItem}>
                             <TextField 
                             placeholder="" 
                             id="standard-basic" 
                             label="Username"
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} className={classes.gridItem}>
                             <TextField 
                             id="standard-password-input" 
                             label="Password" 
@@ -84,27 +96,30 @@ const Landing = () => {
                             autoComplete="current-password"
                             />
                         </Grid>
-                        <Grid item xs={12}>
-                            <Button type="submit">
+                        <Grid item xs={12} className={classes.gridItem}>
+                            <Button variant="contained" type="submit" color="primary">
                                 Login
                             </Button>
                         </Grid>
                     </Grid>
                 </form>
                </Grid>
-               <Grid item xs={6}>
-               <form onSubmit={(ev) => {
+               <Grid item xs={2}>
+                    <div>OR</div>
+               </Grid>
+               <Grid item xs={5} >
+               <form className={classes.form} onSubmit={(ev) => {
                     signup(ev)
                 }}>
                     <Grid container direct="column">
-                        <Grid item xs={12}>
+                        <Grid item xs={12} className={classes.gridItem}>
                             <TextField 
                             placeholder="" 
                             id="standard-basic" 
                             label="Username"
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} className={classes.gridItem}>
                             <TextField 
                             id="standard-password-input" 
                             label="Password" 
@@ -112,8 +127,8 @@ const Landing = () => {
                             autoComplete="current-password"
                             />
                         </Grid>
-                        <Grid item xs={12}>
-                            <Button type="submit">
+                        <Grid item xs={12} className={classes.gridItem}>
+                            <Button variant="contained" type="submit" color="primary">
                                 SignUp
                             </Button>
                         </Grid>

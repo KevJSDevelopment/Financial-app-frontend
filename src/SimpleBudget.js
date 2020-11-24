@@ -14,6 +14,12 @@ const useStyles = makeStyles({
     grid: {
         backgroundColor: "whitesmoke",
         height: window.innerHeight
+    },
+    tabs: {
+        '&:focus':{
+            color: "#98ee99",
+            backgroundColor: "#62727b"
+        }
     }
   });
 
@@ -27,14 +33,14 @@ const SimpleBudget = () => {
             <Paper square className={classes.root}>
                 <Tabs
                     value={displayGraph}
-                    onChange={() => dispatch(changeDisplayGraph(!displayGraph))}
                     variant="fullWidth"
                     indicatorColor="primary"
                     textColor="primary"
                     aria-label="icon tabs"
+                    selectionFollowsFocus
                 >
-                    <Tab icon={<PieChartIcon />} aria-label="pie chart" label="PIE CHART"/>
-                    <Tab icon={<StorageIcon />} aria-label="expense log" label="EXPENSE LOG"/>
+                    <Tab className={classes.tabs} onClick={() => dispatch(changeDisplayGraph(false))} icon={<PieChartIcon />} aria-label="pie chart" label="PIE CHART"/>
+                    <Tab className={classes.tabs} onClick={() => dispatch(changeDisplayGraph(true))} icon={<StorageIcon />} aria-label="expense log" label="EXPENSE LOG"/>
                 </Tabs>
             </Paper>
             {!displayGraph ? <SimpleGraph /> : <SimpleLog /> }

@@ -16,10 +16,15 @@ const BudgetCard = (props) => {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  function handleClick() {
+  const handleClick = () => {
     localStorage.setItem("budgetId", props.budget.id)
     dispatch(setCurrentBudget(props.budget.id))
     history.push(`/viewPlan/${props.budget.id}`);
+  }
+  
+  const handleDelete = async () => {
+    await fetch(`http://localhost:3000/budgets/${props.budget.id}`, {method: "DELETE"})
+    props.getBudgets()
   }
 
     return (
@@ -42,7 +47,7 @@ const BudgetCard = (props) => {
           <Button onClick={() => handleClick()} size="small" color="primary">
             View
           </Button>
-          <Button size="small" color="primary">
+          <Button onClick={() => handleDelete()} size="small" color="secondary">
             Delete
           </Button>
         </CardActions>

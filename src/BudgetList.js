@@ -42,7 +42,7 @@ const BudgetList = () => {
         <div>
             <Grid container alignItems="center" spacing={3}>
             {budgets.map(budget => {
-                return  <BudgetCard budget={budget} key={budget.id}/>
+                return  <BudgetCard budget={budget} getBudgets={getBudgets} key={budget.id}/>
             })}
             <Grid item xs={4}>
                 <Fab onClick={() => dispatch(openNewBudget())} className={classes.icon} aria-label="add">

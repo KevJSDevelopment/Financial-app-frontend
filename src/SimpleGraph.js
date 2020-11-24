@@ -10,10 +10,10 @@ import {setCategoryList, setCategory, setDataArr, setAmount, setCurrentBudget, s
 const useStyles = makeStyles({
     button: {
       color: "white",
-      backgroundColor: "#00ca00",
-      '&:hover': {
-        backgroundColor: "#59dd44",
-      },
+    //   backgroundColor: "#00ca00",
+    //   '&:hover': {
+    //     backgroundColor: "#59dd44",
+    //   },
     },
     formItem: {
         marginBottom: "5%",
@@ -22,7 +22,7 @@ const useStyles = makeStyles({
     form: {
         width: "65%",
         textAlign: "left",
-        border: "3px solid #00ca00",
+        border: "3px solid #62727b",
         borderRadius: "15px"
     },
     total: {
@@ -305,7 +305,7 @@ const SimpleGraph = () => {
                                 />
                             </Grid>
                             <Grid item xs={12} className={classes.formItem} >
-                                <Button type="submit" variant="contained" className={classes.button}>
+                                <Button type="submit" variant="contained" color="primary" className={classes.button}>
                                     Add Expense
                                 </Button>
                             </Grid>
