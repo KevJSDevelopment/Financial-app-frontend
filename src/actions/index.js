@@ -121,6 +121,12 @@ export const setToken = (token) => {
         payload: token
     }
 }
+
+export const resetStore = () => {
+    return {
+        type: "RESET"
+    }
+}
 // //-------using thunk---------
 // export const setCurrentBudget = (budgetId) => {
 //     // debugger

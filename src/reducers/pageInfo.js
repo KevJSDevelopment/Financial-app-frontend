@@ -11,6 +11,8 @@ export const displayGraph = (state = false, action) => {
     switch(action.type){
         case "GRAPH":
             return action.payload
+        case "RESET":
+            return false
         default:
             return state
     }

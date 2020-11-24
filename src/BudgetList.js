@@ -6,7 +6,7 @@ import AddIcon from '@material-ui/icons/Add';
 import {useSelector, useDispatch} from 'react-redux'
 import {openNewBudget} from './actions'
 // import {setBudgets} from './actions'
-import {setCurrentUser, setToken, setBudgets} from './actions'
+import {setBudgets, resetStore} from './actions'
 import {Grid, Button, makeStyles} from '@material-ui/core'
 // import {setCurrentUser, setToken} from './actions'
 // import {useDispatch, useSelector} from 'react-redux'
@@ -45,8 +45,7 @@ const BudgetList = () => {
 
     const handleLogout = async () => {
       localStorage.removeItem("token")
-      dispatch(setCurrentUser(null))
-      dispatch(setToken(false))
+      dispatch(resetStore())
   }
   
     useEffect(() => {

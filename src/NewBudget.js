@@ -1,5 +1,5 @@
 import React from 'react'
-import {setNewBudgetType} from './actions'
+import {setNewBudgetType, resetStore} from './actions'
 import {useSelector, useDispatch} from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid'
@@ -10,7 +10,7 @@ import {useHistory} from 'react-router-dom';
 import {setCurrentBudget, setFromDate, setToDate} from './actions'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import {setCurrentUser, setToken, openNewBudget} from './actions'
+import {openNewBudget} from './actions'
 
 const useStyles = makeStyles((theme) => ({
   root:{
@@ -103,8 +103,7 @@ const NewBudget = () => {
   }
   const handleLogout = async () => {
     localStorage.removeItem("token")
-    dispatch(setCurrentUser(null))
-    dispatch(setToken(false))
+    dispatch(resetStore())
   }
 
   const handleBackToBudgets = () => {

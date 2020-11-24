@@ -163,6 +163,7 @@ const SimpleLog = () => {
             const data = await res.json()
             if(data.auth){
                 getExpenses()
+                ev.target.reset()
             }
             else{
                 alert(data.message)
@@ -177,18 +178,24 @@ const SimpleLog = () => {
             }
             const res = await fetch(`http://localhost:3000/expense_categories`, meta)
             const data = await res.json()
-            const newMeta = {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({description: ev.target[2].value, date: ev.target[3].value, cost: parseFloat(ev.target[5].value), expense_category_id: data.expense_category.id, budget_id: currentBudget.budget.id})
+            if(data.auth){
+                const newMeta = {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({description: ev.target[2].value, date: ev.target[3].value, cost: parseFloat(ev.target[5].value), expense_category_id: data.expense_category.id, budget_id: currentBudget.budget.id})
+                }
+                const resp = await fetch(`http://localhost:3000/expenses`, newMeta)
+                const newData = await resp.json()
+                if(newData.auth){
+                    getExpenses()
+                    ev.target.reset()
+                }
+                else{
+                    alert(newData.message)
+                }
             }
-            const resp = await fetch(`http://localhost:3000/expenses`, newMeta)
-            const newData = await resp.json()
-            if(newData.auth){
-                getExpenses()
-            }
-            else{
-                alert(newData.message)
+            else {
+                alert(data.message)
             }
         }
     }

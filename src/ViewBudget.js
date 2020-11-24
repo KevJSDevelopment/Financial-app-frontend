@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 import SimpleBudget from './SimpleBudget'
 import FullPlan from './FullPlan'
 import {useSelector, useDispatch} from 'react-redux'
-import {setCurrentBudget, setCurrentUser, setToken} from './actions'
+import {setCurrentBudget, resetStore} from './actions'
 import {Grid, Button, makeStyles} from '@material-ui/core'
 // import {setCurrentUser, setToken} from './actions'
 // import {useDispatch, useSelector} from 'react-redux'
@@ -41,8 +41,7 @@ const ViewBudget = () => {
 
     const handleLogout = async () => {
         localStorage.removeItem("token")
-        dispatch(setCurrentUser(null))
-        dispatch(setToken(false))
+        dispatch(resetStore())
     }
 
     const handleBackToBudgets = () => {
