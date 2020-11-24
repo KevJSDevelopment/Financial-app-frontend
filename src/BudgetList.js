@@ -27,7 +27,9 @@ const BudgetList = () => {
     const dispatch = useDispatch()
 
     const getBudgets = async () => {
-      const res = await fetch('http://localhost:3000/budgets')
+      const res = await fetch('http://localhost:3000/budgets', {
+        headers: {"Authentication": `Bearer ${localStorage.getItem("token")}`}
+      })
       const data = await res.json()
       dispatch(setBudgets(data.budgets))
     }

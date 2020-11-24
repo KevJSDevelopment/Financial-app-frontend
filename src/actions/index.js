@@ -107,6 +107,20 @@ export const setSelectedArr = (obj) => {
         payload: obj
     }
 }
+
+export const setCurrentUser = (user) => {
+    return {
+        type: "SETUSER",
+        payload: user
+    }
+}
+
+export const setToken = (token) => {
+    return {
+        type: "SETTOKEN",
+        payload: token
+    }
+}
 // //-------using thunk---------
 // export const setCurrentBudget = (budgetId) => {
 //     // debugger

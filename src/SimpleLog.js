@@ -1,12 +1,20 @@
 import React, {useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
-import { makeStyles } from '@material-ui/core/styles';
 import { setCurrentBudget, setSimpleRows, setSelectedArr, setCategory, setCategoryList, changeDisplayGraph} from './actions';
 import { DataGrid } from '@material-ui/data-grid';
-import { alignBox } from '@nivo/core';
-import { Select, Grid, TextField, Button} from '@material-ui/core';
-import { simpleTableRows } from './reducers/budgets';
+import { Select, Grid, TextField, Button, makeStyles} from '@material-ui/core';
 
+const useStyles = makeStyles({
+    form: {
+        border: "2px solid #66bb6a",
+        borderRadius: "5px",
+        margin: "5px",
+        padding: "5px",
+    },
+    dataGrid: {
+        backgroundColor: "white",
+    },
+})
 const SimpleLog = () => {
     
     const currentBudget = useSelector(state => state.currentBudget)
@@ -14,7 +22,8 @@ const SimpleLog = () => {
     const categoryList = useSelector(state => state.categoryList)
     const category = useSelector(state => state.category)
     const selectedArr = useSelector(state => state.selectedArr)
-    const displayGraph = useSelector(state => state.displayGraph)
+
+    const classes = useStyles()
     const dispatch = useDispatch()
 
     Array.prototype.remove = function() {
@@ -28,7 +37,8 @@ const SimpleLog = () => {
         return this;
     };
 
-    const width = window.innerWidth / 5
+    const container = document.querySelector("#content-container")
+    const width = container.scrollWidth / 5
     const columns = [
         { field: 'id', headerName: 'ID', width: width },
         { field: 'Date', headerName: 'Date', width: width },
@@ -55,12 +65,13 @@ const SimpleLog = () => {
         budgetObject.expenseInfo.map(category => {
             catArr.push(category.cat)
             category.expenses.forEach(expense => {
-                tableRows.push({id: expense.id, Date: expense.date, Description: expense.description, Cost: expense.cost.toFixed(2), Category: category.cat.name})
+                tableRows.push({id: expense.id, Date: expense.date, Description: expense.description, Cost: (expense.cost * -1.00).toFixed(2), Category: category.cat.name})
             });
         })
         dispatch(setCurrentBudget(budgetObject))
         dispatch(setCategoryList(catArr))
-        dispatch(setSimpleRows(tableRows)) 
+        dispatch(setSimpleRows(tableRows))
+        dispatch(setSelectedArr([]))
         // debugger
     }
 
@@ -77,57 +88,47 @@ const SimpleLog = () => {
     }
 
     const handleCategorySelect = (ev) => {
-        // debugger
         dispatch(setCategory(ev.target.value))
     }
 
     const handleCategoryChange = (ev) => {
         ev.preventDefault()
         if(ev.target[0].value !== "add"){
-            selectedArr.map(async (selectedObject) => {
-                console.log(selectedObject)
-                const meta = {
-                    method: "PATCH",
-                    headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify({expense_category_id: ev.target[0].value})
-                }
-                const res = await fetch(`http://localhost:3000/expenses/${selectedObject.id}`, meta)
-                const data = await res.json()
-                let tableRows = []
-                let catArr = []
-                currentBudget.expenseInfo.map(category => {
-                    catArr.push(category.cat)
-                    category.expenses.forEach(expense => {
-                        tableRows.push({id: expense.id, Date: expense.date, Description: expense.description, Cost: expense.cost.toFixed(2), Category: category.cat.name})
-                    });
+            fetch(`http://localhost:3000/expense_categories/${ev.target[0].value}`)
+            .then(res => res.json())
+            .then(data => {
+                selectedArr.map(async(selectedObject) => {
+                    const meta = {
+                        method: "PATCH",
+                        headers: {"Content-Type": "application/json"},
+                        body: JSON.stringify({expense_category_id: data.expense_category.id})
+                    }
+                    await fetch(`http://localhost:3000/expenses/${selectedObject.id}`, meta)
+                    getExpenses()
                 })
-                dispatch(setCategoryList(catArr))
-                dispatch(setSimpleRows(tableRows)) 
-                dispatch(changeDisplayGraph(false))
             })
         }
         else {
-            selectedArr.map(async (selectedObject) => {
-                const meta = {
-                    method: "PATCH",
-                    headers: {"Content-Type": "application.json"},
-                    body: JSON.stringify({expense_category_id: ev.target[1].value})
-                }
-                const res = await fetch(`http://localhost:3000/expenses/${selectedObject.id}`, meta)
-                const data = await res.json()
-                let tableRows = []
-                let catArr = []
-                currentBudget.expenseInfo.map(category => {
-                    catArr.push(category.cat)
-                    category.expenses.forEach(expense => {
-                        tableRows.push({id: expense.id, Date: expense.date, Description: expense.description, Cost: expense.cost.toFixed(2), Category: category.cat.name})
-                    });
+            const meta = {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({name: ev.target[1].value})
+            }
+            fetch("http://localhost:3000/expense_categories", meta)
+            .then(res => res.json())
+            .then(data => {
+                selectedArr.map(async (selectedObject) => {
+                    const newMeta = {
+                        method: "PATCH",
+                        headers: {"Content-Type": "application/json"},
+                        body: JSON.stringify({expense_category_id: data.expense_category.id})
+                    }
+                    await fetch(`http://localhost:3000/expenses/${selectedObject.id}`, newMeta)
+                    getExpenses()
                 })
-                dispatch(setCategoryList(catArr))
-                dispatch(setSimpleRows(tableRows))
-                dispatch(changeDisplayGraph(false))
             })
         }
+        ev.target.reset()
     }
 
     useEffect(() => {
@@ -135,13 +136,13 @@ const SimpleLog = () => {
     }, [])
 
     return (
-        <div style={{ height: window.innerHeight / 1.15, width: "100%" }}>
-            <Grid container direction="row" spacing={3}>
+        <div style={{ height: window.innerHeight / 1.35, width: "100%" }} className={classes.grid}>
+            <Grid container direction="row" spacing={3} >
                 <Grid item xs={6}>
                     <div></div>
                 </Grid>
                 <Grid item xs={6}>
-                    <form style={{width: "100%"}} onSubmit={(ev) => handleCategoryChange(ev)}>
+                    <form onSubmit={(ev) => handleCategoryChange(ev)} className={classes.form}>
                         <Grid container direction="row" >
                             <Grid item xs={4}>
                                 <Select
@@ -161,10 +162,13 @@ const SimpleLog = () => {
                             {category === "add" ? 
                             <Grid item xs={4}>
                                 <TextField />
-                            </Grid> : null
+                            </Grid> : 
+                            <Grid item xs={4}>
+                                <TextField disabled/>
+                            </Grid>
                             }
                             <Grid item xs={4}>
-                                <Button type="submit">
+                                <Button variant="outlined" type="submit" color="primary">
                                     Submit Change
                                 </Button>
                             </Grid> 
@@ -173,11 +177,12 @@ const SimpleLog = () => {
                 </Grid>
             </Grid>
             <DataGrid 
-            rows={rows} 
-            columns={columns} 
-            pageSize={25} 
-            checkboxSelection 
-            onRowClick={(ev) => handleRowClick(ev)} 
+                rows={rows} 
+                columns={columns} 
+                pageSize={25} 
+                checkboxSelection 
+                className={classes.dataGrid}
+                onRowClick={(ev) => handleRowClick(ev)}
             />
         </div>
     )

@@ -3,6 +3,7 @@ import {budgetsReducer, newBudget, newBudgetType, currentBudget, dataArr, fromDa
 import {categoryList, category, selectedArr} from './categories'
 import {amount, expDate} from './expenses'
 import { displayGraph } from './pageInfo'
+import { token, currentUser } from './user'
 // import {loading} from './loading'
 
 const reducers = combineReducers({
@@ -20,7 +21,9 @@ const reducers = combineReducers({
     total: total,
     displayGraph: displayGraph,
     simpleTableRows: simpleTableRows,
-    selectedArr: selectedArr
+    selectedArr: selectedArr,
+    token: token,
+    currentUser: currentUser
 
     // doneLoading: loading
 

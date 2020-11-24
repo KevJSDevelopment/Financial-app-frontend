@@ -42,6 +42,7 @@ const SimpleGraph = () => {
     const expDate = useSelector(state => state.expDate)
     const total = useSelector(state => state.total)
 
+
     const classes = useStyles()
 
     const dispatch = useDispatch()
@@ -272,7 +273,7 @@ const SimpleGraph = () => {
                                 <TextField id="new-category" label="Category Name" defaultValue="" />
                             </Grid> : null}
                             <Grid item xs={12} className={classes.formItem}>
-                                <TextField style={{width: "55%"}} id="new-category" label="Expense Description" defaultValue="" />
+                                <TextField style={{width: "55%"}} id="new-category" label="Description" defaultValue="" />
                             </Grid>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                             <Grid item xs={12} className={classes.formItem}>
