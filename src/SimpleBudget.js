@@ -10,12 +10,17 @@ const useStyles = makeStyles({
     root: {
       flexGrow: 1,
       maxWidth: "100%",
+      borderRadius: "0 0 25px 25px",
     },
     grid: {
         backgroundColor: "whitesmoke",
         height: window.innerHeight
     },
+    tabContainer: {
+        borderRadius: "0 0 25px 25px",
+    },
     tabs: {
+        fontSize: "12px",
         '&:focus':{
             color: "#98ee99",
             backgroundColor: "#62727b"
@@ -38,6 +43,7 @@ const SimpleBudget = () => {
                     textColor="primary"
                     aria-label="icon tabs"
                     selectionFollowsFocus
+                    className={classes.tabContainer}
                 >
                     <Tab className={classes.tabs} onClick={() => dispatch(changeDisplayGraph(false))} icon={<PieChartIcon />} aria-label="pie chart" label="PIE CHART"/>
                     <Tab className={classes.tabs} onClick={() => dispatch(changeDisplayGraph(true))} icon={<StorageIcon />} aria-label="expense log" label="EXPENSE LOG"/>

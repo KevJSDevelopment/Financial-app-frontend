@@ -46,12 +46,12 @@ const App = () => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="secondary">
+      <AppBar position="static" color="secondary" style={{height: window.innerHeight/20}}>
         <Toolbar>
           {token ? 
             <Grid container direction="row" className={classes.nav} spacing={3}>
               <Grid item xs={12}>
-                <Button variant="outlined" onClick={handleLogout} style={{float: "right", fontSize: "11px"}}>Logout</Button>
+                <Button variant="outlined" onClick={handleLogout} style={{float: "right", fontSize: "10px", marginBottom: "2%"}} color="primary">Logout</Button>
               </Grid>
             </Grid> : <div></div>}
         </Toolbar>

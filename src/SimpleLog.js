@@ -1,12 +1,15 @@
 import React, {useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
-import { setCurrentBudget, setSimpleRows, setSelectedArr, setCategory, setCategoryList, changeDisplayGraph} from './actions';
+import { setCurrentBudget, setSimpleRows, setSelectedArr, setCategory, setCategoryList, setAmount, setExpDate} from './actions';
 import { DataGrid } from '@material-ui/data-grid';
-import { Select, Grid, TextField, Button, makeStyles} from '@material-ui/core';
+import { Select, Grid, TextField, Button, makeStyles, Paper, Input, InputAdornment, Typography} from '@material-ui/core';
+import {MuiPickersUtilsProvider,KeyboardDatePicker} from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+import { simpleTableRows } from './reducers/budgets';
 
 const useStyles = makeStyles({
     form: {
-        border: "2px solid #66bb6a",
+        border: "2px solid #62727b",
         borderRadius: "5px",
         margin: "5px",
         padding: "5px",
@@ -14,6 +17,9 @@ const useStyles = makeStyles({
     dataGrid: {
         backgroundColor: "white",
     },
+    datePicker: {
+        margin: 0
+    }
 })
 const SimpleLog = () => {
     
@@ -22,6 +28,8 @@ const SimpleLog = () => {
     const categoryList = useSelector(state => state.categoryList)
     const category = useSelector(state => state.category)
     const selectedArr = useSelector(state => state.selectedArr)
+    const amount = useSelector(state => state.amount)
+    const expDate = useSelector(state => state.expDate)
 
     const classes = useStyles()
     const dispatch = useDispatch()
@@ -76,13 +84,26 @@ const SimpleLog = () => {
     }
 
     const handleRowClick = (ev) => {
-        let newArr = selectedArr
-        if(selectedArr.includes(ev.data)){
-            newArr.remove(ev.data)
-            dispatch(setSelectedArr(newArr))
+        if(ev.target){
+            let newArr = selectedArr
+            if(selectedArr.includes(ev.data)){
+                newArr.remove(ev.data)
+                dispatch(setSelectedArr(newArr))
+            }
+            else {
+                newArr.push(ev.data)
+                dispatch(setSelectedArr(newArr))
+            }
         }
-        else {
-            newArr.push(ev.data)
+        else{
+            let newArr = []
+            ev.rowIds.forEach(id => {
+                rows.forEach(row => {
+                    if(row.id === parseInt(id)){
+                        newArr.push(row)
+                    }
+                })
+            })
             dispatch(setSelectedArr(newArr))
         }
     }
@@ -91,21 +112,19 @@ const SimpleLog = () => {
         dispatch(setCategory(ev.target.value))
     }
 
-    const handleCategoryChange = (ev) => {
+    const handleCategoryChange = async (ev) => {
         ev.preventDefault()
         if(ev.target[0].value !== "add"){
-            fetch(`http://localhost:3000/expense_categories/${ev.target[0].value}`)
-            .then(res => res.json())
-            .then(data => {
-                selectedArr.map(async(selectedObject) => {
-                    const meta = {
-                        method: "PATCH",
-                        headers: {"Content-Type": "application/json"},
-                        body: JSON.stringify({expense_category_id: data.expense_category.id})
-                    }
-                    await fetch(`http://localhost:3000/expenses/${selectedObject.id}`, meta)
-                    getExpenses()
-                })
+            const res = await fetch(`http://localhost:3000/expense_categories/${ev.target[0].value}`)
+            const data = await res.json()
+            selectedArr.map(async(selectedObject) => {
+                const meta = {
+                    method: "PATCH",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({expense_category_id: data.expense_category.id})
+                }
+                await fetch(`http://localhost:3000/expenses/${selectedObject.id}`, meta)
+                getExpenses()
             })
         }
         else {
@@ -114,66 +133,202 @@ const SimpleLog = () => {
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({name: ev.target[1].value})
             }
-            fetch("http://localhost:3000/expense_categories", meta)
-            .then(res => res.json())
-            .then(data => {
-                selectedArr.map(async (selectedObject) => {
-                    const newMeta = {
-                        method: "PATCH",
-                        headers: {"Content-Type": "application/json"},
-                        body: JSON.stringify({expense_category_id: data.expense_category.id})
-                    }
-                    await fetch(`http://localhost:3000/expenses/${selectedObject.id}`, newMeta)
-                    getExpenses()
-                })
+            const res = await fetch("http://localhost:3000/expense_categories", meta)
+            const data = await res.json()
+            selectedArr.map(async (selectedObject) => {
+                const newMeta = {
+                    method: "PATCH",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({expense_category_id: data.expense_category.id})
+                }
+                await fetch(`http://localhost:3000/expenses/${selectedObject.id}`, newMeta)
+                getExpenses()
             })
         }
         ev.target.reset()
     }
+
+    const addNewExpense = async (ev) => {
+        ev.preventDefault()
+
+        if(ev.target[0].value !== "add"){
+            const meta = {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({name: ev.target[1].value})
+            }
+            const res = await fetch(`http://localhost:3000/expenses`, meta)
+            const data = await res.json()
+
+        }
+        else {
+
+        }
+    }
+
+    const handleAmountChange = (value) => {
+        const num = parseFloat(value)
+        
+        if(isNaN(num) && value !== ""){
+            // debugger
+            alert("You must enter a number for the cost")
+        }
+        else if (value === ""){
+            dispatch(setAmount(value))
+        }
+        else{
+            dispatch(setAmount(num))
+        }
+    };
 
     useEffect(() => {
         getExpenses()
     }, [])
 
     return (
-        <div style={{ height: window.innerHeight / 1.35, width: "100%" }} className={classes.grid}>
-            <Grid container direction="row" spacing={3} >
-                <Grid item xs={6}>
-                    <div></div>
+        <div style={{ height: window.innerHeight / 1.4, width: "100%" }} className={classes.grid}>
+            <Grid container direction="row">
+                <Grid item xs={8}>
+                    <Paper className={classes.form}>
+                        <form onSubmit={(ev) => addNewExpense(ev)}>
+                            <Grid container direction="row" spacing={2} >
+                                <Grid item xs={2}>
+                                    <Typography variant="overline" color="primary">
+                                        Add New Expense
+                                    </Typography>
+                                    <br/>
+                                    <Select
+                                        native
+                                        value={category}
+                                        onChange={(ev) => {
+                                            handleCategorySelect(ev)
+                                        }}
+                                    >
+                                        <option aria-label="None" value="" />
+                                        {categoryList.map(catObj=> {
+                                            return <option value={catObj.id} key={catObj.id}>{catObj.name}</option>
+                                        })}
+                                        <option value="add">Add Category</option>
+                                    </Select>
+                                </Grid>
+                                {category === "add" ? 
+                                <Grid item xs={2}>
+                                    <br/>
+                                    <TextField
+                                    id="standard-password-input"
+                                    label="Category Name"
+                                    autoComplete={false}
+                                    />
+                                </Grid> : 
+                                <Grid item xs={2}>
+                                    <br/>
+                                    <TextField
+                                    id="standard-password-input"
+                                    label="Category Name"
+                                    disabled
+                                    />
+                                </Grid>
+                                }
+                                <Grid item xs={2}>
+                                    <br/>
+                                    <TextField
+                                    id="standard-password-input"
+                                    label="Description"
+                                    autoComplete={false}
+                                    />
+                                </Grid>
+                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <Grid item xs={2}>
+                                    <br/>
+                                    <KeyboardDatePicker
+                                        disableToolbar
+                                        className={classes.datePicker}
+                                        variant="inline"
+                                        format="MM/dd/yyyy"
+                                        margin="normal"
+                                        id="date-picker-inline"
+                                        label="Date"
+                                        value={expDate}
+                                        onChange={(value) => dispatch(setExpDate(value))}
+                                        KeyboardButtonProps={{
+                                            'aria-label': 'change date',
+                                        }}
+                                    />
+                                </Grid>
+                                </MuiPickersUtilsProvider>
+                                <Grid item xs={2}>
+                                    <br/>
+                                    <br/>
+                                    <Input
+                                        id="standard-adornment-amount"
+                                        value={amount}
+                                        onChange={(ev) => handleAmountChange(ev.target.value)}
+                                        style={{width: "100%"}} 
+                                        placeholder="Amount"
+                                        startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                                    />
+                                </Grid>
+                                <Grid item xs={2}>
+                                    <br/>
+                                    <br/>
+                                    <Button variant="contained" type="submit" color="primary" style={{fontSize: "9px"}}>
+                                        Add Expense
+                                    </Button>
+                                </Grid> 
+                            </Grid>
+                        </form>
+                    </Paper>
                 </Grid>
-                <Grid item xs={6}>
-                    <form onSubmit={(ev) => handleCategoryChange(ev)} className={classes.form}>
-                        <Grid container direction="row" >
-                            <Grid item xs={4}>
-                                <Select
-                                    native
-                                    value={category}
-                                    onChange={(ev) => {
-                                        handleCategorySelect(ev)
-                                    }}
-                                >
-                                    <option aria-label="None" value="" />
-                                    {categoryList.map(catObj=> {
-                                        return <option value={catObj.id} key={catObj.id}>{catObj.name}</option>
-                                    })}
-                                    <option value="add">Add Category</option>
-                                </Select>
+                <Grid item xs={4}>
+                    <Paper className={classes.form}>
+                        <form onSubmit={(ev) => handleCategoryChange(ev)}>
+                            <Grid container direction="row" spacing={2} style={{paddingBottom: "1.5px"}}>
+                                <Grid item xs={4}>
+                                    <Typography variant="overline" color="primary">
+                                        Edit Category
+                                    </Typography>
+                                    <Select
+                                        native
+                                        value={category}
+                                        onChange={(ev) => {
+                                            handleCategorySelect(ev)
+                                        }}
+                                    >
+                                        <option aria-label="None" value="" />
+                                        {categoryList.map(catObj=> {
+                                            return <option value={catObj.id} key={catObj.id}>{catObj.name}</option>
+                                        })}
+                                        <option value="add">Add Category</option>
+                                    </Select>
+                                </Grid>
+                                {category === "add" ? 
+                                <Grid item xs={4}>
+                                    <br/>
+                                    <TextField
+                                    id="standard-password-input"
+                                    label="Category Name"
+                                    />
+                                </Grid> : 
+                                <Grid item xs={4}>
+                                    <br/>
+                                    <TextField
+                                    id="standard-password-input"
+                                    label="Category Name"
+                                    autoComplete={false}
+                                    disabled
+                                    />
+                                </Grid>
+                                }
+                                <Grid item xs={4}>
+                                    <br/>
+                                    <br/>
+                                    <Button variant="contained" type="submit" color="primary" style={{fontSize: "9px"}}>
+                                        Change Category
+                                    </Button>
+                                </Grid> 
                             </Grid>
-                            {category === "add" ? 
-                            <Grid item xs={4}>
-                                <TextField />
-                            </Grid> : 
-                            <Grid item xs={4}>
-                                <TextField disabled/>
-                            </Grid>
-                            }
-                            <Grid item xs={4}>
-                                <Button variant="outlined" type="submit" color="primary">
-                                    Submit Change
-                                </Button>
-                            </Grid> 
-                        </Grid>
-                    </form>
+                        </form>
+                    </Paper>
                 </Grid>
             </Grid>
             <DataGrid 
@@ -182,7 +337,7 @@ const SimpleLog = () => {
                 pageSize={25} 
                 checkboxSelection 
                 className={classes.dataGrid}
-                onRowClick={(ev) => handleRowClick(ev)}
+                onSelectionChange={(ev) => handleRowClick(ev)}
             />
         </div>
     )

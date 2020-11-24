@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import {MuiPickersUtilsProvider,KeyboardDatePicker} from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import {ResponsivePie} from '@nivo/pie'
-import {Grid, Select, TextField, Typography, Input, InputAdornment, Button} from '@material-ui/core'
+import {Grid, Select, TextField, Typography, Input, InputAdornment, Button, Paper} from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
 import {useSelector, useDispatch} from 'react-redux'
 import {setCategoryList, setCategory, setDataArr, setAmount, setCurrentBudget, setExpDate, setTotal} from './actions'
@@ -23,12 +23,13 @@ const useStyles = makeStyles({
         width: "65%",
         textAlign: "left",
         border: "3px solid #62727b",
-        borderRadius: "15px"
+        borderRadius: "15px",
+        backgroundColor: "white"
     },
     total: {
         padding: "5px",
-        border: "2px solid limegreen",
-        backgroundColor: "whitesmoke"
+        border: "2px solid #338a3e",
+        backgroundColor: "white"
     }
     
 });
@@ -200,16 +201,16 @@ const SimpleGraph = () => {
                             <ResponsivePie
                                 data={dataArr}
                                 margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
-                                innerRadius={0.5}
-                                cornerRadius={4}
-                                colors={{ scheme: 'set1' }}
+                                innerRadius={.6}
+                                cornerRadius={5}
+                                colors={{ scheme: 'paired' }}
                                 borderWidth={1}
                                 borderColor={{ from: 'color', modifiers: [ [ 'darker', 0.2 ] ] }}
-                                radialLabelsSkipAngle={10}
-                                radialLabelsTextColor="#333333"
+                                radialLabelsSkipAngle={5}
+                                radialLabelsTextColor="#102027"
                                 radialLabelsLinkColor={{ from: 'color' }}
-                                sliceLabelsSkipAngle={10}
-                                sliceLabelsTextColor="#333333"
+                                sliceLabelsSkipAngle={5}
+                                sliceLabelsTextColor="white"
                                 legends={[
                                     {
                                         anchor: 'bottom',
@@ -220,7 +221,7 @@ const SimpleGraph = () => {
                                         itemsSpacing: 0,
                                         itemWidth: 100,
                                         itemHeight: 18,
-                                        itemTextColor: '#999',
+                                        itemTextColor: '#102027',
                                         itemDirection: 'left-to-right',
                                         itemOpacity: 1,
                                         symbolSize: 18,
@@ -229,7 +230,7 @@ const SimpleGraph = () => {
                                             {
                                                 on: 'hover',
                                                 style: {
-                                                    itemTextColor: '#000'
+                                                    itemTextColor: '#102027'
                                                 }
                                             }
                                         ]
@@ -239,17 +240,18 @@ const SimpleGraph = () => {
                         </Grid>
                         {total ? 
                         <Grid item xs={12} style={{textAlign: "center"}}>
-                            <Typography variant="overline" className={classes.total}>
-                                Total: {formatter.format(total)}
-                            </Typography>
+                                <Typography variant="overline" className={classes.total}>
+                                    Total: {formatter.format(total)}
+                                </Typography>
                         </Grid>: <div></div>}
                     </Grid> 
                 </Grid>
                 <Grid item xs={4}>
                     <Grid container direction="column" alignItems="center">
-                        <form className={classes.form} onSubmit={(ev) => handleSimpleSubmit(ev)}>
+                        <Paper className={classes.form} elevation={10}>
+                        <form onSubmit={(ev) => handleSimpleSubmit(ev)}>
                             <Grid item xs={12}>
-                                <Typography variant="subtitle1" style={{textAlign: "center"}}>
+                                <Typography variant="subtitle1" style={{textAlign: "center", color: "#338a3e"}}>
                                     Create new expense
                                 </Typography>
                             </Grid>
@@ -310,6 +312,7 @@ const SimpleGraph = () => {
                                 </Button>
                             </Grid>
                         </form>
+                        </Paper>
                     </Grid>
                 </Grid>
             </Grid>
