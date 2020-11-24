@@ -2,6 +2,9 @@ import React from 'react'
 import {Grid, TextField, Button, makeStyles, Typography, Paper} from '@material-ui/core'
 import {setCurrentUser, setToken} from './actions'
 import {useDispatch} from 'react-redux'
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+// import Button from '@material-ui/core/Button'
 // import {useHistory} from 'react-router-dom'
 const useStyles = makeStyles({
     form: {
@@ -19,7 +22,8 @@ const useStyles = makeStyles({
 const Landing = () => {
 
     const dispatch = useDispatch()
-
+    // const token = useSelector(state => state.token)
+    // const currentBudget = useSelector(state => state.currentBudget)
     const classes = useStyles()
     // const history = useHistory()
 
@@ -76,9 +80,13 @@ const Landing = () => {
     
     return (
         <div style={{textAlign:"center"}}>
-           <Grid container direction="row" alignItems="center" style={{marginTop: "10%"}} spacing={3}>
-               <Grid item xs={5}>
-                   <Paper className={classes.form} elevation={3}>
+            <AppBar position="static" color="secondary" style={{height: window.innerHeight/20, minHeight: "50px"}} elevation={10}>
+                <Toolbar>
+                </Toolbar>
+            </AppBar>
+            <Grid container direction="row" alignItems="center" style={{marginTop: "10%"}} spacing={3}>
+                <Grid item xs={5}>
+                    <Paper className={classes.form} elevation={3}>
                         <form onSubmit={(ev) => {
                             login(ev)
                         }}>

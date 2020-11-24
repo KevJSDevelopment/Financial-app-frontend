@@ -5,11 +5,8 @@ import NewBudget from './NewBudget'
 import BudgetList from './BudgetList'
 import ViewBudget from './ViewBudget';
 import Landing from './Landing';
-import {setToken, setCurrentUser} from './actions'
-import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button'
-import Toolbar from '@material-ui/core/Toolbar';
-import { Grid, makeStyles } from '@material-ui/core';
+import {setToken} from './actions'
+import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,16 +24,11 @@ const App = () => {
   const open = useSelector(state => state.budgetOpen)
   const token = useSelector(state => state.token)
   const currentUser = useSelector(state => state.currentUser)
+  // const currentBudget = useSelector(state => state.currentBudget)
   const dispatch = useDispatch()
 
   const classes = useStyles()
-
-  const handleLogout = async () => {
-      localStorage.removeItem("token")
-      dispatch(setCurrentUser(null))
-      dispatch(setToken(false))
-    // history.push("/planList");
-  }
+  // const history = useHistory()
   
   const getToken = () => {
     dispatch(setToken(localStorage.getItem("token")))
@@ -48,16 +40,6 @@ const App = () => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="secondary" style={{height: window.innerHeight/20, minHeight: "50px"}} elevation={10}>
-        <Toolbar>
-          {token ? 
-            <Grid container direction="row" className={classes.nav} spacing={3}>
-              <Grid item xs={12}>
-                <Button variant="outlined" onClick={handleLogout} style={{float: "right", fontSize: "10px", marginBottom: "2%"}} color="primary">Logout</Button>
-              </Grid>
-            </Grid> : <div></div>}
-        </Toolbar>
-      </AppBar>
       <div id="content-container">
       <Router>
         <Switch>

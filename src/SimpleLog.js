@@ -5,7 +5,8 @@ import { DataGrid } from '@material-ui/data-grid';
 import { Select, Grid, TextField, Button, makeStyles, Paper, Input, InputAdornment, Typography} from '@material-ui/core';
 import {MuiPickersUtilsProvider,KeyboardDatePicker} from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import { simpleTableRows } from './reducers/budgets';
+import { currentBudget } from './reducers/budgets';
+// import { simpleTableRows } from './reducers/budgets';
 
 const useStyles = makeStyles({
     form: {
@@ -152,17 +153,43 @@ const SimpleLog = () => {
         ev.preventDefault()
 
         if(ev.target[0].value !== "add"){
+            // debugger
+            const meta = {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({description: ev.target[2].value, date: ev.target[3].value, cost: parseFloat(ev.target[5].value), expense_category_id: parseInt(ev.target[0].value), budget_id: currentBudget.budget.id})
+            }
+            const res = await fetch(`http://localhost:3000/expenses`, meta)
+            const data = await res.json()
+            if(data.auth){
+                getExpenses()
+            }
+            else{
+                alert(data.message)
+            }
+        }
+        else {
+            // debugger
             const meta = {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({name: ev.target[1].value})
             }
-            const res = await fetch(`http://localhost:3000/expenses`, meta)
+            const res = await fetch(`http://localhost:3000/expense_categories`, meta)
             const data = await res.json()
-
-        }
-        else {
-
+            const newMeta = {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({description: ev.target[2].value, date: ev.target[3].value, cost: parseFloat(ev.target[5].value), expense_category_id: data.expense_category.id, budget_id: currentBudget.budget.id})
+            }
+            const resp = await fetch(`http://localhost:3000/expenses`, newMeta)
+            const newData = await resp.json()
+            if(newData.auth){
+                getExpenses()
+            }
+            else{
+                alert(newData.message)
+            }
         }
     }
 
