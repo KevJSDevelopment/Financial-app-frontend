@@ -3,7 +3,7 @@ import {setNewBudgetType} from './actions'
 import {useSelector, useDispatch} from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid'
-import { TextField, Select, Button} from '@material-ui/core';
+import { TextField, Select, Button, Paper} from '@material-ui/core';
 import {MuiPickersUtilsProvider,KeyboardDatePicker} from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { useHistory } from 'react-router-dom';
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   form: {
     color: "#102027",
     border: "2px solid grey",
-    backgroundColor: "whitesmoke",
+    backgroundColor: "white",
     width:"100%",
     marginTop: "7%",
   },
@@ -98,120 +98,122 @@ const NewBudget = () => {
 
     return (
       <div className={classes.root}>
-        <form onSubmit={(ev) => addBudget(ev)} className={classes.form}>
-          <Grid className={classes.grid} container spacing={3} alignItems="center" direction="column">
-            <Grid item xs={3}>
-              <div style={{fontSize:"22px", textAlign: "center", color: "#338a3e"}}>
-                Create New Financial Plan
-              </div>
-            </Grid>
-            <Grid item xs={3}>
+        <Paper className={classes.form} elevation={3}>
+          <form onSubmit={(ev) => addBudget(ev)}>
+            <Grid className={classes.grid} container spacing={3} alignItems="center" direction="column">
+              <Grid item xs={3}>
+                <div style={{fontSize:"22px", textAlign: "center", color: "#338a3e"}}>
+                  Create New Financial Plan
+                </div>
+              </Grid>
+              <Grid item xs={3}>
+                <Grid container direction='column'>
+                  <Grid item xs={12}>
+                    <div>
+                      Choose a plan option
+                    </div>
+                  </Grid>
+                  <br/>
+                  <Grid item xs={12}>
+                    <Select
+                      native
+                      value={budgetType}
+                      color="primary"
+                      className={classes.select}
+                      onChange={(ev) => {
+                        dispatch(setNewBudgetType(ev.target.value))
+                      }}
+                    >
+                      <option aria-label="None" value="" />
+                      <option value={"simple"}>Expense Tracker</option>
+                      <option value={"full"}>Full financial plan</option>
+                    </Select>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item xs={3}>
               <Grid container direction='column'>
-                <Grid item xs={12}>
-                  <div>
-                    Choose a plan option
-                  </div>
-                </Grid>
-                <br/>
-                <Grid item xs={12}>
-                  <Select
-                    native
-                    value={budgetType}
-                    color="primary"
-                    className={classes.select}
-                    onChange={(ev) => {
-                      dispatch(setNewBudgetType(ev.target.value))
-                    }}
-                  >
-                    <option aria-label="None" value="" />
-                    <option value={"simple"}>Expense Tracker</option>
-                    <option value={"full"}>Full financial plan</option>
-                  </Select>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={3}>
-            <Grid container direction='column'>
-                <Grid item xs={12}>
-                  <div>
-                    Give the plan a name
-                  </div>
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField id="standard-basic" label="Plan Name" color="primary" InputLabelProps={{
-                    className: classes.label
-                  }} inputProps={{
-                    className: classes.select
-                  }} />
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={3}>
-            <Grid container spacing={2} direction='row'>
-      
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <Grid item xs={6}>
-                  <KeyboardDatePicker
-                    disableToolbar
-                    variant="inline"
-                    format="MM/dd/yyyy"
-                    margin="normal"
-                    id="date-picker-inline"
-                    label="Plan Start Date"
-                    value={dateFrom}
-                    onChange={(value) => dispatch(setFromDate(value))}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                      className: classes.icon
-                    }}
-                    inputProps={{
-                      className: classes.select
-                    }}
-                    InputLabelProps={{
+                  <Grid item xs={12}>
+                    <div>
+                      Give the plan a name
+                    </div>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField id="standard-basic" label="Plan Name" color="primary" InputLabelProps={{
                       className: classes.label
-                    }}
-                  />
-                </Grid>
-                <br/>
-                <Grid item xs={6}>
-                  <KeyboardDatePicker
-                    disableToolbar
-                    variant="inline"
-                    format="MM/dd/yyyy"
-                    margin="normal"
-                    id="date-picker-inline"
-                    label="Plan End Date"
-                    value={dateTo}
-                    style={{fill:"white"}}
-                    onChange={(value) => {
-                      dispatch(setToDate(value))}}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                      className: classes.icon
-                    }}
-                    inputProps={{
+                    }} inputProps={{
                       className: classes.select
-                    }}
-                    InputLabelProps={{
-                      className: classes.label
-                    }}
-                  />
-                </Grid>
-                </MuiPickersUtilsProvider>
-                
-              </Grid>
-            </Grid>
-            <Grid item xs={3}>
-            <Grid container direction='column'>
-                <Grid item xs={12}>
-                  <Button type="submit" variant="contained" color="primary" className={classes.button}>
-                    Create Plan
-                  </Button>
+                    }} />
+                  </Grid>
                 </Grid>
               </Grid>
+              <Grid item xs={3}>
+              <Grid container spacing={2} direction='row'>
+        
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <Grid item xs={6}>
+                    <KeyboardDatePicker
+                      disableToolbar
+                      variant="inline"
+                      format="MM/dd/yyyy"
+                      margin="normal"
+                      id="date-picker-inline"
+                      label="Plan Start Date"
+                      value={dateFrom}
+                      onChange={(value) => dispatch(setFromDate(value))}
+                      KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                        className: classes.icon
+                      }}
+                      inputProps={{
+                        className: classes.select
+                      }}
+                      InputLabelProps={{
+                        className: classes.label
+                      }}
+                    />
+                  </Grid>
+                  <br/>
+                  <Grid item xs={6}>
+                    <KeyboardDatePicker
+                      disableToolbar
+                      variant="inline"
+                      format="MM/dd/yyyy"
+                      margin="normal"
+                      id="date-picker-inline"
+                      label="Plan End Date"
+                      value={dateTo}
+                      style={{fill:"white"}}
+                      onChange={(value) => {
+                        dispatch(setToDate(value))}}
+                      KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                        className: classes.icon
+                      }}
+                      inputProps={{
+                        className: classes.select
+                      }}
+                      InputLabelProps={{
+                        className: classes.label
+                      }}
+                    />
+                  </Grid>
+                  </MuiPickersUtilsProvider>
+                  
+                </Grid>
+              </Grid>
+              <Grid item xs={3}>
+              <Grid container direction='column'>
+                  <Grid item xs={12}>
+                    <Button type="submit" variant="contained" color="primary" className={classes.button}>
+                      Create Plan
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Grid>
             </Grid>
-          </Grid>
-        </form>
+          </form>
+        </Paper>
       </div>
     )
 }

@@ -9,13 +9,14 @@ import {setBudgets} from './actions'
 
 const useStyles = makeStyles({
     icon: {
-      color: "white",
-      backgroundColor: "#00ca00",
-      '&:hover': {
-        backgroundColor: "#59dd44",
-      },
       marginLeft: "30%"
     },
+    root: {
+      backgroundColor: "whitesmoke"
+    },
+    container: {
+      marginLeft: "3%"
+    }
     
 });
 
@@ -39,13 +40,13 @@ const BudgetList = () => {
     }, [])
 
     return (
-        <div>
-            <Grid container alignItems="center" spacing={3}>
+        <div className={classes.root}>
+            <Grid container alignItems="center" spacing={3} className={classes.container}>
             {budgets.map(budget => {
                 return  <BudgetCard budget={budget} getBudgets={getBudgets} key={budget.id}/>
             })}
             <Grid item xs={4}>
-                <Fab onClick={() => dispatch(openNewBudget())} className={classes.icon} aria-label="add">
+                <Fab onClick={() => dispatch(openNewBudget())} className={classes.icon} color="primary" aria-label="add">
                   <AddIcon />
                 </Fab>
             </Grid>

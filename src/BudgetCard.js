@@ -1,6 +1,6 @@
 import React from 'react'
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
+// import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 // import CardMedia from '@material-ui/core/CardMedia';
@@ -10,11 +10,26 @@ import Grid from '@material-ui/core/Grid'
 import {useHistory} from 'react-router-dom'
 import {useDispatch} from 'react-redux'
 import {setCurrentBudget} from './actions'
+import {makeStyles, CardMedia, CardHeader} from '@material-ui/core'
+import pie from './images/Pie.png'
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    maxWidth: 345,
+    backgroundColor: "white"
+  },
+  media: {
+    height: 0,
+    paddingTop: '56.25%', // 16:9
+  },
+}));
 
 const BudgetCard = (props) => {
 
   const dispatch = useDispatch()
   const history = useHistory()
+
+  const classes = useStyles()
 
   const handleClick = () => {
     localStorage.setItem("budgetId", props.budget.id)
@@ -29,31 +44,37 @@ const BudgetCard = (props) => {
 
     return (
       <Grid item xs={4}>
-        <Card>
-        <CardActionArea>
+        <Card className={classes.root}>
+          <CardHeader
+            title={props.budget.name}
+            subheader={props.budget.date_to}
+            style={{color: '#338a3e'}}
+          />
+          <CardMedia
+            className={classes.media}
+            image={pie}
+            title="Chart"
+          />
           <CardContent onClick={() => handleClick()}>
-              <Typography gutterBottom variant="h5" component="h2">
-                  {props.budget.name}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  From: {props.budget.date_from} To: {props.budget.date_to}
-                </Typography>
-                <Typography variant="h6" component="h6">
-                  Net: ${props.budget.total}
-                </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p">
+                      From: {props.budget.date_from} To: {props.budget.date_to}
+                    </Typography>
+                    <Typography variant="h6" component="h6">
+                      Net: ${props.budget.total}
+                    </Typography>
           </CardContent>
-        </CardActionArea>
-        <CardActions>
+          <CardActions >
           <Button onClick={() => handleClick()} size="small" color="primary">
-            View
-          </Button>
-          <Button onClick={() => handleDelete()} size="small" color="secondary">
-            Delete
-          </Button>
-        </CardActions>
-      </Card>
+                View
+              </Button>
+              <Button onClick={() => handleDelete()} size="small" color="secondary">
+                Delete
+              </Button>
+          </CardActions>
+        </Card>
       </Grid>
     )
 }
 
 export default BudgetCard
+

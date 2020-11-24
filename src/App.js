@@ -14,7 +14,9 @@ import { Grid, makeStyles } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    margin: 0
+    margin: 0,
+    backgroundColor: "whitesmoke",
+    height: window.innerHeight
   },
   title: {
     flexGrow: 1,
@@ -46,7 +48,7 @@ const App = () => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="secondary" style={{height: window.innerHeight/20}}>
+      <AppBar position="static" color="secondary" style={{height: window.innerHeight/20, minHeight: "50px"}} elevation={10}>
         <Toolbar>
           {token ? 
             <Grid container direction="row" className={classes.nav} spacing={3}>
