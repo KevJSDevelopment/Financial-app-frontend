@@ -46,6 +46,7 @@ const ViewBudget = () => {
 
     const handleBackToBudgets = () => {
         history.push('/planList');
+        dispatch(resetStore())
     }
 
     useEffect(() => {

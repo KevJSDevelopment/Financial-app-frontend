@@ -4,7 +4,7 @@ import BudgetCard from './BudgetCard'
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import {useSelector, useDispatch} from 'react-redux'
-import {openNewBudget} from './actions'
+import {openNewBudget, setCategoryList} from './actions'
 // import {setBudgets} from './actions'
 import {setBudgets, resetStore} from './actions'
 import {Grid, Button, makeStyles} from '@material-ui/core'
@@ -21,7 +21,8 @@ const useStyles = makeStyles({
       backgroundColor: "whitesmoke"
     },
     container: {
-      marginLeft: "3%"
+      marginLeft: "3%",
+      marginTop:"2%"
     }
     
 });
@@ -55,15 +56,15 @@ const BudgetList = () => {
     return (
       <div className={classes.root}>
         <AppBar position="static" color="secondary" style={{height: window.innerHeight/20}} elevation={10}>
-                <Toolbar>
-                {token ? 
-                    <Grid container direction="row" className={classes.nav} spacing={3}>
-                      <Grid item xs={12}>
-                          <Button variant="outlined" onClick={handleLogout} style={{float: "right", fontSize: "10px", marginBottom: "2%"}} color="primary">Logout</Button>
-                      </Grid>
-                    </Grid> : <div></div>}
-                </Toolbar>
-            </AppBar>
+          <Toolbar>
+            {token ? 
+                <Grid container direction="row" className={classes.nav} spacing={3}>
+                  <Grid item xs={12}>
+                      <Button variant="outlined" onClick={handleLogout} style={{float: "right", fontSize: "10px", marginBottom: "2%"}} color="primary">Logout</Button>
+                  </Grid>
+                </Grid> : <div></div>}
+            </Toolbar>
+        </AppBar>
         <Grid container alignItems="center" spacing={3} className={classes.container}>
           {budgets.map(budget => {
               return <BudgetCard budget={budget} getBudgets={getBudgets} key={budget.id}/>
