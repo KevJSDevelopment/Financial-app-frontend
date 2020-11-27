@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const App = () => {
-  // const open = useSelector(state => state.budgetOpen)
+  const open = useSelector(state => state.budgetOpen)
   const token = useSelector(state => state.token)
   const currentUser = useSelector(state => state.currentUser)
   // const currentBudget = useSelector(state => state.currentBudget)
@@ -46,8 +46,8 @@ const App = () => {
     <div className={classes.root}>
       <div id="content-container">
       <Router>
-        <MyAppBar />
-        <TabsContainer />
+        {!open ? <MyAppBar />: null}
+        {!open ? <TabsContainer /> : null}
         <Switch>
           <Route path="/" exact render={() => !token ? <Landing /> : <Redirect to="/planList"/> }/>
           <Route path="/planList" exact render={() => !!token ? <BudgetList/> : <Redirect to="/" />}/> 

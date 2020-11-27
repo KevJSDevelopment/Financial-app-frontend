@@ -4,14 +4,12 @@ import {useSelector, useDispatch} from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid'
 import { TextField, Select, Button, Paper} from '@material-ui/core';
-import {MuiPickersUtilsProvider,KeyboardDatePicker} from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
 import {useHistory} from 'react-router-dom';
 import {setCurrentBudget, setFromDate, setToDate} from './actions'
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import {openNewBudget} from './actions'
-import TabsContainer from './TabsContainer'
+// import AppBar from '@material-ui/core/AppBar';
+// import Toolbar from '@material-ui/core/Toolbar';
+// import {openNewBudget} from './actions'
+// import TabsContainer from './TabsContainer'
 
 const useStyles = makeStyles((theme) => ({
   base:{
@@ -66,10 +64,14 @@ const NewBudget = () => {
   const dispatch = useDispatch()
 
 
-  function handleClick(budgetId) {
+  const handleSimpleClick = (budgetId) => {
     localStorage.setItem("budgetId", budgetId)
     dispatch(setCurrentBudget(budgetId))
     history.push(`/viewPlan/${budgetId}`);
+  }
+
+  const handleFullClick = (budgetId) => {
+
   }
 
   const getDate = (date) => {
@@ -83,29 +85,38 @@ const NewBudget = () => {
   const addBudget = async (ev) => {
     ev.preventDefault()
 
-    if(ev.target[0] === ""){
+    if(ev.target[0].value === ""){
       alert("You must identify what type of plan you are creating")
     }
-    else if(ev.target[1] === ""){
+    else if(ev.target[1].value === ""){
       alert("Please give a name for your financial plan")
     }
     else {
-      const meta = {
-        method: "POST",
-        headers: {"Content-Type":"application/json",
-                  "Authentication": `Bearer ${localStorage.getItem("token")}`},
-        body: JSON.stringify({name: ev.target[1].value, type: ev.target[0].value, date_from: getDate(dateFrom), date_to: getDate(dateTo)})
+      if(ev.target[0].value === "simple"){
+        const meta = {
+          method: "POST",
+          headers: {"Content-Type":"application/json",
+                    "Authentication": `Bearer ${localStorage.getItem("token")}`},
+          body: JSON.stringify({name: ev.target[1].value, type: ev.target[0].value, date_from: getDate(dateFrom), date_to: getDate(dateTo)})
+        }
+        const res = await fetch('http://localhost:3000/budgets', meta)
+        const data = await res.json()
+  
+        handleSimpleClick(data.budget.id) 
       }
-      const res = await fetch('http://localhost:3000/budgets', meta)
-      const data = await res.json()
-
-      handleClick(data.budget.id)
+      else {
+        const meta = {
+          method: "POST",
+          headers: {"Content-Type":"application/json",
+                    "Authentication": `Bearer ${localStorage.getItem("token")}`},
+          body: JSON.stringify({name: ev.target[1].value, type: ev.target[0].value, date_from: getDate(dateFrom), date_to: getDate(dateTo)})
+        }
+        const res = await fetch('http://localhost:3000/budgets', meta)
+        const data = await res.json()
+  
+        handleFullClick(data.budget.id) 
+      }
     }
-  }
-
-  const handleLogout = async () => {
-    localStorage.removeItem("token")
-    dispatch(resetStore())
   }
 
   return (
@@ -143,77 +154,7 @@ const NewBudget = () => {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={3}>
-            <Grid container direction='column'>
-                <Grid item xs={12}>
-                  <div>
-                    Give the plan a name
-                  </div>
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField id="standard-basic" label="Plan Name" color="primary" InputLabelProps={{
-                    className: classes.label
-                  }} inputProps={{
-                    className: classes.select
-                  }} />
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={3}>
-            <Grid container spacing={2} direction='row'>
-      
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <Grid item xs={6}>
-                  <KeyboardDatePicker
-                    disableToolbar
-                    variant="inline"
-                    format="MM/dd/yyyy"
-                    margin="normal"
-                    id="date-picker-inline"
-                    label="Plan Start Date"
-                    value={dateFrom}
-                    onChange={(value) => dispatch(setFromDate(value))}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                      className: classes.icon
-                    }}
-                    inputProps={{
-                      className: classes.select
-                    }}
-                    InputLabelProps={{
-                      className: classes.label
-                    }}
-                  />
-                </Grid>
-                <br/>
-                <Grid item xs={6}>
-                  <KeyboardDatePicker
-                    disableToolbar
-                    variant="inline"
-                    format="MM/dd/yyyy"
-                    margin="normal"
-                    id="date-picker-inline"
-                    label="Plan End Date"
-                    value={dateTo}
-                    style={{fill:"white"}}
-                    onChange={(value) => {
-                      dispatch(setToDate(value))}}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                      className: classes.icon
-                    }}
-                    inputProps={{
-                      className: classes.select
-                    }}
-                    InputLabelProps={{
-                      className: classes.label
-                    }}
-                  />
-                </Grid>
-                </MuiPickersUtilsProvider>
-                
-              </Grid>
-            </Grid>
+            
             <Grid item xs={3}>
             <Grid container direction='column'>
                 <Grid item xs={12}>

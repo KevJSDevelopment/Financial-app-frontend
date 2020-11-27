@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 import SimpleBudget from './SimpleBudget'
 import FullPlan from './FullPlanList'
 import {useSelector, useDispatch} from 'react-redux'
-import {setCurrentBudget, resetStore} from './actions'
+import {setCurrentBudget, resetStore, openNewBudget} from './actions'
 import {Grid, Button, makeStyles} from '@material-ui/core'
 // import {setCurrentUser, setToken} from './actions'
 // import {useDispatch, useSelector} from 'react-redux'
@@ -27,7 +27,6 @@ const ViewBudget = () => {
 
     const currentBudget = useSelector(state => state.currentBudget)
     const token = useSelector(state => state.token)
-
     const history = useHistory()
     const classes = useStyles()
     const dispatch = useDispatch()
@@ -37,6 +36,7 @@ const ViewBudget = () => {
         const data = await res.json()
         const budgetObject = { budget: data.budget, expenseInfo: data.expenseInfo }
         dispatch(setCurrentBudget(budgetObject))
+        dispatch(openNewBudget())
     }
 
     const handleLogout = async () => {

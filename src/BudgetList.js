@@ -81,7 +81,6 @@ const BudgetList = () => {
       // dispatch(setLink())
     }
     
-
     useEffect(() => {
       getBudgets()
       setUser()
