@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import SimpleBudget from './SimpleBudget'
-import FullPlan from './FullPlan'
+import FullPlan from './FullPlanList'
 import {useSelector, useDispatch} from 'react-redux'
 import {setCurrentBudget, resetStore} from './actions'
 import {Grid, Button, makeStyles} from '@material-ui/core'

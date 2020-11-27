@@ -17,3 +17,12 @@ export const displayGraph = (state = false, action) => {
             return state
     }
 }
+
+export const tabNumber = (state=1, action) => {
+    switch(action.type) {
+        case "SETTAB":
+            return action.payload
+        default:
+            return state
+    }
+}

@@ -5,7 +5,8 @@ import {useDispatch} from 'react-redux'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 // import Button from '@material-ui/core/Button'
-// import {useHistory} from 'react-router-dom'
+import {useHistory} from 'react-router-dom'
+
 const useStyles = makeStyles({
     form: {
         border: "2px solid #62727b",
@@ -25,7 +26,7 @@ const Landing = () => {
     // const token = useSelector(state => state.token)
     // const currentBudget = useSelector(state => state.currentBudget)
     const classes = useStyles()
-    // const history = useHistory()
+    const history = useHistory()
 
     const login = (ev) => {
         ev.preventDefault()
@@ -77,11 +78,14 @@ const Landing = () => {
           }
         })
     }
+
+
     
     return (
         <div style={{textAlign:"center"}}>
             <AppBar position="static" color="secondary" style={{height: window.innerHeight/20, minHeight: "50px"}} elevation={10}>
                 <Toolbar>
+                    
                 </Toolbar>
             </AppBar>
             <Grid container direction="row" alignItems="center" style={{marginTop: "10%"}} spacing={3}>

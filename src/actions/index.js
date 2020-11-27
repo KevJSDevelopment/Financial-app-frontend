@@ -122,6 +122,19 @@ export const setToken = (token) => {
     }
 }
 
+export const setLink = (link) => {
+    return {
+        type: "SETLINK",
+        payload: link
+    }
+}
+
+export const setTabNumber = (number) => {
+    return {
+        type: "SETTAB",
+        payload: number
+    }
+}
 export const resetStore = () => {
     return {
         type: "RESET"

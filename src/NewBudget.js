@@ -11,9 +11,10 @@ import {setCurrentBudget, setFromDate, setToDate} from './actions'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import {openNewBudget} from './actions'
+import TabsContainer from './TabsContainer'
 
 const useStyles = makeStyles((theme) => ({
-  root:{
+  base:{
     height: window.innerHeight,
     overflowX: "hidden"
   },
@@ -24,8 +25,9 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   }, 
-  grid: {
-    margin: "2%"
+  formGrid: {
+    marginTop: "2%",
+    marginBottom: "2%"
   },
   gridItem: {
     textAlign: "center"
@@ -38,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid grey",
     backgroundColor: "white",
     width:"100%",
-    marginTop: "7%",
+    marginTop: "5%"
   },
   select: {
     color: "#102027",
@@ -48,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     color: "#66bb6a"
-  }
+  },
 
 }));
 
@@ -100,32 +102,17 @@ const NewBudget = () => {
       handleClick(data.budget.id)
     }
   }
+
   const handleLogout = async () => {
     localStorage.removeItem("token")
     dispatch(resetStore())
   }
 
-  const handleBackToBudgets = () => {
-    dispatch(openNewBudget())
-  }
-
   return (
-    <div className={classes.root}>
-      <AppBar position="static" color="secondary" style={{height: window.innerHeight/20, minHeight: "50px"}} elevation={10}>
-              <Toolbar>
-                  <Grid container direction="row" className={classes.nav} spacing={3}>
-                    <Grid item xs={6}>
-                        <Button variant="contained" onClick={handleBackToBudgets} style={{float: "left", fontSize: "10px", marginBottom: "2%"}} color="primary">Back to your plans</Button>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Button variant="outlined" onClick={handleLogout} style={{float: "right", fontSize: "10px", marginBottom: "2%"}} color="primary">Logout</Button>
-                    </Grid>
-                  </Grid>
-              </Toolbar>
-          </AppBar>
+    <div className={classes.base}>
       <Paper className={classes.form} elevation={3}>
         <form onSubmit={(ev) => addBudget(ev)}>
-          <Grid className={classes.grid} container spacing={3} alignItems="center" direction="column">
+          <Grid className={classes.formGrid} container spacing={3} alignItems="center" direction="column">
             <Grid item xs={3}>
               <div style={{fontSize:"22px", textAlign: "center", color: "#338a3e"}}>
                 Create New Financial Plan

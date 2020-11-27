@@ -1,7 +1,7 @@
 import React from 'react'
 // import {useSelector, useDispatch} from 'react-redux'
 
-const FullPlan = () => {
+const FullPlanList = () => {
 //     const token = useSelector(state => state.token)
 //   const currentUser = useSelector(state => state.currentUser)
     return (
@@ -11,4 +11,4 @@ const FullPlan = () => {
     )
 }
 
-export default FullPlan
+export default FullPlanList
