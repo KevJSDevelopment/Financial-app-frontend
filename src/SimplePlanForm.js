@@ -7,6 +7,9 @@ import {setToDate, setFromDate} from './actions'
 import {useSelector, useDispatch} from 'react-redux'
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "100%"
+  },
   base:{
     height: window.innerHeight,
     overflowX: "hidden"
@@ -51,10 +54,12 @@ const SimplePlanForm = () => {
     const dateFrom = useSelector(state => state.fromDate)
     const dateTo = useSelector(state => state.toDate)
     const classes = useStyles()
+    const dispatch = useDispatch()
+    
     return (
-        <div>
-            <Grid item xs={3}>
-                <Grid container direction='column'>
+        <div className={classes.root}>
+            <Grid item xs={3} style={{marginLeft: "37.2%"}}>
+                <Grid container direction='column' alignItems="center">
                     <Grid item xs={12}>
                     <div>
                         Give the plan a name
@@ -69,7 +74,7 @@ const SimplePlanForm = () => {
                     </Grid>
                 </Grid>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={3} style={{marginLeft:"37.5%"}}>
             <Grid container spacing={2} direction='row'>
       
             <MuiPickersUtilsProvider utils={DateFnsUtils}>

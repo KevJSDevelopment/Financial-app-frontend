@@ -22,6 +22,19 @@ export const tabNumber = (state=1, action) => {
     switch(action.type) {
         case "SETTAB":
             return action.payload
+        case "RESET":
+            return 1
+        default:
+            return state
+    }
+}
+
+export const selectedPanel = (state=0, action) => {
+    switch(action.type) {
+        case "SETPANEL":
+            return action.payload
+        case "RESET":
+            return 0
         default:
             return state
     }

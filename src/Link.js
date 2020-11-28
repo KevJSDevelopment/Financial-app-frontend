@@ -6,13 +6,15 @@ import {useSelector} from 'react-redux'
 
 const useStyles = makeStyles({
     button: {
-    //   color: "white",
-      background: "#00ca00",
+      backgroundColor: "white",
+      color: "#62727b",
       '&:hover': {
-        background: "#59dd44",
+        borderRight: "2px solid #98ee99",
+        cursor: "pointer",
+        backgroundColor: "#62727b",
+        color: "#98ee99"
       },
-      fontSize: "11px"
-    }
+    },
     
 });
 
@@ -79,14 +81,24 @@ const Link = () => {
 
 
     return (
-        <div>
-            <PlaidLink
+        <div className={classes.button}>
+          <PlaidLink
             token={localStorage.getItem("link")}
             onSuccess={handleOnSuccess}
-            className={classes.button}
+            style={{
+              color: "inherit", 
+              textAlign:"center", 
+              width:"100%", 
+              border: "0",
+              cursor: "pointer",
+              fontSize: "16px",
+              padding: "5%",
+              borderRadius: "0",
+              backgroundColor: "inherit"
+            }}
             >
-            Connect a bank account
-            </PlaidLink>
+            ADD BANK +
+          </PlaidLink>
         </div>
     )
 }

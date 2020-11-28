@@ -24,6 +24,13 @@ export const setExpDate = (date) => {
     }
 }
 
+export const setStartDate = (date) => {
+    return {
+        type: "STARTDATE",
+        payload: date
+    }
+}
+
 export const setFromDate = (date) => {
     return {
         type: "FROMDATE",
@@ -138,6 +145,13 @@ export const setTabNumber = (number) => {
 export const resetStore = () => {
     return {
         type: "RESET"
+    }
+}
+
+export const changeSelectedPanel = (panelNumber) => {
+    return {
+        type: "SETPANEL",
+        payload: panelNumber
     }
 }
 // //-------using thunk---------

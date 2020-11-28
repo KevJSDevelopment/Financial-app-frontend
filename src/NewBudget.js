@@ -3,9 +3,11 @@ import {setNewBudgetType, resetStore} from './actions'
 import {useSelector, useDispatch} from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid'
-import { TextField, Select, Button, Paper} from '@material-ui/core';
+import {Select, Button, Paper} from '@material-ui/core';
 import {useHistory} from 'react-router-dom';
-import {setCurrentBudget, setFromDate, setToDate} from './actions'
+import {setCurrentBudget} from './actions'
+import SimplePlanForm from './SimplePlanForm';
+import FullPlanForm from './FullPlanForm'
 // import AppBar from '@material-ui/core/AppBar';
 // import Toolbar from '@material-ui/core/Toolbar';
 // import {openNewBudget} from './actions'
@@ -57,6 +59,7 @@ const NewBudget = () => {
   const budgetType = useSelector(state => state.newBudgetType)
   const dateFrom = useSelector(state => state.fromDate)
   const dateTo = useSelector(state => state.toDate)
+  const startDate = useSelector(state => state.startDate)
   // const token = useSelector(state => state.token)
   // const currentBudget = useSelector(state => state.currentBudget)
 
@@ -105,15 +108,17 @@ const NewBudget = () => {
         handleSimpleClick(data.budget.id) 
       }
       else {
+        let dateArr = getDate(startDate).split("/")
+        const endDate = new Date((dateArr[2] - 0) + 1, dateArr[0] - 1, dateArr[1])
+        // debugger
         const meta = {
           method: "POST",
           headers: {"Content-Type":"application/json",
                     "Authentication": `Bearer ${localStorage.getItem("token")}`},
-          body: JSON.stringify({name: ev.target[1].value, type: ev.target[0].value, date_from: getDate(dateFrom), date_to: getDate(dateTo)})
+          body: JSON.stringify({name: ev.target[1].value, type: ev.target[0].value, date_from: getDate(startDate), date_to: getDate(endDate)})
         }
         const res = await fetch('http://localhost:3000/budgets', meta)
         const data = await res.json()
-  
         handleFullClick(data.budget.id) 
       }
     }
@@ -154,7 +159,7 @@ const NewBudget = () => {
                 </Grid>
               </Grid>
             </Grid>
-            
+            {budgetType === "simple" ? <SimplePlanForm /> : budgetType === "full" ? <FullPlanForm /> : null}
             <Grid item xs={3}>
             <Grid container direction='column'>
                 <Grid item xs={12}>

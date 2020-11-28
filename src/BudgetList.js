@@ -26,20 +26,6 @@ const useStyles = makeStyles({
       borderRadius: "0 0 25px 25px",
       backgroundColor: "whitesmoke"
     },
-    grid: {
-        backgroundColor: "whitesmoke",
-        height: window.innerHeight
-    },
-    tabContainer: {
-        borderRadius: "0 0 25px 25px",
-    },
-    tabs: {
-        fontSize: "12px",
-        '&:focus':{
-            color: "#98ee99",
-            backgroundColor: "#62727b"
-        }
-    }
     
 });
 
@@ -90,7 +76,9 @@ const BudgetList = () => {
       <div className={classes.root}>
         <Grid container alignItems="center" spacing={3} className={classes.container}>
           {budgets.map(budget => {
+            if(budget.plan_type !== "full"){
               return <BudgetCard budget={budget} getBudgets={getBudgets} key={budget.id}/>
+            }
           })}
         </Grid>
       </div>

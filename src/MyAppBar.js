@@ -24,10 +24,7 @@ const MyAppBar = () => {
             <Toolbar>
             {!!token && !!currentUser ? 
                 <Grid container direction="row" spacing={3}>
-                    <Grid item xs={6}>
-                        <Link />
-                    </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={12}>
                         <Button variant="outlined" onClick={handleLogout} style={{float: "right", fontSize: "10px", marginBottom: "2%"}} color="primary">Logout</Button>
                     </Grid>
                 </Grid> : <div></div>}
