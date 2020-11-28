@@ -2,6 +2,9 @@ import React, {useEffect, useState} from 'react'
 import {Grid, makeStyles, Button, CardHeader, Paper} from '@material-ui/core'
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
+import { currentBudget } from './reducers/budgets';
+import {useSelector, useDispatch} from 'react-redux'
+import {setPlanView} from './actions'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -26,9 +29,12 @@ const FullBudgetCard = (props) => {
 
     const classes = useStyles()
     const [balance, setBalance] = useState(0.00)
-    
-    const handleClick = () => {
+    const [currentPlan, setCurrentPlan] = useState({})
 
+    const dispatch = useDispatch()
+
+    const viewDetails = () => {
+        dispatch(setPlanView(currentPlan))
     }
     
     const getBalance = async () => {
@@ -44,7 +50,8 @@ const FullBudgetCard = (props) => {
             data.incomeInfo.incomes.forEach(income => {
                 income += income.value
             })
-            setBalance(income - cost)
+            await setBalance(income - cost)
+            setCurrentPlan({budget: data.budget, expenseInfo: data.expenseInfo, incomeInfo: data.incomeInfo, balance: balance})
         }
     }
 
@@ -62,6 +69,7 @@ const FullBudgetCard = (props) => {
                     title={`Finances for ${props.budget.date_from} - ${props.budget.date_from}`}
                     subheader={`Balance: ${balance}`}
                     style={{color: '#338a3e'}}
+                    onClick={() => viewDetails()}
                 />
             </Paper>
         </Grid>

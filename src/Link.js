@@ -11,8 +11,8 @@ const useStyles = makeStyles({
       '&:hover': {
         borderRight: "2px solid #98ee99",
         cursor: "pointer",
-        backgroundColor: "#62727b",
-        color: "#98ee99"
+        backgroundColor: "whitesmoke",
+        // color: "#98ee99"
       },
     },
     
@@ -22,6 +22,7 @@ const Link = () => {
 
     const currentUser = useSelector(state => state.currentUser)
     const classes = useStyles()
+
     const addData = () => {
 
     }

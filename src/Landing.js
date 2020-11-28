@@ -83,11 +83,6 @@ const Landing = () => {
     
     return (
         <div style={{textAlign:"center"}}>
-            <AppBar position="static" color="secondary" style={{height: window.innerHeight/20, minHeight: "50px"}} elevation={10}>
-                <Toolbar>
-                    
-                </Toolbar>
-            </AppBar>
             <Grid container direction="row" alignItems="center" style={{marginTop: "10%"}} spacing={3}>
                 <Grid item xs={5}>
                     <Paper className={classes.form} elevation={3}>
@@ -105,6 +100,7 @@ const Landing = () => {
                                     placeholder="" 
                                     id="standard-basic" 
                                     label="Username"
+                                    autoComplete="off"
                                     />
                                 </Grid>
                                 <Grid item xs={12} className={classes.gridItem}>
@@ -143,6 +139,7 @@ const Landing = () => {
                                     placeholder="" 
                                     id="standard-basic" 
                                     label="Username"
+                                    autoComplete="off"
                                     />
                                 </Grid>
                                 <Grid item xs={12} className={classes.gridItem}>

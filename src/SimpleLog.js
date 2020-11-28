@@ -251,7 +251,7 @@ const SimpleLog = () => {
                                     <TextField
                                     id="standard-password-input"
                                     label="Category Name"
-                                    autoComplete={false}
+                                    autoComplete="off"
                                     />
                                 </Grid> : 
                                 <Grid item xs={2}>
@@ -259,6 +259,7 @@ const SimpleLog = () => {
                                     <TextField
                                     id="standard-password-input"
                                     label="Category Name"
+                                    autoComplete="off"
                                     disabled
                                     />
                                 </Grid>
@@ -268,7 +269,7 @@ const SimpleLog = () => {
                                     <TextField
                                     id="standard-password-input"
                                     label="Description"
-                                    autoComplete={false}
+                                    autoComplete="off"
                                     />
                                 </Grid>
                                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -341,6 +342,7 @@ const SimpleLog = () => {
                                     <TextField
                                     id="standard-password-input"
                                     label="Category Name"
+                                    autoComplete="off"
                                     />
                                 </Grid> : 
                                 <Grid item xs={4}>
@@ -348,7 +350,7 @@ const SimpleLog = () => {
                                     <TextField
                                     id="standard-password-input"
                                     label="Category Name"
-                                    autoComplete={false}
+                                    autoComplete="off"
                                     disabled
                                     />
                                 </Grid>

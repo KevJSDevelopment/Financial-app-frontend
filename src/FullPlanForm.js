@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     },
     paper: {
       width: 400,
-      backgroundColor: theme.palette.background.paper,
+    //   backgroundColor: theme.palette.background.paper,
       border: '2px solid #000',
       boxShadow: theme.shadows[5],
       padding: theme.spacing(2, 4, 3),
@@ -66,7 +66,7 @@ const FullPlanForm = () => {
                 </div>
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField id="standard-basic" label="Plan Name" color="primary" InputLabelProps={{
+                    <TextField id="standard-basic" label="Plan Name" color="primary" autoComplete="off" InputLabelProps={{
                         className: classes.label
                     }} inputProps={{
                         className: classes.select

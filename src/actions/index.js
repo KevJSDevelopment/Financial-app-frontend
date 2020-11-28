@@ -154,6 +154,13 @@ export const changeSelectedPanel = (panelNumber) => {
         payload: panelNumber
     }
 }
+
+export const setPlanView = (planInfo) => {
+    return {
+        type: "SETPLANVIEW",
+        payload: planInfo
+    }
+}
 // //-------using thunk---------
 // export const setCurrentBudget = (budgetId) => {
 //     // debugger

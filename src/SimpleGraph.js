@@ -272,10 +272,10 @@ const SimpleGraph = () => {
                             </Grid>
                             {category === "New" ?
                             <Grid item xs={12} className={classes.formItem}>
-                                <TextField id="new-category" label="Category Name" defaultValue="" />
+                                <TextField autoComplete="off" id="new-category" label="Category Name" defaultValue="" />
                             </Grid> : null}
                             <Grid item xs={12} className={classes.formItem}>
-                                <TextField style={{width: "55%"}} id="new-category" label="Description" defaultValue="" />
+                                <TextField style={{width: "55%"}} autoComplete="off" id="new-category" label="Description" defaultValue="" />
                             </Grid>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                             <Grid item xs={12} className={classes.formItem}>

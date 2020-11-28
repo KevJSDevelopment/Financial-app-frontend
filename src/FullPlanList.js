@@ -11,6 +11,7 @@ import Link from './Link'
 import { useHistory } from 'react-router-dom';
 import FullBudgetCard from './FullBudgetCard'
 import Grid from '@material-ui/core/Grid'
+import ViewPlan from './ViewPlan'
 
 const TabPanel = (props) => {
     const { children, value, index, ...other } = props;
@@ -51,9 +52,9 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     backgroundColor: "whitesmoke",
     display: 'flex',
-    height: window.innerHeight,
     paddingTop: "1%",
-    marginTop: "1%"
+    marginTop: "1%",
+    height: window.innerHeight
     },
     tab: {
         marginTop: "1%",
@@ -82,15 +83,14 @@ const FullPlanList = () => {
 
     const selectedPanel = useSelector(state => state.selectedPanel)
     const budgets = useSelector(state => state.budgets)
+    const planView = useSelector(state => state.planView)
+
     const history = useHistory()
     const classes = useStyles()
     const dispatch = useDispatch()
+
     const getFinancialPlans = () => {
         
-    }
-
-    const openLink = () => {
-        history.push("/link")
     }
 
     const handleSelection = (newValue) => {
@@ -118,12 +118,12 @@ const FullPlanList = () => {
             </Tabs>
             <TabPanel value={selectedPanel} index={0}>
                 <Grid container spacing={3} direction="row">
-                    {budgets.map(budget => {
+                    {!planView ? budgets.map(budget => {
                         if(budget.plan_type === "full"){
                             return <FullBudgetCard budget={budget} key={budget.id}/> 
                         }
-                    })}
-                 </Grid>
+                    }) : <ViewPlan /> }
+                </Grid>
             </TabPanel>
             <TabPanel value={selectedPanel} index={1}>
                 Item Two

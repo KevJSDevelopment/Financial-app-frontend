@@ -47,7 +47,7 @@ const App = () => {
       <div id="content-container">
       <Router>
         {!open ? <MyAppBar />: null}
-        {!open ? <TabsContainer /> : null}
+        {!open && token ? <TabsContainer /> : null}
         <Switch>
           <Route path="/" exact render={() => !token ? <Landing /> : <Redirect to="/planList"/> }/>
           <Route path="/planList" exact render={() => !!token ? <BudgetList/> : <Redirect to="/" />}/> 

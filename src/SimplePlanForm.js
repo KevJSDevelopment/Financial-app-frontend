@@ -66,7 +66,7 @@ const SimplePlanForm = () => {
                     </div>
                     </Grid>
                     <Grid item xs={12}>
-                    <TextField id="standard-basic" label="Plan Name" color="primary" InputLabelProps={{
+                    <TextField autoComplete="off" id="standard-basic" label="Plan Name" color="primary" InputLabelProps={{
                         className: classes.label
                     }} inputProps={{
                         className: classes.select

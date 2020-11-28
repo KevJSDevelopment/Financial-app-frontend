@@ -39,3 +39,14 @@ export const selectedPanel = (state=0, action) => {
             return state
     }
 }
+
+export const planView = (state=null, action) => {
+    switch(action.type) {
+        case "SETPLANVIEW":
+            return action.payload
+        case "RESET":
+            return null
+        default:
+            return state
+    }
+}
