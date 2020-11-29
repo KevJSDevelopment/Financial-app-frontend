@@ -6,7 +6,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import {useSelector, useDispatch} from 'react-redux'
-import {changeSelectedPanel, setBudgets, setAccounts, setCurrentUser} from './actions'
+import {changeSelectedPanel, setBudgets, setAccounts, setCurrentUser, setTransactions} from './actions'
 import Link from './Link'
 import { useHistory } from 'react-router-dom';
 import FullBudgetCard from './FullBudgetCard'
@@ -104,6 +104,13 @@ const FullPlanList = () => {
 
     const dispatch = useDispatch()
 
+    const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2
+    })
+
+
     const getUser = async () => {
         const res = await fetch("http://localhost:3000/users",{
             headers: {"Authentication": `Bearer ${localStorage.getItem("token")}`}
@@ -145,11 +152,50 @@ const FullPlanList = () => {
     const handleSelection = (newValue) => {
         dispatch(changeSelectedPanel(newValue))
     }
+   
+    const getTransactions = () => {
+        let i = 1
+        let transactionRows = []
+        accounts.forEach((account) => {
+            fetch("http://localhost:3000/transactions",{
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({plaid_account_id: account.id})
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.auth){
+                    data.transactions.forEach((transaction) => {
+                        fetch(`http://localhost:3000/transaction_categories/${transaction.transaction_category_id}`)
+                        .then(resp => resp.json())
+                        .then(categoryData => {
+                            if(categoryData.auth){
+                                if(transaction.value < 0){
+                                    transactionRows.push({id: (i++), Date: transaction.date, Description: transaction.description, Category: categoryData.transaction_category.name, Value: formatter.format(transaction.value), Bank: account.p_institution, Type: "Expense"})
+                                }
+                                else{
+                                    transactionRows.push({id: (i++), Date: transaction.date, Description: transaction.description, Category: categoryData.transaction_category.name, Value: formatter.format(transaction.value), Bank: account.p_institution, Type: "Income"})
+                                }
+                            }
+                            else{
+                                alert(categoryData.message)
+                            }
+                        })
+                    })
+                }
+                else{
+                    alert(data.message)
+                }
+            })
+        })
+        dispatch(setTransactions(transactionRows))
+    }
 
     useEffect(() => {
         getUser()
         getFinancialPlans()
         getPlaidAccounts()
+        getTransactions()
     }, [])
 
     return (
