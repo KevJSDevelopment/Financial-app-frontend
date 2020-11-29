@@ -28,6 +28,7 @@ const App = () => {
   const open = useSelector(state => state.budgetOpen)
   const token = useSelector(state => state.token)
   const currentUser = useSelector(state => state.currentUser)
+  const accounts = useSelector(state => state.accounts)
   // const currentBudget = useSelector(state => state.currentBudget)
   const dispatch = useDispatch()
 

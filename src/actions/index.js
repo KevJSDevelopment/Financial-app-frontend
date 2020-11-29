@@ -204,6 +204,19 @@ export const setTransactions = (array) => {
     }
 }
 
+export const setTransactionRows = (array) => {
+    return {
+        type: "SETTTRANSACTIONROWS",
+        payload: array
+    }
+}
+
+export const setBankBalance = (total) => {
+    return {
+        type: "BANKBALANCE",
+        payload: total
+    }
+}
 // //-------using thunk---------
 // export const setCurrentBudget = (budgetId) => {
 //     // debugger

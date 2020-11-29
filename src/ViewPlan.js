@@ -5,7 +5,7 @@ import {makeStyles, Typography, Paper, Grid, TextField, Select, Input, Button, I
 import {MuiPickersUtilsProvider,KeyboardDatePicker} from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import {setExpDate, setCategory, setAmount, setExpenseRows, setIncomeRows, setCategoryList, setIncomeCategories, setExpenseCategories} from './actions'
-
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 const useStyles = makeStyles({
     dataGrid: {
         backgroundColor: "white",
@@ -37,33 +37,25 @@ const ViewPlan = () => {
         { field: 'id', headerName: 'ID', width: width },
         { field: 'Date', headerName: 'Date', width: width },
         { field: 'Description', headerName: 'Description', width: width },
+        { field: 'Category', headerName: 'Category', width: width},
         { 
         field: 'Cost', 
         headerName: 'Cost', 
         type: 'number',
         width: width
-        },
-        {
-        field: 'Category',
-        headerName: 'Category',
-        width: width,
         }
     ];
     const incomeColumns = [
         { field: 'id', headerName: 'ID', width: width },
         { field: 'Date', headerName: 'Date', width: width },
         { field: 'Description', headerName: 'Description', width: width },
+        { field: 'Category', headerName: 'Category', width: width},
         { 
         field: 'Value', 
         headerName: 'Value', 
         type: 'number',
         width: width
         },
-        {
-        field: 'Category',
-        headerName: 'Category',
-        width: width,
-        }
     ];
 
     const getTransactions = async () => {
@@ -132,6 +124,8 @@ const ViewPlan = () => {
                 if(data.auth){
                     getTransactions()
                     ev.target.reset()
+                    dispatch(setAmount(""))
+                    dispatch(setCategory(""))
                 }
                 else{
                     alert(data.message)
@@ -153,6 +147,8 @@ const ViewPlan = () => {
                 if(newData.auth){
                     getTransactions()
                     ev.target.reset()
+                    dispatch(setAmount(""))
+                    dispatch(setCategory(""))
                 }
                 else{
                     alert(data.message)
@@ -170,6 +166,8 @@ const ViewPlan = () => {
                 if(data.auth){
                     getTransactions()
                     ev.target.reset()
+                    dispatch(setAmount(""))
+                    dispatch(setCategory(""))
                 }
                 else{
                     alert(data.message)
@@ -191,6 +189,8 @@ const ViewPlan = () => {
                 if(data.auth){
                     getTransactions()
                     ev.target.reset()
+                    dispatch(setAmount(""))
+                    dispatch(setCategory(""))
                 }
                 else{
                     alert(data.message)
@@ -235,13 +235,17 @@ const ViewPlan = () => {
 
     return (
         <Grid container direction="row" spacing={3}>
-            <Grid item xs={9}> 
+            <Grid item xs={1}>
+                
+                <NavigateBeforeIcon />
+                <Typography variant="overline">
+                    Back
+                </Typography>
+            </Grid>
+            <Grid item xs={8}> 
                 <Paper elevation={3} autoCapitalize style={{marginBottom: "2%", textAlign: "center"}}>
                     <Typography variant="overline" color="primary" >
-                        Expected Balance:
-                        <Typography variant="overline" color="secondary">
-                            {formatter.format(balance)}
-                        </Typography>
+                        Expected Balance: {formatter.format(balance)}
                     </Typography>
                 </Paper>
                  <div className={classes.dataContainer}>
@@ -349,8 +353,8 @@ const ViewPlan = () => {
                                 />
                             </Grid>
                             <Grid item xs={12}>
-                                <Button variant="contained" type="submit" color="primary" style={{fontSize: "9px"}}>
-                                    Add Expense
+                                <Button variant="contained" type="submit" color="primary" style={{fontSize: "10px", marginBottom: "5%"}}>
+                                    Add Transaction
                                 </Button>
                             </Grid> 
                         </Grid>                      

@@ -15,12 +15,8 @@ const useStyles = makeStyles({
       borderRadius: "0 0 25px 25px",
       backgroundColor: "whitesmoke"
     },
-    grid: {
-        backgroundColor: "whitesmoke",
-        height: window.innerHeight
-    },
     tabContainer: {
-        borderRadius: "0 0 25px 25px",
+        borderRadius: "0 0 25px 25px"
     },
     selected: {
         color: "#98ee99",
@@ -29,6 +25,9 @@ const useStyles = makeStyles({
     tabSelected: {
         color: "#98ee99",
         backgroundColor: "#98ee99"
+    },
+    tab: {
+        fontSize: "10px",
     }
     
 });
@@ -68,9 +67,9 @@ const TabsContainer = () => {
             TabIndicatorProps={{className: classes.tabSelected}}
             className={classes.tabContainer}
           >
-              <Tab value={1} classes={{selected: classes.selected}} onClick={() => handleExpenseTrackers()} icon={<PieChartIcon />} aria-label="EXPENSE LOGS" label="EXPENSE LOGS"/>
-              <Tab value={2} classes={{selected: classes.selected}} onClick={() => handleFinancialPlans()} icon={<StorageIcon />} aria-label="Financial Plans" label="FINANCIAL PLANS"/>
-              <Tab value={3} classes={{selected: classes.selected}} onClick={() => handleNewPlan()} icon={<AddIcon />} aria-label="New Plan" label="Create New Plan"/>
+              <Tab value={1} classes={{selected: classes.selected}} className={classes.tab} onClick={() => handleExpenseTrackers()} icon={<PieChartIcon />} aria-label="EXPENSE LOGS" label="EXPENSE LOGS"/>
+              <Tab value={2} classes={{selected: classes.selected}} className={classes.tab} onClick={() => handleFinancialPlans()} icon={<StorageIcon />} aria-label="Financial Plans" label="FINANCIAL PLANS"/>
+              <Tab value={3} classes={{selected: classes.selected}} className={classes.tab} onClick={() => handleNewPlan()} icon={<AddIcon />} aria-label="New Plan" label="Create New Plan"/>
           </Tabs>
         </Paper>
     )

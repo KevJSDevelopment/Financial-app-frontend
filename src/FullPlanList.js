@@ -6,7 +6,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import {useSelector, useDispatch} from 'react-redux'
-import {changeSelectedPanel, setBudgets, setAccounts, setCurrentUser, setTransactions} from './actions'
+import {changeSelectedPanel, setBudgets, setAccounts, setCurrentUser, setTransactions, setLoading} from './actions'
 import Link from './Link'
 import { useHistory } from 'react-router-dom';
 import FullBudgetCard from './FullBudgetCard'
@@ -94,6 +94,8 @@ const FullPlanList = () => {
     const budgets = useSelector(state => state.budgets)
     const planView = useSelector(state => state.planView)
     const accounts = useSelector(state => state.accounts)
+    // const loading = useSelector(state => state.loading)
+    const transactions = useSelector(state => state.transactions)
     // const currentUser = useSelector(state => state.currentUser)
 
     let tabNum = 3
@@ -103,12 +105,6 @@ const FullPlanList = () => {
     const classes = useStyles()
 
     const dispatch = useDispatch()
-
-    const formatter = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        minimumFractionDigits: 2
-    })
 
 
     const getUser = async () => {
@@ -123,6 +119,7 @@ const FullPlanList = () => {
             alert(data.message)
         }
     }
+
     const getFinancialPlans = async () => {
         const res = await fetch("http://localhost:3000/budgets",{
             headers: {"Authentication": `Bearer ${localStorage.getItem("token")}`}
@@ -147,55 +144,17 @@ const FullPlanList = () => {
         else{
             alert(data.message)
         }
+        dispatch(setLoading(false))
     }
 
     const handleSelection = (newValue) => {
         dispatch(changeSelectedPanel(newValue))
-    }
-   
-    const getTransactions = () => {
-        let i = 1
-        let transactionRows = []
-        accounts.forEach((account) => {
-            fetch("http://localhost:3000/transactions",{
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({plaid_account_id: account.id})
-            })
-            .then(res => res.json())
-            .then(data => {
-                if(data.auth){
-                    data.transactions.forEach((transaction) => {
-                        fetch(`http://localhost:3000/transaction_categories/${transaction.transaction_category_id}`)
-                        .then(resp => resp.json())
-                        .then(categoryData => {
-                            if(categoryData.auth){
-                                if(transaction.value < 0){
-                                    transactionRows.push({id: (i++), Date: transaction.date, Description: transaction.description, Category: categoryData.transaction_category.name, Value: formatter.format(transaction.value), Bank: account.p_institution, Type: "Expense"})
-                                }
-                                else{
-                                    transactionRows.push({id: (i++), Date: transaction.date, Description: transaction.description, Category: categoryData.transaction_category.name, Value: formatter.format(transaction.value), Bank: account.p_institution, Type: "Income"})
-                                }
-                            }
-                            else{
-                                alert(categoryData.message)
-                            }
-                        })
-                    })
-                }
-                else{
-                    alert(data.message)
-                }
-            })
-        })
-        dispatch(setTransactions(transactionRows))
     }
 
     useEffect(() => {
         getUser()
         getFinancialPlans()
         getPlaidAccounts()
-        getTransactions()
     }, [])
 
     return (
@@ -222,7 +181,7 @@ const FullPlanList = () => {
                 </Paper>
                 <Tab classes={{selected: classes.selected}} className={classes.tab} label="My Transactions" {...allyProps(3)} />
                 {accounts.map((account)=> {
-                    return <Tab classes={{selected: classes.selected}} key={account.id} className={classes.tab} label={account.p_institution} {...allyProps((tabNum++))} />
+                    return <Tab classes={{selected: classes.selected}} key={account.account.id} className={classes.tab} label={account.account.p_institution} {...allyProps((tabNum++))} />
                 })}
                 <Link getPlaidAccounts={getPlaidAccounts} />
             </Tabs>
@@ -236,10 +195,10 @@ const FullPlanList = () => {
                 </Grid>
             </TabPanel>
             <TabPanel value={selectedPanel} index={3}>
-                <Transactions />
+               <Transactions />
             </TabPanel>
             {accounts.map((account) => {
-                return <BankInfo account={account} panelNum={(panelNum++)} key={account.id} />})
+                return <BankInfo account={account} num={(panelNum++)} key={account.id} />})
             }
         </div>
     )

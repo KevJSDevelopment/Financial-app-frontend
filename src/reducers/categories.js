@@ -62,3 +62,14 @@ export const transactions = (state=[], action) => {
             return state
     }
 }
+
+export const transactionRows = (state=[], action) => {
+    switch(action.type){
+        case "SETTRANSACTIONROWS":
+            return action.payload
+        case "RESET":
+            return []
+        default:
+            return state
+    }
+}

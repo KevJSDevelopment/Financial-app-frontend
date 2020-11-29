@@ -4,7 +4,7 @@ import {categoryList, category, selectedArr, incomeCategories, expenseCategories
 import {amount, expDate} from './expenses'
 import { displayGraph, tabNumber, selectedPanel, planView, incomeRows, expenseRows, loading } from './pageInfo'
 import { token, currentUser } from './user'
-import { accounts } from './plaid'
+import { accounts, bankBalance } from './plaid'
 // import {loading} from './loading'
 
 const reducers = combineReducers({
@@ -35,7 +35,8 @@ const reducers = combineReducers({
     incomeCategories: incomeCategories,
     expenseCategories: expenseCategories,
     accounts: accounts,
-    transactions: transactions
+    transactions: transactions,
+    bankBalance: bankBalance
 
 })
 
