@@ -161,6 +161,35 @@ export const setPlanView = (planInfo) => {
         payload: planInfo
     }
 }
+
+export const setIncomeRows = (array) => {
+    return {
+        type: "SETINCOMEROWS",
+        payload: array
+    }
+}
+
+export const setExpenseRows = (array) => {
+    return {
+        type: "SETEXPENSEROWS",
+        payload: array
+    }
+}
+
+export const setIncomeCategories = (array) => {
+    return {
+        type: "SETINCOMECATEGORIES",
+        payload: array
+    }
+}
+
+export const setExpenseCategories = (array) => {
+    return {
+        type: "SETEXPENSECATEGORIES",
+        payload: array
+    }
+}
+
 // //-------using thunk---------
 // export const setCurrentBudget = (budgetId) => {
 //     // debugger
@@ -179,8 +208,9 @@ export const setPlanView = (planInfo) => {
 // //---------------------------
 
 
-// export const doneLoading = () => {
+// export const setLoading = (bool) => {
 //     return {
-//         type: "LOAD"
+//         type: "LOAD",
+//         payload: bool
 //     }
 // }

@@ -1,11 +1,13 @@
-// export const loading = (state = true, action) => {
-//     switch(action.type){
-//         case "LOAD":
-//             return false
-//         default:
-//             return state
-//     }
-// }
+export const loading = (state = true, action) => {
+    switch(action.type){
+        case "LOAD":
+            return action.payload
+        case "RESET":
+            return true
+        default:
+            return state
+    }
+}
 
 export const displayGraph = (state = false, action) => {
     switch(action.type){
@@ -46,6 +48,28 @@ export const planView = (state=null, action) => {
             return action.payload
         case "RESET":
             return null
+        default:
+            return state
+    }
+}
+
+export const expenseRows = (state=[], action) => {
+    switch(action.type) {
+        case "SETEXPENSEROWS":
+            return action.payload
+        case "RESET":
+            return []
+        default:
+            return state
+    }
+}
+
+export const incomeRows = (state=[], action) => {
+    switch(action.type) {
+        case "SETINCOMEROWS":
+            return action.payload
+        case "RESET":
+            return []
         default:
             return state
     }

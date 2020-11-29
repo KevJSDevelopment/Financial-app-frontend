@@ -40,20 +40,32 @@ const FullBudgetCard = (props) => {
     const getBalance = async () => {
         const res = await fetch(`http://localhost:3000/budgets/${props.budget.id}`)
         const data = await res.json()
-        let cost = 0.00
+        let costSum = 0.00
+        let incomeSum = 0.00
         // debugger
-        if(data.expenseInfo.length > 0 || data.incomeInfo.length > 0){
-            data.expenseInfo.expenses.forEach(expense => {
-                cost += expense.cost
+        if(data.expenseInfo.length > 0){
+            data.expenseInfo.forEach(category => {
+                category.expenses.forEach(expense => {
+                        costSum += expense.cost
+                })
             })
-            let income = 0.00
-            data.incomeInfo.incomes.forEach(income => {
-                income += income.value
-            })
-            await setBalance(income - cost)
-            setCurrentPlan({budget: data.budget, expenseInfo: data.expenseInfo, incomeInfo: data.incomeInfo, balance: balance})
         }
+        if(data.incomeInfo.length > 0){ 
+            data.incomeInfo.forEach(category => {
+                category.incomes.forEach(income=> {
+                        incomeSum += income.value
+                })
+            })
+        }
+        setBalance(incomeSum - costSum)
+        setCurrentPlan({budget: data.budget, expenseInfo: data.expenseInfo, incomeInfo: data.incomeInfo, balance: incomeSum - costSum})
     }
+
+    const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2
+    })
 
     useEffect(() => {
         getBalance()
@@ -67,7 +79,7 @@ const FullBudgetCard = (props) => {
                 </div>
                 <CardHeader
                     title={`Finances for ${props.budget.date_from} - ${props.budget.date_from}`}
-                    subheader={`Balance: ${balance}`}
+                    subheader={`Balance: ${formatter.format(balance)}`}
                     style={{color: '#338a3e'}}
                     onClick={() => viewDetails()}
                 />

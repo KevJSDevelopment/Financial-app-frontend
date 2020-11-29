@@ -1,8 +1,8 @@
 import {combineReducers} from 'redux'
 import {budgetsReducer, newBudget, newBudgetType, currentBudget, dataArr, fromDate, toDate, total, simpleTableRows, startDate} from './budgets'
-import {categoryList, category, selectedArr} from './categories'
+import {categoryList, category, selectedArr, incomeCategories, expenseCategories} from './categories'
 import {amount, expDate} from './expenses'
-import { displayGraph, tabNumber, selectedPanel, planView } from './pageInfo'
+import { displayGraph, tabNumber, selectedPanel, planView, incomeRows, expenseRows, loading } from './pageInfo'
 import { token, currentUser } from './user'
 // import {loading} from './loading'
 
@@ -27,8 +27,12 @@ const reducers = combineReducers({
     tabNumber: tabNumber,
     startDate: startDate,
     selectedPanel: selectedPanel,
-    planView: planView
-    // doneLoading: loading
+    planView: planView,
+    incomeRows: incomeRows,
+    expenseRows: expenseRows,
+    loading: loading,
+    incomeCategories: incomeCategories,
+    expenseCategories: expenseCategories
 
 })
 

@@ -29,3 +29,25 @@ export const selectedArr = (state=[], action) => {
             return state
     }
 }
+
+export const incomeCategories = (state=[], action) => {
+    switch(action.type){
+        case "SETINCOMECATEGORIES":
+            return action.payload
+        case "RESET":
+            return []
+        default:
+            return state
+    }
+}
+
+export const expenseCategories = (state=[], action) => {
+    switch(action.type){
+        case "SETEXPENSECATEGORIES":
+            return action.payload
+        case "RESET":
+            return []
+        default:
+            return state
+    }
+}

@@ -6,7 +6,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import {useSelector, useDispatch} from 'react-redux'
-import {changeSelectedPanel} from './actions'
+import {changeSelectedPanel, setBudgets} from './actions'
 import Link from './Link'
 import { useHistory } from 'react-router-dom';
 import FullBudgetCard from './FullBudgetCard'
@@ -89,8 +89,17 @@ const FullPlanList = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
 
-    const getFinancialPlans = () => {
-        
+    const getFinancialPlans = async () => {
+        const res = await fetch("http://localhost:3000/budgets",{
+            headers: {"Authentication": `Bearer ${localStorage.getItem("token")}`}
+        })
+        const data = await res.json()
+        if(data.auth){
+            dispatch(setBudgets(data.budgets))
+        }
+        else{
+            alert(data.message)
+        }
     }
 
     const handleSelection = (newValue) => {
@@ -98,7 +107,7 @@ const FullPlanList = () => {
     }
 
     useEffect(() => {
-    
+        getFinancialPlans()
     }, [])
     return (
         <div className={classes.root}>

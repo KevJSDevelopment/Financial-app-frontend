@@ -303,6 +303,7 @@ const SimpleGraph = () => {
                                     onChange={(ev) => handleChange(ev.target.value)}
                                     style={{width: "30%"}} 
                                     placeholder="Amount"
+                                    autoComplete="off"
                                     startAdornment={<InputAdornment position="start">$</InputAdornment>}
                                 />
                             </Grid>

@@ -300,6 +300,7 @@ const SimpleLog = () => {
                                         onChange={(ev) => handleAmountChange(ev.target.value)}
                                         style={{width: "100%"}} 
                                         placeholder="Amount"
+                                        autoComplete="off"
                                         startAdornment={<InputAdornment position="start">$</InputAdornment>}
                                     />
                                 </Grid>
