@@ -30,7 +30,7 @@ const ViewPlan = () => {
     const [balance, setBalance] = useState(0.00)
     const dispatch = useDispatch()
     const classes = useStyles()
-    const width = 200
+    const width = 150
 
 
     const expenseColumns = [
@@ -74,10 +74,12 @@ const ViewPlan = () => {
         if(data.expenseInfo.length > 0){
             let catArr = []
             let rows = []
+            let i = 1
             data.expenseInfo.forEach(category => {
                 category.expenses.forEach(expense => {
                     expenseSum += expense.cost
-                    rows.push({id: expense.id, Date: expense.date, Description: expense.description, Cost: expense.cost, Category: category.cat.name})
+                    rows.push({id: i, Date: expense.date, Description: expense.description, Cost: formatter.format(expense.cost * -1), Category: category.cat.name})
+                    i++
                 })
                 catArr.push(category.cat)
             })
@@ -87,10 +89,12 @@ const ViewPlan = () => {
         if(data.incomeInfo.length > 0){
             let rows = []
             let catArr = []
+            let i = 1
             data.incomeInfo.forEach(category => {
                 category.incomes.forEach(income=> {
                     incomeSum += income.value
-                    rows.push({id: income.id, Date: income.date, Description: income.description, Value: income.value, Category: category.cat.name})
+                    rows.push({id: i, Date: income.date, Description: income.description, Value: formatter.format(income.value), Category: category.cat.name})
+                    i++
                 })
                 catArr.push(category.cat)
             })

@@ -18,25 +18,10 @@ const useStyles = makeStyles({
     
 });
 
-const Link = () => {
+const Link = (props) => {
 
     const currentUser = useSelector(state => state.currentUser)
     const classes = useStyles()
-
-    const addData = () => {
-
-    }
-
-    const handleDisplay = () => {
-
-    }
-    const setUserView = () => {
-
-    }
-
-    const handleOnExit = () => {
-
-    }
 
     const handleOnSuccess = (public_token, metadata) => {
         // debugger
@@ -57,27 +42,19 @@ const Link = () => {
         .then(data => {
           if (!data.auth){
             alert(data.message)
-          } else {
-
-            debugger
+          } 
+          else {
+            props.getPlaidAccounts()
             // transactions have account_ids, need to add account_names and institution
-            let transactions = data.transactions.map( tran => {
-                let account = data.accounts.filter( acc => { 
-                    return acc.account_id === tran.account_id
-                })
-                return {...tran, account_name: account[0].name}
-        
-            })
-            addData({ 
-              transactions: transactions, 
-              accounts: data.accounts
-            })
-            handleDisplay()
-            
-            setUserView()
+            // let transactions = data.transactions.map( tran => {
+            //     let account = data.accounts.filter( acc => { 
+            //         return acc.account_id === tran.account_id
+            //     })
+            //     return {...tran, account_name: account[0].name}
+            // })
+            // )
           }
         })
-        // )
       }
 
 

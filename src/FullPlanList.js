@@ -6,14 +6,17 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import {useSelector, useDispatch} from 'react-redux'
-import {changeSelectedPanel, setBudgets} from './actions'
+import {changeSelectedPanel, setBudgets, setAccounts, setCurrentUser} from './actions'
 import Link from './Link'
 import { useHistory } from 'react-router-dom';
 import FullBudgetCard from './FullBudgetCard'
 import Grid from '@material-ui/core/Grid'
 import ViewPlan from './ViewPlan'
+import { Paper } from '@material-ui/core';
+import BankInfo from './BankInfo'
+import Transactions from './Transactions'
 
-const TabPanel = (props) => {
+export const TabPanel = (props) => {
     const { children, value, index, ...other } = props;
 
     return (
@@ -56,6 +59,12 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "1%",
     height: window.innerHeight
     },
+    label: {
+        borderRadius: 0,
+        textAlign: "center",
+        borderTop: "1px solid #62727b",
+        borderBottom: "1px solid #62727b"
+    },
     tab: {
         marginTop: "1%",
         marginBottom: "10%",
@@ -84,11 +93,29 @@ const FullPlanList = () => {
     const selectedPanel = useSelector(state => state.selectedPanel)
     const budgets = useSelector(state => state.budgets)
     const planView = useSelector(state => state.planView)
+    const accounts = useSelector(state => state.accounts)
+    // const currentUser = useSelector(state => state.currentUser)
+
+    let tabNum = 3
+    let panelNum = 4
 
     const history = useHistory()
     const classes = useStyles()
+
     const dispatch = useDispatch()
 
+    const getUser = async () => {
+        const res = await fetch("http://localhost:3000/users",{
+            headers: {"Authentication": `Bearer ${localStorage.getItem("token")}`}
+        })
+        const data = await res.json()
+        if(data.auth){
+            dispatch(setCurrentUser(data.user))
+        }
+        else{
+            alert(data.message)
+        }
+    }
     const getFinancialPlans = async () => {
         const res = await fetch("http://localhost:3000/budgets",{
             headers: {"Authentication": `Bearer ${localStorage.getItem("token")}`}
@@ -102,13 +129,29 @@ const FullPlanList = () => {
         }
     }
 
+    const getPlaidAccounts = async () => {
+        const res = await fetch("http://localhost:3000/plaid_accounts",{
+            headers: {"Authentication": `Bearer ${localStorage.getItem("token")}`}
+        })
+        const data = await res.json()
+        if(data.auth){
+            dispatch(setAccounts(data.accounts))
+        }
+        else{
+            alert(data.message)
+        }
+    }
+
     const handleSelection = (newValue) => {
         dispatch(changeSelectedPanel(newValue))
     }
 
     useEffect(() => {
+        getUser()
         getFinancialPlans()
+        getPlaidAccounts()
     }, [])
+
     return (
         <div className={classes.root}>
             <Tabs
@@ -120,12 +163,24 @@ const FullPlanList = () => {
                 TabIndicatorProps={{className: classes.tabSelected}}
                 className={classes.tabContainer}
             >
-                <Tab classes={{selected: classes.selected}} className={classes.tab} label="Financial Plans" {...allyProps(0)} />
-                <Tab classes={{selected: classes.selected}} className={classes.tab} label="All Transactions" {...allyProps(1)} />
-                <Tab classes={{selected: classes.selected}} className={classes.tab} label="Compare" {...allyProps(1)} />
-                <Link />
+                <Paper elevation={3} className={classes.label}>
+                    <Typography variant="overline" color="secondary">
+                        My Financial Plans
+                    </Typography>
+                </Paper>
+                <Tab classes={{selected: classes.selected}} className={classes.tab} label="Yearly Plans" {...allyProps(1)} />
+                <Paper elevation={3} className={classes.label}>
+                    <Typography variant="overline" color="secondary">
+                        My Banks
+                    </Typography>
+                </Paper>
+                <Tab classes={{selected: classes.selected}} className={classes.tab} label="My Transactions" {...allyProps(3)} />
+                {accounts.map((account)=> {
+                    return <Tab classes={{selected: classes.selected}} key={account.id} className={classes.tab} label={account.p_institution} {...allyProps((tabNum++))} />
+                })}
+                <Link getPlaidAccounts={getPlaidAccounts} />
             </Tabs>
-            <TabPanel value={selectedPanel} index={0}>
+            <TabPanel value={selectedPanel} index={1}>
                 <Grid container spacing={3} direction="row">
                     {!planView ? budgets.map(budget => {
                         if(budget.plan_type === "full"){
@@ -134,9 +189,12 @@ const FullPlanList = () => {
                     }) : <ViewPlan /> }
                 </Grid>
             </TabPanel>
-            <TabPanel value={selectedPanel} index={1}>
-                Item Two
+            <TabPanel value={selectedPanel} index={3}>
+                <Transactions />
             </TabPanel>
+            {accounts.map((account) => {
+                return <BankInfo account={account} panelNum={(panelNum++)} key={account.id} />})
+            }
         </div>
     )
 }

@@ -190,6 +190,20 @@ export const setExpenseCategories = (array) => {
     }
 }
 
+export const setAccounts = (array) => {
+    return {
+        type: "SETACCOUNTS",
+        payload: array
+    }
+}
+
+export const setTransactions = (array) => {
+    return {
+        type: "SETTRANSACTIONS",
+        payload: array
+    }
+}
+
 // //-------using thunk---------
 // export const setCurrentBudget = (budgetId) => {
 //     // debugger
@@ -208,9 +222,9 @@ export const setExpenseCategories = (array) => {
 // //---------------------------
 
 
-// export const setLoading = (bool) => {
-//     return {
-//         type: "LOAD",
-//         payload: bool
-//     }
-// }
+export const setLoading = (bool) => {
+    return {
+        type: "LOAD",
+        payload: bool
+    }
+}

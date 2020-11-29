@@ -51,3 +51,14 @@ export const expenseCategories = (state=[], action) => {
             return state
     }
 }
+
+export const transactions = (state=[], action) => {
+    switch(action.type){
+        case "SETTRANSACTIONS":
+            return action.payload
+        case "RESET":
+            return []
+        default:
+            return state
+    }
+}

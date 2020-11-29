@@ -31,12 +31,12 @@ export const tabNumber = (state=1, action) => {
     }
 }
 
-export const selectedPanel = (state=0, action) => {
+export const selectedPanel = (state=1, action) => {
     switch(action.type) {
         case "SETPANEL":
             return action.payload
         case "RESET":
-            return 0
+            return 1
         default:
             return state
     }

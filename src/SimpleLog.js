@@ -5,7 +5,6 @@ import { DataGrid } from '@material-ui/data-grid';
 import { Select, Grid, TextField, Button, makeStyles, Paper, Input, InputAdornment, Typography} from '@material-ui/core';
 import {MuiPickersUtilsProvider,KeyboardDatePicker} from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import { currentBudget } from './reducers/budgets';
 // import { simpleTableRows } from './reducers/budgets';
 
 const useStyles = makeStyles({
@@ -20,6 +19,10 @@ const useStyles = makeStyles({
     },
     datePicker: {
         margin: 0
+    },
+    grid: {
+        height: window.innerHeight / 1.4, 
+        width: "100%"
     }
 })
 const SimpleLog = () => {
@@ -220,7 +223,7 @@ const SimpleLog = () => {
     }, [])
 
     return (
-        <div style={{ height: window.innerHeight / 1.4, width: "100%" }} className={classes.grid}>
+        <div className={classes.grid}>
             <Grid container direction="row">
                 <Grid item xs={8}>
                     <Paper className={classes.form}>
