@@ -252,6 +252,38 @@ export const setActualExpensesArray = (array) => {
         payload: array
     }
 }
+
+export const setDisplayLine = (bool) => {
+    return {
+        type: "DISPLAYLINE",
+        payload: bool
+    }
+}
+
+export const setIncomeKeys = (array) => {
+    return {
+        type: "INCOMEKEYS",
+        payload: array
+    }
+}
+export const setExpenseKeys = (array) => {
+    return {
+        type: "EXPENSEKEYS",
+        payload: array
+    }
+}
+export const setIncomeData = (array) => {
+    return {
+        type: "INCOMEDATA",
+        payload: array
+    }
+}
+export const setExpenseData = (array) => {
+    return {
+        type: "EXPENSEDATA",
+        payload: array
+    }
+}
 // //-------using thunk---------
 // export const setCurrentBudget = (budgetId) => {
 //     // debugger

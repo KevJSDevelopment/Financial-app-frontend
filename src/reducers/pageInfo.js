@@ -85,3 +85,37 @@ export const incomeRows = (state=[], action) => {
             return state
     }
 }
+
+export const displayLine = (state = true, action) => {
+    switch(action.type){
+        case "DISPLAYLINE":
+            return action.payload
+        case "RESET":
+            return true
+        default:
+            return state
+    }
+}
+
+
+export const incomeKeys = (state=[], action) => {
+    switch(action.type) {
+        case "INCOMEKEYS":
+            return action.payload
+        case "RESET":
+            return []
+        default:
+            return state
+    }
+}
+
+export const expenseKeys = (state=[], action) => {
+    switch(action.type) {
+        case "EXPENSEKEYS":
+            return action.payload
+        case "RESET":
+            return []
+        default:
+            return state
+    }
+}

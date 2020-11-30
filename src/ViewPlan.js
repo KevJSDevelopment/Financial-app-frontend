@@ -14,6 +14,9 @@ const useStyles = makeStyles({
         height: window.innerHeight / 2.3, 
         width: "100%", 
         marginBottom: "2%"
+    },
+    button: {
+        borderTopLeftRadius: "25px"
     }
 })
 
@@ -160,7 +163,7 @@ const ViewPlan = () => {
                 const res = await fetch("http://localhost:3000/expenses", {
                     method: "POST",
                     headers: {"Content-Type":"application/json"},
-                    body: JSON.stringify({value: ev.target[7].value, description: ev.target[4].value, date: ev.target[5].value, budget_id: planView.budget.id, expense_category_id: ev.target[2].value })
+                    body: JSON.stringify({cost: ev.target[7].value, description: ev.target[4].value, date: ev.target[5].value, budget_id: planView.budget.id, expense_category_id: ev.target[2].value })
                 })
                 const data = await res.json()
                 if(data.auth){
@@ -186,14 +189,14 @@ const ViewPlan = () => {
                     body: JSON.stringify({cost: ev.target[7].value, description: ev.target[4].value, date: ev.target[5].value, budget_id: planView.budget.id, expense_category_id: data.expense_category.id })
                 })
                 const newData = await resp.json()
-                if(data.auth){
+                if(newData.auth){
                     getTransactions()
                     ev.target.reset()
                     dispatch(setAmount(""))
                     dispatch(setCategory(""))
                 }
                 else{
-                    alert(data.message)
+                    alert(newData.message)
                 }
             }
         }
@@ -235,11 +238,17 @@ const ViewPlan = () => {
 
     return (
         <Grid container direction="row" spacing={3}>
-            <Grid item xs={1} onClick={() => dispatch(setPlanView(null))}>
-                <NavigateBeforeIcon />
-                <Typography variant="overline">
+            <Grid item xs={1} >
+                <Button
+                    variant="contained"
+                    color="secondary"
+                    size="small"
+                    className={classes.button}
+                    startIcon={<NavigateBeforeIcon />}
+                    onClick={() => dispatch(setPlanView(null))}
+                >
                     Back
-                </Typography>
+                </Button>
             </Grid>
             <Grid item xs={8}> 
                 <Paper elevation={3} autoCapitalize style={{marginBottom: "2%", textAlign: "center"}}>

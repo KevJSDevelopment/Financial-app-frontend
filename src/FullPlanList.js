@@ -147,7 +147,7 @@ const FullPlanList = () => {
         else{
             alert(data.message)
         }
-        dispatch(setLoading(false))
+        // dispatch(setLoading(false))
     }
 
     const handleSelection = (newValue) => {

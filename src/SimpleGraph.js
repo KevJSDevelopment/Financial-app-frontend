@@ -197,7 +197,7 @@ const SimpleGraph = () => {
         <Grid container direction="row" alignItems="center" spacing={3}>
                 <Grid item xs={8}>
                     <Grid container direction="column">
-                        <Grid item style={{height: "500px" }} xs={12}>
+                        <Grid item style={{height: "500px"}} xs={12}>
                             <ResponsivePie
                                 data={dataArr}
                                 margin={{ top: 40, right: 80, bottom: 80, left: 80 }}

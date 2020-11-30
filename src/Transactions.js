@@ -121,6 +121,8 @@ const Transactions = () => {
                     My Balance: {formatter.format(bankBalance)}
                 </Typography>
             </Paper>
+            <br/>
+            <Paper className={classes.grid} elevation={1}>
             <DataGrid 
                 rows={transactions} 
                 columns={columns} 
@@ -129,6 +131,7 @@ const Transactions = () => {
                 className={classes.dataGrid}
                 onSelectionChange={(ev) => handleRowClick(ev)}
             />
+            </Paper>
         </div>
     )
 }

@@ -74,7 +74,9 @@ const NewBudget = () => {
   }
 
   const handleFullClick = (budgetId) => {
-
+    localStorage.setItem("budgetId", budgetId)
+    dispatch(setCurrentBudget(budgetId))
+    history.push(`/fullPlanList`);
   }
 
   const getDate = (date) => {
