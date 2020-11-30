@@ -3,17 +3,18 @@ import {setNewBudgetType, resetStore} from './actions'
 import {useSelector, useDispatch} from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid'
-import { TextField, Select, Button, Paper} from '@material-ui/core';
-import {MuiPickersUtilsProvider,KeyboardDatePicker} from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
+import {Select, Button, Paper} from '@material-ui/core';
 import {useHistory} from 'react-router-dom';
-import {setCurrentBudget, setFromDate, setToDate} from './actions'
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import {openNewBudget} from './actions'
+import {setCurrentBudget} from './actions'
+import SimplePlanForm from './SimplePlanForm';
+import FullPlanForm from './FullPlanForm'
+// import AppBar from '@material-ui/core/AppBar';
+// import Toolbar from '@material-ui/core/Toolbar';
+// import {openNewBudget} from './actions'
+// import TabsContainer from './TabsContainer'
 
 const useStyles = makeStyles((theme) => ({
-  root:{
+  base:{
     height: window.innerHeight,
     overflowX: "hidden"
   },
@@ -24,8 +25,9 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   }, 
-  grid: {
-    margin: "2%"
+  formGrid: {
+    marginTop: "2%",
+    marginBottom: "2%"
   },
   gridItem: {
     textAlign: "center"
@@ -38,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid grey",
     backgroundColor: "white",
     width:"100%",
-    marginTop: "7%",
+    marginTop: "5%"
   },
   select: {
     color: "#102027",
@@ -48,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     color: "#66bb6a"
-  }
+  },
 
 }));
 
@@ -57,6 +59,7 @@ const NewBudget = () => {
   const budgetType = useSelector(state => state.newBudgetType)
   const dateFrom = useSelector(state => state.fromDate)
   const dateTo = useSelector(state => state.toDate)
+  const startDate = useSelector(state => state.startDate)
   // const token = useSelector(state => state.token)
   // const currentBudget = useSelector(state => state.currentBudget)
 
@@ -64,10 +67,16 @@ const NewBudget = () => {
   const dispatch = useDispatch()
 
 
-  function handleClick(budgetId) {
+  const handleSimpleClick = (budgetId) => {
     localStorage.setItem("budgetId", budgetId)
     dispatch(setCurrentBudget(budgetId))
     history.push(`/viewPlan/${budgetId}`);
+  }
+
+  const handleFullClick = (budgetId) => {
+    localStorage.setItem("budgetId", budgetId)
+    dispatch(setCurrentBudget(budgetId))
+    history.push(`/fullPlanList`);
   }
 
   const getDate = (date) => {
@@ -81,51 +90,53 @@ const NewBudget = () => {
   const addBudget = async (ev) => {
     ev.preventDefault()
 
-    if(ev.target[0] === ""){
+    if(ev.target[0].value === ""){
       alert("You must identify what type of plan you are creating")
     }
-    else if(ev.target[1] === ""){
+    else if(ev.target[1].value === ""){
       alert("Please give a name for your financial plan")
     }
     else {
-      const meta = {
-        method: "POST",
-        headers: {"Content-Type":"application/json",
-                  "Authentication": `Bearer ${localStorage.getItem("token")}`},
-        body: JSON.stringify({name: ev.target[1].value, type: ev.target[0].value, date_from: getDate(dateFrom), date_to: getDate(dateTo)})
+      if(ev.target[0].value === "simple"){
+        const meta = {
+          method: "POST",
+          headers: {"Content-Type":"application/json",
+                    "Authentication": `Bearer ${localStorage.getItem("token")}`},
+          body: JSON.stringify({name: ev.target[1].value, type: ev.target[0].value, date_from: getDate(dateFrom), date_to: getDate(dateTo)})
+        }
+        const res = await fetch('http://localhost:3000/budgets', meta)
+        const data = await res.json()
+  
+        handleSimpleClick(data.budget.id) 
       }
-      const res = await fetch('http://localhost:3000/budgets', meta)
-      const data = await res.json()
-
-      handleClick(data.budget.id)
+      else {
+        let dateArr = getDate(startDate).split("/")
+        let endDate = new Date()
+        if((dateArr[0] - 0) !== 12){
+          endDate = new Date((dateArr[2] - 0), (dateArr[0] - 0), (dateArr[1] - 0))
+        }
+        else{
+          endDate = new Date((dateArr[2] - 0 + 1), 1, (dateArr[1] - 0))
+        }
+        // debugger
+        const meta = {
+          method: "POST",
+          headers: {"Content-Type":"application/json",
+                    "Authentication": `Bearer ${localStorage.getItem("token")}`},
+          body: JSON.stringify({name: ev.target[1].value, type: ev.target[0].value, date_from: getDate(startDate), date_to: getDate(endDate)})
+        }
+        const res = await fetch('http://localhost:3000/budgets', meta)
+        const data = await res.json()
+        handleFullClick(data.budget.id) 
+      }
     }
-  }
-  const handleLogout = async () => {
-    localStorage.removeItem("token")
-    dispatch(resetStore())
-  }
-
-  const handleBackToBudgets = () => {
-    dispatch(openNewBudget())
   }
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static" color="secondary" style={{height: window.innerHeight/20, minHeight: "50px"}} elevation={10}>
-              <Toolbar>
-                  <Grid container direction="row" className={classes.nav} spacing={3}>
-                    <Grid item xs={6}>
-                        <Button variant="contained" onClick={handleBackToBudgets} style={{float: "left", fontSize: "10px", marginBottom: "2%"}} color="primary">Back to your plans</Button>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Button variant="outlined" onClick={handleLogout} style={{float: "right", fontSize: "10px", marginBottom: "2%"}} color="primary">Logout</Button>
-                    </Grid>
-                  </Grid>
-              </Toolbar>
-          </AppBar>
+    <div className={classes.base}>
       <Paper className={classes.form} elevation={3}>
         <form onSubmit={(ev) => addBudget(ev)}>
-          <Grid className={classes.grid} container spacing={3} alignItems="center" direction="column">
+          <Grid className={classes.formGrid} container spacing={3} alignItems="center" direction="column">
             <Grid item xs={3}>
               <div style={{fontSize:"22px", textAlign: "center", color: "#338a3e"}}>
                 Create New Financial Plan
@@ -156,77 +167,7 @@ const NewBudget = () => {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={3}>
-            <Grid container direction='column'>
-                <Grid item xs={12}>
-                  <div>
-                    Give the plan a name
-                  </div>
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField id="standard-basic" label="Plan Name" color="primary" InputLabelProps={{
-                    className: classes.label
-                  }} inputProps={{
-                    className: classes.select
-                  }} />
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={3}>
-            <Grid container spacing={2} direction='row'>
-      
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <Grid item xs={6}>
-                  <KeyboardDatePicker
-                    disableToolbar
-                    variant="inline"
-                    format="MM/dd/yyyy"
-                    margin="normal"
-                    id="date-picker-inline"
-                    label="Plan Start Date"
-                    value={dateFrom}
-                    onChange={(value) => dispatch(setFromDate(value))}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                      className: classes.icon
-                    }}
-                    inputProps={{
-                      className: classes.select
-                    }}
-                    InputLabelProps={{
-                      className: classes.label
-                    }}
-                  />
-                </Grid>
-                <br/>
-                <Grid item xs={6}>
-                  <KeyboardDatePicker
-                    disableToolbar
-                    variant="inline"
-                    format="MM/dd/yyyy"
-                    margin="normal"
-                    id="date-picker-inline"
-                    label="Plan End Date"
-                    value={dateTo}
-                    style={{fill:"white"}}
-                    onChange={(value) => {
-                      dispatch(setToDate(value))}}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                      className: classes.icon
-                    }}
-                    inputProps={{
-                      className: classes.select
-                    }}
-                    InputLabelProps={{
-                      className: classes.label
-                    }}
-                  />
-                </Grid>
-                </MuiPickersUtilsProvider>
-                
-              </Grid>
-            </Grid>
+            {budgetType === "simple" ? <SimplePlanForm /> : budgetType === "full" ? <FullPlanForm /> : null}
             <Grid item xs={3}>
             <Grid container direction='column'>
                 <Grid item xs={12}>

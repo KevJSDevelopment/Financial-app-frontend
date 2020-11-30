@@ -20,3 +20,14 @@ export const token = (state=localStorage.getItem("token"), action) => {
             return state
     }
 }
+
+export const link = (state=localStorage.getItem("link"), action) => {
+    switch(action.type){
+        case "SETLINK":
+            return action.payload
+        case "RESET":
+            return localStorage.getItem("link")
+        default:
+            return state
+    }
+}

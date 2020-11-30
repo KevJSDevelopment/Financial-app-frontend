@@ -24,6 +24,13 @@ export const setExpDate = (date) => {
     }
 }
 
+export const setStartDate = (date) => {
+    return {
+        type: "STARTDATE",
+        payload: date
+    }
+}
+
 export const setFromDate = (date) => {
     return {
         type: "FROMDATE",
@@ -122,9 +129,159 @@ export const setToken = (token) => {
     }
 }
 
+export const setLink = (link) => {
+    return {
+        type: "SETLINK",
+        payload: link
+    }
+}
+
+export const setTabNumber = (number) => {
+    return {
+        type: "SETTAB",
+        payload: number
+    }
+}
 export const resetStore = () => {
     return {
         type: "RESET"
+    }
+}
+
+export const changeSelectedPanel = (panelNumber) => {
+    return {
+        type: "SETPANEL",
+        payload: panelNumber
+    }
+}
+
+export const setPlanView = (planInfo) => {
+    return {
+        type: "SETPLANVIEW",
+        payload: planInfo
+    }
+}
+
+export const setComparePlan = (planInfo) => {
+    return {
+        type: "SETCOMPARE",
+        payload: planInfo
+    }
+}
+
+export const setIncomeRows = (array) => {
+    return {
+        type: "SETINCOMEROWS",
+        payload: array
+    }
+}
+
+export const setExpenseRows = (array) => {
+    return {
+        type: "SETEXPENSEROWS",
+        payload: array
+    }
+}
+
+export const setIncomeCategories = (array) => {
+    return {
+        type: "SETINCOMECATEGORIES",
+        payload: array
+    }
+}
+
+export const setExpenseCategories = (array) => {
+    return {
+        type: "SETEXPENSECATEGORIES",
+        payload: array
+    }
+}
+
+export const setAccounts = (array) => {
+    return {
+        type: "SETACCOUNTS",
+        payload: array
+    }
+}
+
+export const setTransactions = (array) => {
+    return {
+        type: "SETTRANSACTIONS",
+        payload: array
+    }
+}
+
+export const setTransactionRows = (array) => {
+    return {
+        type: "SETTTRANSACTIONROWS",
+        payload: array
+    }
+}
+
+export const setBankBalance = (total) => {
+    return {
+        type: "BANKBALANCE",
+        payload: total
+    }
+}
+
+export const setExpectedIncomesArray = (array) => {
+    return {
+        type: "INCOMESARRAY",
+        payload: array
+    }
+}
+
+export const setExpectedExpensesArray = (array) => {
+    return {
+        type: "EXPENSESARRAY",
+        payload: array
+    }
+}
+
+export const setActualIncomesArray = (array) => {
+    return {
+        type: "ACTUALINCOMES",
+        payload: array
+    }
+}
+
+export const setActualExpensesArray = (array) => {
+    return {
+        type: "ACTUALEXPENSES",
+        payload: array
+    }
+}
+
+export const setDisplayLine = (bool) => {
+    return {
+        type: "DISPLAYLINE",
+        payload: bool
+    }
+}
+
+export const setIncomeKeys = (array) => {
+    return {
+        type: "INCOMEKEYS",
+        payload: array
+    }
+}
+export const setExpenseKeys = (array) => {
+    return {
+        type: "EXPENSEKEYS",
+        payload: array
+    }
+}
+export const setIncomeData = (array) => {
+    return {
+        type: "INCOMEDATA",
+        payload: array
+    }
+}
+export const setExpenseData = (array) => {
+    return {
+        type: "EXPENSEDATA",
+        payload: array
     }
 }
 // //-------using thunk---------
@@ -145,8 +302,9 @@ export const resetStore = () => {
 // //---------------------------
 
 
-// export const doneLoading = () => {
-//     return {
-//         type: "LOAD"
-//     }
-// }
+export const setLoading = (bool) => {
+    return {
+        type: "LOAD",
+        payload: bool
+    }
+}

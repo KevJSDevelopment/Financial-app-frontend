@@ -78,6 +78,18 @@ export const toDate = (state = new Date(), action) =>{
             return state
     }
 }
+
+export const startDate = (state = new Date(), action) =>{
+    switch(action.type){
+        case "STARTDATE":
+            return action.payload
+        case "RESET":
+            return new Date()
+        default:
+            return state
+    }
+}
+
 export const total = (state = 0.00, action) => {
     switch(action.type){
         case "TOTAL":

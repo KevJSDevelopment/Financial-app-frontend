@@ -1,27 +1,6 @@
-export const categoryList = (state = [], action) => {
+export const expectedIncomesArray = (state=[], action) => {
     switch(action.type){
-        case "SETLIST":
-            return action.payload
-        case "RESET":
-            return []
-        default:
-            return state
-    }
-}
-export const category = (state = "", action) => {
-    switch(action.type){
-        case "CATEGORY":
-            return action.payload
-        case "RESET":
-            return ""
-        default:
-            return state
-    }
-}
-
-export const selectedArr = (state=[], action) => {
-    switch(action.type){
-        case "ADDSELECTED":
+        case "INCOMESARRAY":
             return action.payload
         case "RESET":
             return []
@@ -30,9 +9,9 @@ export const selectedArr = (state=[], action) => {
     }
 }
 
-export const incomeCategories = (state=[], action) => {
+export const expectedExpensesArray = (state=[], action) => {
     switch(action.type){
-        case "SETINCOMECATEGORIES":
+        case "EXPENSESARRAY":
             return action.payload
         case "RESET":
             return []
@@ -41,9 +20,9 @@ export const incomeCategories = (state=[], action) => {
     }
 }
 
-export const expenseCategories = (state=[], action) => {
+export const actualIncomesArray = (state=[], action) => {
     switch(action.type){
-        case "SETEXPENSECATEGORIES":
+        case "ACTUALINCOMES":
             return action.payload
         case "RESET":
             return []
@@ -52,9 +31,9 @@ export const expenseCategories = (state=[], action) => {
     }
 }
 
-export const transactions = (state=[], action) => {
+export const actualExpensesArray = (state=[], action) => {
     switch(action.type){
-        case "SETTRANSACTIONS":
+        case "ACTUALEXPENSES":
             return action.payload
         case "RESET":
             return []
@@ -63,9 +42,20 @@ export const transactions = (state=[], action) => {
     }
 }
 
-export const transactionRows = (state=[], action) => {
+export const incomeData = (state=[], action) => {
     switch(action.type){
-        case "SETTRANSACTIONROWS":
+        case "INCOMEDATA":
+            return action.payload
+        case "RESET":
+            return []
+        default:
+            return state
+    }
+}
+
+export const expenseData = (state=[], action) => {
+    switch(action.type){
+        case "EXPENSEDATA":
             return action.payload
         case "RESET":
             return []

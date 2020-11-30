@@ -5,7 +5,6 @@ import { DataGrid } from '@material-ui/data-grid';
 import { Select, Grid, TextField, Button, makeStyles, Paper, Input, InputAdornment, Typography} from '@material-ui/core';
 import {MuiPickersUtilsProvider,KeyboardDatePicker} from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import { currentBudget } from './reducers/budgets';
 // import { simpleTableRows } from './reducers/budgets';
 
 const useStyles = makeStyles({
@@ -20,6 +19,10 @@ const useStyles = makeStyles({
     },
     datePicker: {
         margin: 0
+    },
+    grid: {
+        height: window.innerHeight / 1.4, 
+        width: "100%"
     }
 })
 const SimpleLog = () => {
@@ -220,7 +223,7 @@ const SimpleLog = () => {
     }, [])
 
     return (
-        <div style={{ height: window.innerHeight / 1.4, width: "100%" }} className={classes.grid}>
+        <div className={classes.grid}>
             <Grid container direction="row">
                 <Grid item xs={8}>
                     <Paper className={classes.form}>
@@ -251,7 +254,7 @@ const SimpleLog = () => {
                                     <TextField
                                     id="standard-password-input"
                                     label="Category Name"
-                                    autoComplete={false}
+                                    autoComplete="off"
                                     />
                                 </Grid> : 
                                 <Grid item xs={2}>
@@ -259,6 +262,7 @@ const SimpleLog = () => {
                                     <TextField
                                     id="standard-password-input"
                                     label="Category Name"
+                                    autoComplete="off"
                                     disabled
                                     />
                                 </Grid>
@@ -268,7 +272,7 @@ const SimpleLog = () => {
                                     <TextField
                                     id="standard-password-input"
                                     label="Description"
-                                    autoComplete={false}
+                                    autoComplete="off"
                                     />
                                 </Grid>
                                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -299,6 +303,7 @@ const SimpleLog = () => {
                                         onChange={(ev) => handleAmountChange(ev.target.value)}
                                         style={{width: "100%"}} 
                                         placeholder="Amount"
+                                        autoComplete="off"
                                         startAdornment={<InputAdornment position="start">$</InputAdornment>}
                                     />
                                 </Grid>
@@ -341,6 +346,7 @@ const SimpleLog = () => {
                                     <TextField
                                     id="standard-password-input"
                                     label="Category Name"
+                                    autoComplete="off"
                                     />
                                 </Grid> : 
                                 <Grid item xs={4}>
@@ -348,7 +354,7 @@ const SimpleLog = () => {
                                     <TextField
                                     id="standard-password-input"
                                     label="Category Name"
-                                    autoComplete={false}
+                                    autoComplete="off"
                                     disabled
                                     />
                                 </Grid>

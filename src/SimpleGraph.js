@@ -197,7 +197,7 @@ const SimpleGraph = () => {
         <Grid container direction="row" alignItems="center" spacing={3}>
                 <Grid item xs={8}>
                     <Grid container direction="column">
-                        <Grid item style={{height: "500px" }} xs={12}>
+                        <Grid item style={{height: "500px"}} xs={12}>
                             <ResponsivePie
                                 data={dataArr}
                                 margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
@@ -272,10 +272,10 @@ const SimpleGraph = () => {
                             </Grid>
                             {category === "New" ?
                             <Grid item xs={12} className={classes.formItem}>
-                                <TextField id="new-category" label="Category Name" defaultValue="" />
+                                <TextField autoComplete="off" id="new-category" label="Category Name" defaultValue="" />
                             </Grid> : null}
                             <Grid item xs={12} className={classes.formItem}>
-                                <TextField style={{width: "55%"}} id="new-category" label="Description" defaultValue="" />
+                                <TextField style={{width: "55%"}} autoComplete="off" id="new-category" label="Description" defaultValue="" />
                             </Grid>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                             <Grid item xs={12} className={classes.formItem}>
@@ -303,6 +303,7 @@ const SimpleGraph = () => {
                                     onChange={(ev) => handleChange(ev.target.value)}
                                     style={{width: "30%"}} 
                                     placeholder="Amount"
+                                    autoComplete="off"
                                     startAdornment={<InputAdornment position="start">$</InputAdornment>}
                                 />
                             </Grid>
