@@ -4,7 +4,7 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import { currentBudget } from './reducers/budgets';
 import {useSelector, useDispatch} from 'react-redux'
-import {setPlanView, setAccounts} from './actions'
+import {setPlanView, setAccounts, setComparePlan} from './actions'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -36,10 +36,20 @@ const FullBudgetCard = (props) => {
 
     const dispatch = useDispatch()
 
+    const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2
+    })
+
     const viewDetails = () => {
         dispatch(setPlanView(currentPlan))
     }
-    
+
+    const compare = () => {
+        dispatch(setComparePlan(currentPlan))
+    }
+
     const getBalance = async () => {
         const res = await fetch(`http://localhost:3000/budgets/${props.budget.id}`)
         const data = await res.json()
@@ -64,12 +74,6 @@ const FullBudgetCard = (props) => {
         setCurrentPlan({budget: data.budget, expenseInfo: data.expenseInfo, incomeInfo: data.incomeInfo, balance: incomeSum - costSum})
     }
 
-    const formatter = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        minimumFractionDigits: 2
-    })
-
     useEffect(() => {
         getBalance()
     }, [])
@@ -82,13 +86,13 @@ const FullBudgetCard = (props) => {
                 </div>
                 <Card className={classes.card}>
                     <CardHeader
-                        title={`Finances for ${props.budget.date_from} - ${props.budget.date_from}`}
+                        title={`Finances for ${props.budget.date_from} - ${props.budget.date_to}`}
                         subheader={`Balance: ${formatter.format(balance)}`}
                         style={{color: '#338a3e'}}
                         onClick={() => viewDetails()}
                         />
                     {accounts.length > 0 ? <CardContent>
-                        <Button variant="contained" color="primary" style={{float: "right", marginBottom: "1%"}}>
+                        <Button variant="contained" color="primary" onClick={() => compare()} style={{float: "right", marginBottom: "1%"}}>
                             Compare Transactions
                         </Button>
                     </CardContent> : null}

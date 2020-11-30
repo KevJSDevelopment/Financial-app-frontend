@@ -4,7 +4,7 @@ import { DataGrid } from '@material-ui/data-grid';
 import {makeStyles, Typography, Paper, Grid, TextField, Select, Input, Button, InputAdornment, Radio, RadioGroup, FormControlLabel} from '@material-ui/core'
 import {MuiPickersUtilsProvider,KeyboardDatePicker} from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import {setExpDate, setCategory, setAmount, setExpenseRows, setIncomeRows, setCategoryList, setIncomeCategories, setExpenseCategories} from './actions'
+import {setExpDate, setCategory, setAmount, setExpenseRows, setIncomeRows, setCategoryList, setIncomeCategories, setExpenseCategories, setPlanView} from './actions'
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 const useStyles = makeStyles({
     dataGrid: {
@@ -235,8 +235,7 @@ const ViewPlan = () => {
 
     return (
         <Grid container direction="row" spacing={3}>
-            <Grid item xs={1}>
-                
+            <Grid item xs={1} onClick={() => dispatch(setPlanView(null))}>
                 <NavigateBeforeIcon />
                 <Typography variant="overline">
                     Back

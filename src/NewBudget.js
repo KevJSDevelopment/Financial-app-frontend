@@ -109,7 +109,13 @@ const NewBudget = () => {
       }
       else {
         let dateArr = getDate(startDate).split("/")
-        const endDate = new Date((dateArr[2] - 0) + 1, dateArr[0] - 1, dateArr[1])
+        let endDate = new Date()
+        if((dateArr[0] - 0) !== 12){
+          endDate = new Date((dateArr[2] - 0), (dateArr[0] - 0), (dateArr[1] - 0))
+        }
+        else{
+          endDate = new Date((dateArr[2] - 0 + 1), 1, (dateArr[1] - 0))
+        }
         // debugger
         const meta = {
           method: "POST",

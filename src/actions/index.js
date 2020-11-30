@@ -162,6 +162,13 @@ export const setPlanView = (planInfo) => {
     }
 }
 
+export const setComparePlan = (planInfo) => {
+    return {
+        type: "SETCOMPARE",
+        payload: planInfo
+    }
+}
+
 export const setIncomeRows = (array) => {
     return {
         type: "SETINCOMEROWS",
@@ -215,6 +222,34 @@ export const setBankBalance = (total) => {
     return {
         type: "BANKBALANCE",
         payload: total
+    }
+}
+
+export const setExpectedIncomesArray = (array) => {
+    return {
+        type: "INCOMESARRAY",
+        payload: array
+    }
+}
+
+export const setExpectedExpensesArray = (array) => {
+    return {
+        type: "EXPENSESARRAY",
+        payload: array
+    }
+}
+
+export const setActualIncomesArray = (array) => {
+    return {
+        type: "ACTUALINCOMES",
+        payload: array
+    }
+}
+
+export const setActualExpensesArray = (array) => {
+    return {
+        type: "ACTUALEXPENSES",
+        payload: array
     }
 }
 // //-------using thunk---------

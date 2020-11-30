@@ -53,6 +53,17 @@ export const planView = (state=null, action) => {
     }
 }
 
+export const comparePlan = (state=null, action) => {
+    switch(action.type) {
+        case "SETCOMPARE":
+            return action.payload
+        case "RESET":
+            return null
+        default:
+            return state
+    }
+}
+
 export const expenseRows = (state=[], action) => {
     switch(action.type) {
         case "SETEXPENSEROWS":

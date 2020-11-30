@@ -91,13 +91,13 @@ const Transactions = () => {
         let balance = 0.00
         accounts.map((account) => {
           account.transactions.map((transaction) => {
-              if(transaction.value < 0){
-                  arr.push({id: (i++), Date: transaction.date, Description: transaction.description, Value: formatter.format(transaction.value), Bank: account.account.p_institution, Type: "Expense"})
+              if(transaction.transaction.value < 0){
+                  arr.push({id: (i++), Date: transaction.transaction.date, Description: transaction.transaction.description, Value: formatter.format(transaction.transaction.value), Bank: account.account.p_institution, Type: "Expense"})
               }
               else{
-                  arr.push({id: (i++), Date: transaction.date, Description: transaction.description, Value: formatter.format(transaction.value), Bank: account.account.p_institution, Type: "Income"})
+                  arr.push({id: (i++), Date: transaction.transaction.date, Description: transaction.transaction.description, Value: formatter.format(transaction.transaction.value), Bank: account.account.p_institution, Type: "Income"})
               }
-              balance += transaction.value
+              balance += transaction.transaction.value
           })
         })
         dispatch(setBankBalance(balance))

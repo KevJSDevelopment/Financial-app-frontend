@@ -15,6 +15,7 @@ import ViewPlan from './ViewPlan'
 import { Paper } from '@material-ui/core';
 import BankInfo from './BankInfo'
 import Transactions from './Transactions'
+import ComparePlan from './ComparePlan'
 
 export const TabPanel = (props) => {
     const { children, value, index, ...other } = props;
@@ -94,8 +95,10 @@ const FullPlanList = () => {
     const budgets = useSelector(state => state.budgets)
     const planView = useSelector(state => state.planView)
     const accounts = useSelector(state => state.accounts)
+    const comparePlan = useSelector(state => state.comparePlan)
+
+    // const transactions = useSelector(state => state.transactions)
     // const loading = useSelector(state => state.loading)
-    const transactions = useSelector(state => state.transactions)
     // const currentUser = useSelector(state => state.currentUser)
 
     let tabNum = 3
@@ -170,10 +173,10 @@ const FullPlanList = () => {
             >
                 <Paper elevation={3} className={classes.label}>
                     <Typography variant="overline" color="secondary">
-                        My Financial Plans
+                        Financial Plans
                     </Typography>
                 </Paper>
-                <Tab classes={{selected: classes.selected}} className={classes.tab} label="Yearly Plans" {...allyProps(1)} />
+                <Tab classes={{selected: classes.selected}} className={classes.tab} label="My Plans" {...allyProps(1)} />
                 <Paper elevation={3} className={classes.label}>
                     <Typography variant="overline" color="secondary">
                         My Banks
@@ -187,11 +190,11 @@ const FullPlanList = () => {
             </Tabs>
             <TabPanel value={selectedPanel} index={1}>
                 <Grid container spacing={3} direction="row">
-                    {!planView ? budgets.map(budget => {
+                    {!planView && !comparePlan ? budgets.map(budget => {
                         if(budget.plan_type === "full"){
                             return <FullBudgetCard budget={budget} key={budget.id}/> 
                         }
-                    }) : <ViewPlan /> }
+                    }) : planView ? <ViewPlan /> : <ComparePlan />}
                 </Grid>
             </TabPanel>
             <TabPanel value={selectedPanel} index={3}>

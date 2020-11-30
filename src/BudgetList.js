@@ -30,8 +30,8 @@ const BudgetList = () => {
 
     const classes = useStyles()
     const budgets = useSelector(state => state.budgets)
-    const accounts = useSelector(state => state.accounts)
-    const transactions = useSelector(state => state.transactions)
+    // const accounts = useSelector(state => state.accounts)
+    // const transactions = useSelector(state => state.transactions)
     // const currentBudget = useSelector(state => state.currentBudget)
 
     const dispatch = useDispatch()
