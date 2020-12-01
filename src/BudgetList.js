@@ -60,6 +60,7 @@ const BudgetList = () => {
       headers: {"Content-Type": "application/json", "Authentication": `Bearer ${localStorage.getItem("token")}`},
     })
     const linkData = await resp.json()
+    debugger
     if(linkData.auth){
       localStorage.setItem("link", linkData.link)
       dispatch(setLink(linkData.link))

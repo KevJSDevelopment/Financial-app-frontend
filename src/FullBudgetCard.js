@@ -1,10 +1,8 @@
 import React, {useEffect, useState} from 'react'
 import {Grid, makeStyles, Button, CardHeader, Paper, CardContent} from '@material-ui/core'
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import { currentBudget } from './reducers/budgets';
 import {useSelector, useDispatch} from 'react-redux'
-import {setPlanView, setAccounts, setComparePlan} from './actions'
+import {setPlanView, setBalance, setComparePlan} from './actions'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -31,7 +29,7 @@ const FullBudgetCard = (props) => {
 
     const classes = useStyles()
     const accounts = useSelector(state => state.accounts)
-    const [balance, setBalance] = useState(0.00)
+    const [thisBalance, setThisBalance] = useState(0.00)
     const [currentPlan, setCurrentPlan] = useState({})
 
     const dispatch = useDispatch()
@@ -47,6 +45,7 @@ const FullBudgetCard = (props) => {
     }
 
     const compare = () => {
+        dispatch(setBalance(thisBalance))
         dispatch(setComparePlan(currentPlan))
     }
 
@@ -70,7 +69,7 @@ const FullBudgetCard = (props) => {
                 })
             })
         }
-        setBalance(incomeSum - costSum)
+        setThisBalance(incomeSum - costSum)
         setCurrentPlan({budget: data.budget, expenseInfo: data.expenseInfo, incomeInfo: data.incomeInfo, balance: incomeSum - costSum})
     }
 
@@ -87,7 +86,7 @@ const FullBudgetCard = (props) => {
                 <Card className={classes.card}>
                     <CardHeader
                         title={`Finances for ${props.budget.date_from} - ${props.budget.date_to}`}
-                        subheader={`Balance: ${formatter.format(balance)}`}
+                        subheader={`Balance: ${formatter.format(thisBalance)}`}
                         style={{color: '#338a3e'}}
                         onClick={() => viewDetails()}
                         />

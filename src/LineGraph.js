@@ -5,7 +5,7 @@ const LineGraph = (props) => {
     return (
         <ResponsiveLine
         data={props.data}
-        margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+        margin={{ top: 50, right: 100, bottom: 50, left: 100 }}
         xScale={{ type: 'point' }}
         yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: false, reverse: false }}
         yFormat=" >-.2f"
@@ -17,8 +17,8 @@ const LineGraph = (props) => {
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
-            legend: 'Income',
-            legendOffset: 36,
+            legend: 'Weeks',
+            legendOffset: 35,
             legendPosition: 'middle'
         }}
         axisLeft={{
@@ -26,8 +26,8 @@ const LineGraph = (props) => {
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
-            legend: 'Price',
-            legendOffset: -40,
+            legend: props.type === "Income" ? `${props.type} Value` : `${props.type} Cost`,
+            legendOffset: -50,
             legendPosition: 'middle'
         }}
         colors={{ scheme: 'accent' }}
@@ -36,7 +36,7 @@ const LineGraph = (props) => {
         pointBorderWidth={2}
         pointBorderColor={{ from: 'serieColor', modifiers: [] }}
         pointLabelYOffset={-12}
-        enableArea={false}
+        enableArea={true}
         useMesh={true}
         legends={[
             {

@@ -225,33 +225,33 @@ export const setBankBalance = (total) => {
     }
 }
 
-export const setExpectedIncomesArray = (array) => {
-    return {
-        type: "INCOMESARRAY",
-        payload: array
-    }
-}
+// export const setExpectedIncomesArray = (array) => {
+//     return {
+//         type: "INCOMESARRAY",
+//         payload: array
+//     }
+// }
 
-export const setExpectedExpensesArray = (array) => {
-    return {
-        type: "EXPENSESARRAY",
-        payload: array
-    }
-}
+// export const setExpectedExpensesArray = (array) => {
+//     return {
+//         type: "EXPENSESARRAY",
+//         payload: array
+//     }
+// }
 
-export const setActualIncomesArray = (array) => {
-    return {
-        type: "ACTUALINCOMES",
-        payload: array
-    }
-}
+// export const setActualIncomesArray = (array) => {
+//     return {
+//         type: "ACTUALINCOMES",
+//         payload: array
+//     }
+// }
 
-export const setActualExpensesArray = (array) => {
-    return {
-        type: "ACTUALEXPENSES",
-        payload: array
-    }
-}
+// export const setActualExpensesArray = (array) => {
+//     return {
+//         type: "ACTUALEXPENSES",
+//         payload: array
+//     }
+// }
 
 export const setDisplayLine = (bool) => {
     return {
@@ -282,6 +282,24 @@ export const setExpenseData = (array) => {
     return {
         type: "EXPENSEDATA",
         payload: array
+    }
+}
+export const setIncomeLineData = (array) => {
+    return {
+        type: "INCOMELINEDATA",
+        payload: array
+    }
+}
+export const setExpenseLineData = (array) => {
+    return {
+        type: "EXPENSELINEDATA",
+        payload: array
+    }
+}
+export const setBalance = (total) => {
+    return {
+        type: "BALANCE",
+        payload: total
     }
 }
 // //-------using thunk---------

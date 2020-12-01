@@ -7,7 +7,7 @@ const BarGraph = (props) => {
             data={props.data}
             keys={props.keys}
             indexBy="Category"
-            margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+            margin={{ top: 50, right: 100, bottom: 50, left: 70 }}
             padding={0.2}
             groupMode="grouped"
             valueScale={{ type: 'linear' }}
@@ -20,7 +20,7 @@ const BarGraph = (props) => {
                 tickSize: 5,
                 tickPadding: 5,
                 tickRotation: 0,
-                legend: 'Category',
+                legend: `${props.type} Category`,
                 legendPosition: 'middle',
                 legendOffset: 32
             }}
@@ -28,9 +28,9 @@ const BarGraph = (props) => {
                 tickSize: 5,
                 tickPadding: 5,
                 tickRotation: 0,
-                legend: 'Total',
+                legend: props.type === "Income" ? `${props.type} Value` : `${props.type} Cost`,
                 legendPosition: 'middle',
-                legendOffset: -40
+                legendOffset: -50
             }}
             labelSkipWidth={12}
             labelSkipHeight={12}

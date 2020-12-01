@@ -110,3 +110,14 @@ export const simpleTableRows = (state = [], action) => {
             return state
     }
 }
+
+export const balance = (state = 0.00, action) => {
+    switch(action.type) {
+        case "BALANCE":
+            return action.payload
+        case "RESET":
+            return 0.00
+        default:
+            return state
+    }
+}

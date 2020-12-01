@@ -4,7 +4,7 @@ import { DataGrid } from '@material-ui/data-grid';
 import {makeStyles, Typography, Paper, Grid, TextField, Select, Input, Button, InputAdornment, Radio, RadioGroup, FormControlLabel} from '@material-ui/core'
 import {MuiPickersUtilsProvider,KeyboardDatePicker} from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import {setExpDate, setCategory, setAmount, setExpenseRows, setIncomeRows, setCategoryList, setIncomeCategories, setExpenseCategories, setPlanView} from './actions'
+import {setExpDate, setCategory, setAmount, setExpenseRows, setIncomeRows, setCategoryList, setIncomeCategories, setExpenseCategories, setPlanView, setBalance} from './actions'
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 const useStyles = makeStyles({
     dataGrid: {
@@ -30,7 +30,7 @@ const ViewPlan = () => {
     const incomeRows = useSelector(state => state.incomeRows)
     const incomeCategories = useSelector(state => state.incomeCategories)
     const expenseCategories = useSelector(state => state.expenseCategories)
-    const [balance, setBalance] = useState(0.00)
+    const balance = useSelector(state => state.balance)
     const dispatch = useDispatch()
     const classes = useStyles()
     const width = 150
@@ -93,10 +93,10 @@ const ViewPlan = () => {
                 })
                 catArr.push(category.cat)
             })
-            setBalance(incomeSum - expenseSum)
             dispatch(setIncomeRows(rows))
             dispatch(setIncomeCategories(catArr))
         }
+        dispatch(setBalance(incomeSum - expenseSum))
     }
 
     const handleAmountChange = (value) => {
@@ -215,7 +215,7 @@ const ViewPlan = () => {
     }
 
     const radioClick = (ev) => {
-        console.log(ev.target.checked)
+        console.log(ev.target.value)
         if(ev.target.checked){
            if(ev.target.value === "income"){
                 dispatch(setCategoryList(incomeCategories))
@@ -301,9 +301,9 @@ const ViewPlan = () => {
                                     }}
                                 >
                                     <option aria-label="None" value="" />
-                                    {categoryList.map(catObj=> {
+                                    {categoryList != [] ? categoryList.map(catObj=> {
                                         return <option value={catObj.id} key={catObj.id}>{catObj.name}</option>
-                                    })}
+                                    }): null}
                                     <option value="add">Add Category</option>
                                 </Select>
                             </Grid>
