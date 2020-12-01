@@ -9,7 +9,7 @@ import {useHistory} from 'react-router-dom'
 
 const useStyles = makeStyles({
     form: {
-        border: "2px solid #62727b",
+        border: "2px solid #7e858d",
         width: "75%",
         borderRadius: "15px",
         textAlign: "center",

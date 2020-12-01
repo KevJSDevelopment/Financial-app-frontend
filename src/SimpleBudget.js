@@ -22,8 +22,8 @@ const useStyles = makeStyles({
     tabs: {
         fontSize: "12px",
         '&:focus':{
-            color: "#98ee99",
-            backgroundColor: "#62727b"
+            color: "#e1ffb1",
+            backgroundColor: "#7e858d"
         }
     }
   });

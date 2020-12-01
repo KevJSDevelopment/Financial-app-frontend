@@ -9,7 +9,7 @@ import DateFnsUtils from '@date-io/date-fns';
 
 const useStyles = makeStyles({
     form: {
-        border: "2px solid #62727b",
+        border: "2px solid #7e858d",
         borderRadius: "5px",
         margin: "5px",
         padding: "5px",

@@ -22,13 +22,13 @@ const useStyles = makeStyles({
     form: {
         width: "65%",
         textAlign: "left",
-        border: "3px solid #62727b",
+        border: "3px solid #7e858d",
         borderRadius: "15px",
         backgroundColor: "white"
     },
     total: {
         padding: "5px",
-        border: "2px solid #338a3e",
+        border: "2px solid #7da453",
         backgroundColor: "white"
     }
     
@@ -251,7 +251,7 @@ const SimpleGraph = () => {
                         <Paper className={classes.form} elevation={10}>
                         <form onSubmit={(ev) => handleSimpleSubmit(ev)}>
                             <Grid item xs={12}>
-                                <Typography variant="subtitle1" style={{textAlign: "center", color: "#338a3e"}}>
+                                <Typography variant="subtitle1" style={{textAlign: "center", color: "#7da453"}}>
                                     Create new expense
                                 </Typography>
                             </Grid>

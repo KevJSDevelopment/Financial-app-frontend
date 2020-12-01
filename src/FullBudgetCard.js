@@ -10,8 +10,8 @@ const useStyles = makeStyles((theme) => ({
     },
     header: {
         width: "100%", 
-        borderBottom: "2px solid #62727b", 
-        color: "#62727b", 
+        borderBottom: "2px solid #7e858d", 
+        color: "#7e858d", 
         borderRadius:"0 0 5px 5px", 
         textAlign: "center",
         backgroundColor: "white"
@@ -87,7 +87,7 @@ const FullBudgetCard = (props) => {
                     <CardHeader
                         title={`Finances for ${props.budget.date_from} - ${props.budget.date_to}`}
                         subheader={`Balance: ${formatter.format(thisBalance)}`}
-                        style={{color: '#338a3e'}}
+                        style={{color: '#7da453'}}
                         onClick={() => viewDetails()}
                         />
                     {accounts.length > 0 ? <CardContent>

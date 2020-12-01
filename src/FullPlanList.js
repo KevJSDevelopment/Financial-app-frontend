@@ -63,8 +63,8 @@ const useStyles = makeStyles((theme) => ({
     label: {
         borderRadius: 0,
         textAlign: "center",
-        borderTop: "1px solid #62727b",
-        borderBottom: "1px solid #62727b"
+        borderTop: "1px solid #7e858d",
+        borderBottom: "1px solid #7e858d"
     },
     tab: {
         marginTop: "1%",
@@ -75,17 +75,17 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     tabContainer: {
-        borderRight: `2px solid #62727b`,
+        borderRight: `2px solid #7e858d`,
         borderRadius: "0 25px 25px 0",
         backgroundColor: "white"
     },
     selected: {
-        color: "#98ee99",
-        backgroundColor: "#62727b"
+        color: "#e1ffb1",
+        backgroundColor: "#7e858d"
     },
     tabSelected: {
-        color: "#98ee99",
-        backgroundColor: "#98ee99"
+        color: "#e1ffb1",
+        backgroundColor: "#e1ffb1"
     }
 }));
 
@@ -179,7 +179,7 @@ const FullPlanList = () => {
                 <Tab classes={{selected: classes.selected}} className={classes.tab} label="My Plans" {...allyProps(1)} />
                 <Paper elevation={3} className={classes.label}>
                     <Typography variant="overline" color="secondary">
-                        My Banks
+                        Bank Information
                     </Typography>
                 </Paper>
                 <Tab classes={{selected: classes.selected}} className={classes.tab} label="My Transactions" {...allyProps(3)} />

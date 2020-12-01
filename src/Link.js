@@ -7,9 +7,9 @@ import {useSelector} from 'react-redux'
 const useStyles = makeStyles({
     button: {
       backgroundColor: "white",
-      color: "#62727b",
+      color: "#7e858d",
       '&:hover': {
-        borderRight: "2px solid #98ee99",
+        borderRight: "2px solid #aed581",
         cursor: "pointer",
         backgroundColor: "whitesmoke",
         // color: "#98ee99"

@@ -1,10 +1,11 @@
 import React, {useEffect} from 'react'
-import {Paper, Button, Switch, makeStyles, Typography} from '@material-ui/core'
+import {Paper, Button, Switch, makeStyles, Typography, CircularProgress} from '@material-ui/core'
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'
 import {useSelector, useDispatch} from 'react-redux'
 import {setComparePlan, setExpenseKeys, setIncomeKeys, setIncomeData, setExpenseData, setLoading, setIncomeLineData,setExpenseLineData, setDisplayLine, setBalance, setBankBalance} from './actions'
 import LineGraph from './LineGraph'
 import BarGraph from './BarGraph'
+import Grow from '@material-ui/core/Grow';
 
 const useStyles = makeStyles({
     button: {
@@ -104,7 +105,14 @@ const ComparePlan = () => {
     const handleDisplay = () => {
         dispatch(setDisplayLine(!displayLine))
     }
+
+    const handleBack = () => {
+        dispatch(setLoading(true))
+        dispatch(setDisplayLine(false))
+        dispatch(setComparePlan(null))
+    }
     const loaded = () => {
+        dispatch(setDisplayLine(false))
         dispatch(setLoading(false))
     }
 
@@ -124,7 +132,7 @@ const ComparePlan = () => {
                         size="small"
                         className={classes.button}
                         startIcon={<NavigateBeforeIcon />}
-                        onClick={() => dispatch(setComparePlan(null))}
+                        onClick={() => handleBack()}
                     >
                         Back
                     </Button>
@@ -135,21 +143,34 @@ const ComparePlan = () => {
                         color="secondary"
                     />
                 <br/>
-                <br/>
                 <Paper elevation={3} style={{width: "100%", backgroundColor: "white", textAlign: "center"}} color="primary">
                     <Typography variant="overline" color="primary">
                             Expected Balance: {formatter.format(balance)} - Actual Balance: {formatter.format(bankBalance)}
                     </Typography>
                 </Paper>
                 <br/>
-                <Paper elevation={3} style={{height: "300px", width: "100%", backgroundColor: "white"}} color="primary">
-                    {!displayLine ? <LineGraph data={incomeLineData} type="Income" /> : <BarGraph data={incomeData} keys={incomeKeys} type="Income" /> }
-                </Paper>  
+
+                <Grow in={true}>
+                    <Paper elevation={3} style={{height: "300px", width: "100%", backgroundColor: "white"}} color="primary">
+                        {displayLine ? <LineGraph data={incomeLineData} type="Income" /> : <BarGraph data={incomeData} keys={incomeKeys} type="Income" /> }
+                    </Paper>  
+                </Grow>
                 <br/>
-                <Paper elevation={3} style={{height: "300px", width: "100%", backgroundColor: "white"}} color="primary">
-                    {!displayLine ? <LineGraph data={expenseLineData} type="Expense" /> : <BarGraph data={expenseData} keys={expenseKeys} type="Expense" /> }
-                </Paper>  
-            </div> : <div> Loading... </div> }
+                <Grow
+                in={true}
+                style={{ transformOrigin: '0 0 0' }}
+                {...(true ? { timeout: 1000 } : {})}
+                >
+                    <Paper elevation={3} style={{height: "300px", width: "100%", backgroundColor: "white"}} color="primary">
+                        {displayLine ? <LineGraph data={expenseLineData} type="Expense" /> : <BarGraph data={expenseData} keys={expenseKeys} type="Expense" /> }
+                    </Paper>  
+                </Grow>
+            </div> 
+            : 
+            <div style={{height: window.innerHeight, textAlign:"center"}}>
+                <CircularProgress style={{marginTop: "25%"}}color="primary"/> 
+            </div>
+            }
         </div>
     )
 }

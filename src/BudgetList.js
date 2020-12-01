@@ -5,7 +5,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import {setCurrentUser, setLink} from './actions'
 // import {setBudgets} from './actions'
 import {setBudgets, resetStore, setTransactions, setAccounts} from './actions'
-import {Grid, makeStyles} from '@material-ui/core'
+import {Grid, makeStyles, Grow} from '@material-ui/core'
 // import { transactions } from './reducers/categories'
 
 const useStyles = makeStyles({
@@ -60,7 +60,7 @@ const BudgetList = () => {
       headers: {"Content-Type": "application/json", "Authentication": `Bearer ${localStorage.getItem("token")}`},
     })
     const linkData = await resp.json()
-    debugger
+    // debugger
     if(linkData.auth){
       localStorage.setItem("link", linkData.link)
       dispatch(setLink(linkData.link))
@@ -78,9 +78,10 @@ const BudgetList = () => {
   return (
     <div className={classes.root}>
       <Grid container alignItems="center" spacing={3} className={classes.container}>
-        {budgets.map(budget => {
+        {budgets.map((budget, index)=> {
           if(budget.plan_type !== "full"){
-            return <BudgetCard budget={budget} getBudgets={getBudgets} key={budget.id}/>
+            // debugger
+            return <BudgetCard budget={budget} getBudgets={getBudgets} count={index} key={budget.id}/>
           }
         })}
       </Grid>

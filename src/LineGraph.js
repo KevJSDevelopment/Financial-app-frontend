@@ -9,7 +9,7 @@ const LineGraph = (props) => {
         xScale={{ type: 'point' }}
         yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: false, reverse: false }}
         yFormat=" >-.2f"
-        curve="monotoneX"
+        curve= 'monotoneX'
         axisTop={null}
         axisRight={null}
         axisBottom={{
@@ -30,7 +30,7 @@ const LineGraph = (props) => {
             legendOffset: -50,
             legendPosition: 'middle'
         }}
-        colors={{ scheme: 'accent' }}
+        colors={{ scheme: 'set2' }}
         pointSize={8}
         pointColor={{ theme: 'background' }}
         pointBorderWidth={2}

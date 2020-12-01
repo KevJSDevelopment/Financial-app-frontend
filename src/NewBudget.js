@@ -46,10 +46,10 @@ const useStyles = makeStyles((theme) => ({
     color: "#102027",
   },
   label: {
-    color: "#62727b"
+    color: "#7e858d"
   },
   icon: {
-    color: "#66bb6a"
+    color: "#aed581"
   },
 
 }));
@@ -116,7 +116,7 @@ const NewBudget = () => {
           endDate = new Date((dateArr[2] - 0), (dateArr[0] - 0), (dateArr[1] - 0))
         }
         else{
-          endDate = new Date((dateArr[2] - 0 + 1), 1, (dateArr[1] - 0))
+          endDate = new Date((dateArr[2] - 0 + 1), 0, (dateArr[1] - 0))
         }
         // debugger
         const meta = {
@@ -138,7 +138,7 @@ const NewBudget = () => {
         <form onSubmit={(ev) => addBudget(ev)}>
           <Grid className={classes.formGrid} container spacing={3} alignItems="center" direction="column">
             <Grid item xs={3}>
-              <div style={{fontSize:"22px", textAlign: "center", color: "#338a3e"}}>
+              <div style={{fontSize:"22px", textAlign: "center", color: "#7da453"}}>
                 Create New Financial Plan
               </div>
             </Grid>
