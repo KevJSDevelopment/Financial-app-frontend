@@ -75,9 +75,12 @@ const useStyles = makeStyles((theme) => ({
         marginTop: "1%",
         marginBottom: "10%",
         padding: "5%",
-        '&:hover':{
-            backgroundColor: "whitesmoke"
-        }
+        '&:hover': {
+            borderRight: "2px solid #aed581",
+            cursor: "pointer",
+            backgroundColor: "whitesmoke",
+            // color: "#98ee99"
+        },
     },
     tabContainer: {
         borderRight: `2px solid #7e858d`,
@@ -109,12 +112,9 @@ const FullPlanList = () => {
     let tabNum = 3
     let panelNum = 4
 
-    const history = useHistory()
     const classes = useStyles()
 
     const dispatch = useDispatch()
-
-
 
     const getUser = async () => {
         const res = await fetch("http://localhost:3000/users",{
@@ -190,13 +190,14 @@ const FullPlanList = () => {
                 </Paper>
                 <Tab classes={{selected: classes.selected}} className={classes.tab} label="My Transactions" {...allyProps(3)} />
                 {accounts.map((account)=> {
+                    // debugger
                      switch(account.account.p_institution){
                         case "Chase":
                             return <Tab classes={{selected: classes.selected}} key={account.account.id} className={classes.tab} label={<img src={images[0]} width="120" height="40" />} {...allyProps((tabNum++))} />
-                        case "BankOfAmerica":
+                        case "Bank of America":
                             return <Tab classes={{selected: classes.selected}} key={account.account.id} className={classes.tab} label={ <img src={images[1]} width="120" height="50" />} {...allyProps((tabNum++))} />                        
-                        case "Suntrust":
-                            return <Tab classes={{selected: classes.selected}} key={account.account.id} className={classes.tab} label={<img src={images[2]} width="120" height="50" />} {...allyProps((tabNum++))} />
+                        case "SunTrust - Online Banking":
+                            return <Tab classes={{selected: classes.selected}} key={account.account.id} className={classes.tab} label={<img src={images[2]} width="150" height="40" />} {...allyProps((tabNum++))} />
                         case "Wells Fargo":
                             return <Tab classes={{selected: classes.selected}} key={account.account.id} className={classes.tab} label={<img src={images[3]} width="120" height="70" />} {...allyProps((tabNum++))} />
                         case "Citi":

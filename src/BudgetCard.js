@@ -15,16 +15,21 @@ import {ResponsivePie} from '@nivo/pie'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
-    backgroundColor: "white"
+    width: 345,
+    backgroundColor: "white",
+    '&:hover': {  
+      border: "2px solid #aed581",
+      transform: 'scale(1.05)'
+    },
   },
   content: {
     '&:hover': {
-      backgroundColor: "whitesmoke"
+      backgroundColor: "whitesmoke",
     },
     width: "90%", 
     marginLeft: "5%"
   },
+
 
 }));
 
@@ -40,8 +45,8 @@ const BudgetCard = (props) => {
     {"id":"5th", "label": "5th", "value": Math.ceil((Math.random() * 5)).toFixed(2)}
   ]
 
-  // const defaultColors = ["paired", "nivo", "category10", "accent", "dark2", "pastel1", "pastel2", "set1", "set2", "set3"]
-  const defaultColors = "greys"
+  const defaultColors = ["paired", "accent","dark2", "category10", "nivo", "pastel1", "pastel2", "set1", "set2", "set3"]
+  const defaultColor = "greys"
 
   const history = useHistory()
   const classes = useStyles()
@@ -53,6 +58,11 @@ const BudgetCard = (props) => {
     currency: 'USD',
     minimumFractionDigits: 2
   })
+
+  const toCaps = (string) => {  
+    const stringCapitalized = string.charAt(0).toUpperCase() + string.slice(1)
+    return stringCapitalized
+  }
 
   const getData = () => {
     fetch(`http://localhost:3000/budgets/${props.budget.id}`)
@@ -100,7 +110,7 @@ const BudgetCard = (props) => {
   }, [])
 
     return (
-      <Grid item xs={4}>
+      <Grid item xs={4} className={classes.item}>
           <Slide 
           in={true} 
           direction="left"
@@ -108,8 +118,8 @@ const BudgetCard = (props) => {
           >
           <Card className={classes.root}>
             <CardHeader
-              title={props.budget.name}
-              subheader={props.budget.date_to}
+              title={toCaps(props.budget.name)}
+              subheader={`${props.budget.date_from} - ${props.budget.date_to}`}
               style={{color: '#7da453'}}
             />
               <Paper className={classes.content}>
@@ -121,7 +131,7 @@ const BudgetCard = (props) => {
                   margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
                   innerRadius={.6}
                   cornerRadius={5}
-                  colors={{ scheme: 'paired' }}
+                  colors={{ scheme: defaultColors[props.count] }}
                   borderWidth={1}
                   borderColor={{ from: 'color', modifiers: [ [ 'darker', 0.2 ] ] }}
                   radialLabelsSkipAngle={3}
@@ -139,7 +149,7 @@ const BudgetCard = (props) => {
                   margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
                   innerRadius={.6}
                   cornerRadius={5}
-                  colors={{ scheme: defaultColors }}
+                  colors={{ scheme: defaultColor }}
                   borderWidth={1}
                   borderColor={{ from: 'color', modifiers: [ [ 'darker', 0.2 ] ] }}
                   radialLabelsSkipAngle={5}
@@ -150,17 +160,13 @@ const BudgetCard = (props) => {
                 />
                 </div>
                 }
-              
-              <Typography variant="body2" color="textSecondary" component="p">
-                From: {props.budget.date_from} To: {props.budget.date_to}
-              </Typography>
-              <Typography variant="subtitle2">
-                {/* {props.budget.plan_type === "simple" && props.budget.total !== 0?  */}
-                Expense Total: {formatter.format(-props.budget.total)}
-                {/* : `Total: $${props.budget.total}`} */}
-              </Typography>
             </CardContent>
             </Paper>
+              <Typography variant="overline" color="secondary" style={{marginLeft: "5%"}}>
+                {/* {props.budget.plan_type === "simple" && props.budget.total !== 0?  */}
+                Total: {formatter.format(-props.budget.total)}
+                {/* : `Total: $${props.budget.total}`} */}
+              </Typography>
             <CardActions >
               <Button variant="contained" className={classes.view} onClick={() => handleClick()} size="small" color="primary">
                 View

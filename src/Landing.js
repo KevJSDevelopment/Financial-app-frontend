@@ -3,7 +3,6 @@ import {Grid, TextField, Button, makeStyles, Typography, Paper} from '@material-
 import {setCurrentUser, setToken} from './actions'
 import {useDispatch} from 'react-redux'
 import leaves from './images/leaves.png'
-import leaves3 from './images/leaves3.png'
 // import Button from '@material-ui/core/Button'
 import {useHistory} from 'react-router-dom'
 

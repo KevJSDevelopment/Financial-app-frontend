@@ -203,7 +203,7 @@ const SimpleGraph = () => {
                                 margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
                                 innerRadius={.6}
                                 cornerRadius={5}
-                                colors={{ scheme: 'accent' }}
+                                colors={{ scheme: 'paired' }}
                                 borderWidth={1}
                                 borderColor={{ from: 'color', modifiers: [ [ 'darker', 0.2 ] ] }}
                                 radialLabelsSkipAngle={5}

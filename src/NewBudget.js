@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {setNewBudgetType, resetStore} from './actions'
 import {useSelector, useDispatch} from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
@@ -44,7 +44,10 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid grey",
     backgroundColor: "white",
     width:"100%",
-    marginTop: "5%"
+    marginTop: "5%",
+    '&:hover':{
+      transform: 'scale(1.05)'
+    }
   },
   select: {
     color: "#102027",
@@ -64,6 +67,8 @@ const NewBudget = () => {
   const dateFrom = useSelector(state => state.fromDate)
   const dateTo = useSelector(state => state.toDate)
   const startDate = useSelector(state => state.startDate)
+
+  const [hover, setHover] = useState(false)
   // const token = useSelector(state => state.token)
   // const currentBudget = useSelector(state => state.currentBudget)
 
@@ -138,7 +143,7 @@ const NewBudget = () => {
 
   return (
     <div className={classes.base}>
-      <Paper className={classes.form} elevation={3}>
+      <Paper className={classes.form} elevation={!hover ? 3 : 20} onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>
         <form onSubmit={(ev) => addBudget(ev)}>
           <Grid className={classes.formGrid} container spacing={3} alignItems="center" direction="column">
             <Grid item xs={3}>

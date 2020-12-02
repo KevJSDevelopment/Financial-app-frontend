@@ -7,6 +7,9 @@ import {setPlanView, setBalance, setComparePlan} from './actions'
 const useStyles = makeStyles((theme) => ({
     root: {
         width:"100%",
+        '&:hover': {
+            border: "2px solid #aed581"
+        }
     },
     header: {
         width: "100%", 
@@ -19,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     card: {
         backgroundColor: "white",
         '&:hover': {
-            backgroundColor:"whitesmoke"
+            backgroundColor:"whitesmoke",
         }
     }
   
