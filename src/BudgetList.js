@@ -20,7 +20,7 @@ const useStyles = makeStyles({
       flexGrow: 1,
       maxWidth: "100%",
       borderRadius: "0 0 25px 25px",
-      backgroundColor: "whitesmoke"
+      // backgroundColor: "whitesmoke"
     },
     
 });

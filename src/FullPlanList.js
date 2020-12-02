@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
@@ -16,6 +16,11 @@ import { Paper } from '@material-ui/core';
 import BankInfo from './BankInfo'
 import Transactions from './Transactions'
 import ComparePlan from './ComparePlan'
+import BankOfAmerica from './images/Bankofamerica.png'
+import Chase from './images/Chase5.png'
+import Citi from './images/citi.png'
+import Suntrust from './images/Suntrust.png'
+import WellsFargo from './images/wellsfargo.png'
 
 export const TabPanel = (props) => {
     const { children, value, index, ...other } = props;
@@ -54,7 +59,7 @@ const allyProps = (index) => {
 const useStyles = makeStyles((theme) => ({
     root: {
     flexGrow: 1,
-    backgroundColor: "whitesmoke",
+    // backgroundColor: "whitesmoke",
     display: 'flex',
     paddingTop: "1%",
     marginTop: "1%",
@@ -91,12 +96,12 @@ const useStyles = makeStyles((theme) => ({
 
 const FullPlanList = () => {
 
+    const images = [Chase, BankOfAmerica, Suntrust, WellsFargo, Citi]
     const selectedPanel = useSelector(state => state.selectedPanel)
     const budgets = useSelector(state => state.budgets)
     const planView = useSelector(state => state.planView)
     const accounts = useSelector(state => state.accounts)
     const comparePlan = useSelector(state => state.comparePlan)
-
     // const transactions = useSelector(state => state.transactions)
     // const loading = useSelector(state => state.loading)
     // const currentUser = useSelector(state => state.currentUser)
@@ -108,6 +113,7 @@ const FullPlanList = () => {
     const classes = useStyles()
 
     const dispatch = useDispatch()
+
 
 
     const getUser = async () => {
@@ -184,15 +190,28 @@ const FullPlanList = () => {
                 </Paper>
                 <Tab classes={{selected: classes.selected}} className={classes.tab} label="My Transactions" {...allyProps(3)} />
                 {accounts.map((account)=> {
-                    return <Tab classes={{selected: classes.selected}} key={account.account.id} className={classes.tab} label={account.account.p_institution} {...allyProps((tabNum++))} />
+                     switch(account.account.p_institution){
+                        case "Chase":
+                            return <Tab classes={{selected: classes.selected}} key={account.account.id} className={classes.tab} label={<img src={images[0]} width="120" height="40" />} {...allyProps((tabNum++))} />
+                        case "BankOfAmerica":
+                            return <Tab classes={{selected: classes.selected}} key={account.account.id} className={classes.tab} label={ <img src={images[1]} width="120" height="50" />} {...allyProps((tabNum++))} />                        
+                        case "Suntrust":
+                            return <Tab classes={{selected: classes.selected}} key={account.account.id} className={classes.tab} label={<img src={images[2]} width="120" height="50" />} {...allyProps((tabNum++))} />
+                        case "Wells Fargo":
+                            return <Tab classes={{selected: classes.selected}} key={account.account.id} className={classes.tab} label={<img src={images[3]} width="120" height="70" />} {...allyProps((tabNum++))} />
+                        case "Citi":
+                            return <Tab classes={{selected: classes.selected}} key={account.account.id} className={classes.tab} label={<img src={images[4]} width="120" height="25" />} {...allyProps((tabNum++))} />
+                        default:
+                            return <Tab classes={{selected: classes.selected}} key={account.account.id} className={classes.tab} label={account.account.p_institution} {...allyProps((tabNum++))} />
+                    }
                 })}
                 <Link getPlaidAccounts={getPlaidAccounts} />
             </Tabs>
             <TabPanel value={selectedPanel} index={1}>
                 <Grid container spacing={3} direction="row">
-                    {!planView && !comparePlan ? budgets.map(budget => {
+                    {!planView && !comparePlan ? budgets.map((budget, index) => {
                         if(budget.plan_type === "full"){
-                            return <FullBudgetCard budget={budget} key={budget.id}/> 
+                            return <FullBudgetCard budget={budget} count={index} key={budget.id}/> 
                         }
                     }) : planView ? <ViewPlan /> : <ComparePlan />}
                 </Grid>

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Grid, makeStyles, Button, CardHeader, Paper, CardContent} from '@material-ui/core'
+import {Grid, makeStyles, Button, CardHeader, Paper, CardContent, Slide} from '@material-ui/core'
 import Card from '@material-ui/core/Card';
 import {useSelector, useDispatch} from 'react-redux'
 import {setPlanView, setBalance, setComparePlan} from './actions'
@@ -79,6 +79,11 @@ const FullBudgetCard = (props) => {
 
     return (
         <Grid item xs={12}>
+            <Slide 
+            in={true} 
+            direction="up"
+            {...(true ? { timeout: (props.count + 5) * 100 } : {})}
+            >
             <Paper elevation={3} className={classes.root}>
                 <div className={classes.header}>
                     {props.budget.name}
@@ -97,6 +102,7 @@ const FullBudgetCard = (props) => {
                     </CardContent> : null}
                 </Card>
             </Paper>
+            </Slide>
         </Grid>
     )
 }

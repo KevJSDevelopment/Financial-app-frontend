@@ -124,10 +124,10 @@ const BudgetCard = (props) => {
                   colors={{ scheme: 'paired' }}
                   borderWidth={1}
                   borderColor={{ from: 'color', modifiers: [ [ 'darker', 0.2 ] ] }}
-                  radialLabelsSkipAngle={5}
+                  radialLabelsSkipAngle={3}
                   radialLabelsTextColor="#102027"
                   radialLabelsLinkColor={{ from: 'color' }}
-                  sliceLabelsSkipAngle={5}
+                  sliceLabelsSkipAngle={3}
                   sliceLabelsTextColor="white"
                 /> </div>: 
                 <div style={{height: "250px"}}>

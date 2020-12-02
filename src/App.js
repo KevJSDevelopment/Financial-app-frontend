@@ -11,13 +11,16 @@ import {makeStyles} from '@material-ui/core';
 import MyAppBar from './MyAppBar'
 import FullPlanList from './FullPlanList';
 import TabsContainer from './TabsContainer';
+import leaves from './images/leaves.png'
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     margin: 0,
     backgroundColor: "whitesmoke",
-    height: window.innerHeight
+    // backgroundImage: `url(${leaves})`,
+    backgroundSize: "100%",
+    height: window.innerHeight * 1.225 
   },
   title: {
     flexGrow: 1,

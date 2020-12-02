@@ -1,9 +1,9 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Grid, TextField, Button, makeStyles, Typography, Paper} from '@material-ui/core'
 import {setCurrentUser, setToken} from './actions'
 import {useDispatch} from 'react-redux'
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
+import leaves from './images/leaves.png'
+import leaves3 from './images/leaves3.png'
 // import Button from '@material-ui/core/Button'
 import {useHistory} from 'react-router-dom'
 
@@ -18,6 +18,13 @@ const useStyles = makeStyles({
     },
     gridItem: {
         margin: "5%"
+    },
+    base: {
+        textAlign: "center",
+        backgroundImage: `url(${leaves})`,
+        height: window.innerHeight,
+        backgroundColor: "whitesmoke",
+        backgroundSize: "100%"
     }
 })
 const Landing = () => {
@@ -25,8 +32,18 @@ const Landing = () => {
     const dispatch = useDispatch()
     // const token = useSelector(state => state.token)
     // const currentBudget = useSelector(state => state.currentBudget)
+    const [hover, setHover] = useState(false)
+    const [secondHover, setSecondHover] = useState(false)
     const classes = useStyles()
     const history = useHistory()
+
+    const handleHover = (bool) => {
+        setHover(bool)
+    }
+
+    const handleSecondHover = (bool) => {
+        setSecondHover(bool)
+    }
 
     const login = (ev) => {
         ev.preventDefault()
@@ -82,83 +99,93 @@ const Landing = () => {
 
     
     return (
-        <div style={{textAlign:"center"}}>
-            <Grid container direction="row" alignItems="center" style={{marginTop: "10%"}} spacing={3}>
-                <Grid item xs={5}>
-                    <Paper className={classes.form} elevation={3}>
-                        <form onSubmit={(ev) => {
-                            login(ev)
-                        }}>
-                            <Grid container direct="column">
-                                <Grid item xs={12}>
-                                    <Typography variant="overline" color="primary" style={{fontSize: "16px"}}>
-                                        Sign-in
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={12} className={classes.gridItem}>
-                                    <TextField 
-                                    placeholder="" 
-                                    id="standard-basic" 
-                                    label="Username"
-                                    autoComplete="off"
-                                    />
-                                </Grid>
-                                <Grid item xs={12} className={classes.gridItem}>
-                                    <TextField 
-                                    id="standard-password-input" 
-                                    label="Password" 
-                                    type="password" 
-                                    autoComplete="current-password"
-                                    />
-                                </Grid>
-                                <Grid item xs={12} className={classes.gridItem}>
-                                    <Button variant="contained" type="submit" color="primary">
-                                        Login
-                                    </Button>
-                                </Grid>
-                            </Grid>
-                        </form>
-                    </Paper>
-               </Grid>
-               <Grid item xs={2}>
-                    <div>OR</div>
-               </Grid>
-               <Grid item xs={5} >
-                    <Paper className={classes.form} elevation={3}>
-                        <form onSubmit={(ev) => {
-                            signup(ev)
-                        }}>
-                            <Grid container direct="column">
-                                <Grid item xs={12}>
-                                    <Typography variant="overline" color="primary" style={{fontSize: "16px"}}>
-                                        Create new account
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={12} className={classes.gridItem}>
-                                    <TextField 
-                                    placeholder="" 
-                                    id="standard-basic" 
-                                    label="Username"
-                                    autoComplete="off"
-                                    />
-                                </Grid>
-                                <Grid item xs={12} className={classes.gridItem}>
-                                    <TextField 
-                                    id="standard-password-input" 
-                                    label="Password" 
-                                    type="password" 
-                                    autoComplete="current-password"
-                                    />
-                                </Grid>
-                                <Grid item xs={12} className={classes.gridItem}>
-                                    <Button variant="contained" type="submit" color="primary">
-                                        SignUp
-                                    </Button>
-                                </Grid>
-                            </Grid>
-                        </form>
-                    </Paper>
+        <div className={classes.base}>
+            <Grid container direction="column" alignItems="center">
+                <Grid item xs={12}>
+                    <Typography variant='overline' style={{fontSize: "26px"}} color="primary">
+                        Evergreen
+                    </Typography>
                 </Grid>
+                <Grid container direction="row" alignItems="center" style={{marginTop: "5%"}} spacing={3}>
+                    <Grid item xs={1}>
+                        
+                    </Grid>
+                    <Grid item xs={5}>
+                        <Paper className={classes.form} variant="elevation" elevation={!hover ? 3 : 20} onMouseOver={() => handleHover(true)} onMouseLeave={() => handleHover(false)}>
+                            <form onSubmit={(ev) => {
+                                login(ev)
+                            }}>
+                                <Grid container direct="column">
+                                    <Grid item xs={12}>
+                                        <Typography variant="overline" color="primary" style={{fontSize: "16px"}}>
+                                            Sign-in
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={12} className={classes.gridItem}>
+                                        <TextField 
+                                        placeholder="" 
+                                        id="standard-basic" 
+                                        label="Username"
+                                        autoComplete="off"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} className={classes.gridItem}>
+                                        <TextField 
+                                        id="standard-password-input" 
+                                        label="Password" 
+                                        type="password" 
+                                        autoComplete="current-password"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} className={classes.gridItem}>
+                                        <Button variant="contained" type="submit" color="primary">
+                                            Login
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                            </form>
+                        </Paper>
+                </Grid>
+                <Grid item xs={5} >
+                        <Paper className={classes.form} elevation={3} elevation={!secondHover ? 3 : 20} onMouseOver={() => handleSecondHover(true)} onMouseLeave={() => handleSecondHover(false)}>
+                            <form onSubmit={(ev) => {
+                                signup(ev)
+                            }}>
+                                <Grid container direct="column">
+                                    <Grid item xs={12}>
+                                        <Typography variant="overline" color="primary" style={{fontSize: "16px"}}>
+                                            Create new account
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={12} className={classes.gridItem}>
+                                        <TextField 
+                                        placeholder="" 
+                                        id="standard-basic" 
+                                        label="Username"
+                                        autoComplete="off"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} className={classes.gridItem}>
+                                        <TextField 
+                                        id="standard-password-input" 
+                                        label="Password" 
+                                        type="password" 
+                                        autoComplete="current-password"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} className={classes.gridItem}>
+                                        <Button variant="contained" type="submit" color="primary">
+                                            SignUp
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                            </form>
+                        </Paper>
+                    </Grid>
+                    <Grid item xs={1}>
+                              
+                    </Grid>
+            </Grid>               
            </Grid>
         </div>
     )

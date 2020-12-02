@@ -8,6 +8,7 @@ import {useHistory} from 'react-router-dom';
 import {setCurrentBudget} from './actions'
 import SimplePlanForm from './SimplePlanForm';
 import FullPlanForm from './FullPlanForm'
+import leaves from './images/leaves.png'
 // import AppBar from '@material-ui/core/AppBar';
 // import Toolbar from '@material-ui/core/Toolbar';
 // import {openNewBudget} from './actions'
@@ -15,15 +16,18 @@ import FullPlanForm from './FullPlanForm'
 
 const useStyles = makeStyles((theme) => ({
   base:{
-    height: window.innerHeight,
-    overflowX: "hidden"
+    height: window.innerHeight /1.10,
+    backgroundImage: `url(${leaves})`,
+    width: "100%",
+    overflowX: "hidden",
+    backgroundPositionY: "155%"
   },
   paper: {
     width: 400,
-    backgroundColor: theme.palette.background.paper,
+    // backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+    // boxShadow: theme.shadows[5],
+    // padding: theme.spacing(2, 4, 3),
   }, 
   formGrid: {
     marginTop: "2%",
