@@ -8,29 +8,30 @@ import {useHistory} from 'react-router-dom'
 import {setTabNumber} from './actions'
 import {useSelector, useDispatch} from 'react-redux'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
       maxWidth: "100%",
       borderRadius: "0 0 25px 25px",
-      backgroundColor: "whitesmoke"
+      backgroundColor: "white"
     },
     tabContainer: {
-        borderRadius: "0 0 25px 25px"
+        borderRadius: "0 0 25px 25px",
+        backgroundColor: "white"
     },
     selected: {
-        color: "#98ee99",
-        backgroundColor: "#62727b"
+        color: "#e1ffb1",
+        backgroundColor: "#7e858d"
     },
     tabSelected: {
-        color: "#98ee99",
-        backgroundColor: "#98ee99"
+        color: "#e1ffb1",
+        backgroundColor: "#e1ffb1"
     },
     tab: {
         fontSize: "10px",
     }
     
-});
+}));
 
 const TabsContainer = () => {
 

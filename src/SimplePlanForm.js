@@ -42,10 +42,10 @@ const useStyles = makeStyles((theme) => ({
     color: "#102027",
   },
   label: {
-    color: "#62727b"
+    color: "#7e858d"
   },
   icon: {
-    color: "#66bb6a"
+    color: "#aed581"
   },
 
 }));

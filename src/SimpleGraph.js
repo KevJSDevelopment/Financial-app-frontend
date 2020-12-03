@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {MuiPickersUtilsProvider,KeyboardDatePicker} from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import {ResponsivePie} from '@nivo/pie'
@@ -22,14 +22,20 @@ const useStyles = makeStyles({
     form: {
         width: "65%",
         textAlign: "left",
-        border: "3px solid #62727b",
+        border: "3px solid #7e858d",
         borderRadius: "15px",
         backgroundColor: "white"
     },
     total: {
         padding: "5px",
-        border: "2px solid #338a3e",
+        border: "2px solid #7da453",
         backgroundColor: "white"
+    },
+    graph: {
+        height: "500px",
+        '&:hover':{
+            transform: 'scale(1.05)'
+        }
     }
     
 });
@@ -42,7 +48,7 @@ const SimpleGraph = () => {
     const amount = useSelector(state => state.amount)
     const expDate = useSelector(state => state.expDate)
     const total = useSelector(state => state.total)
-
+    const [hover, setHover] = useState(false)
 
     const classes = useStyles()
 
@@ -53,6 +59,11 @@ const SimpleGraph = () => {
         currency: 'USD',
         minimumFractionDigits: 2
     })
+
+    const handleHover = (bool) => {
+        setHover(bool)
+      }
+  
 
     const getData = () => {
         // debugger
@@ -197,7 +208,7 @@ const SimpleGraph = () => {
         <Grid container direction="row" alignItems="center" spacing={3}>
                 <Grid item xs={8}>
                     <Grid container direction="column">
-                        <Grid item style={{height: "500px"}} xs={12}>
+                        <Grid item xs={12} style={{height: "500px"}}>
                             <ResponsivePie
                                 data={dataArr}
                                 margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
@@ -211,8 +222,80 @@ const SimpleGraph = () => {
                                 radialLabelsLinkColor={{ from: 'color' }}
                                 sliceLabelsSkipAngle={5}
                                 sliceLabelsTextColor="white"
+                                isInteractive={true}
+                                defs={[
+                                    {
+                                        id: 'dots',
+                                        type: 'patternDots',
+                                        background: 'inherit',
+                                        color: 'rgba(255, 255, 255, 0.3)',
+                                        size: 4,
+                                        padding: 1,
+                                        stagger: true
+                                    },
+                                    {
+                                        id: 'lines',
+                                        type: 'patternLines',
+                                        background: 'inherit',
+                                        color: 'rgba(255, 255, 255, 0.3)',
+                                        rotation: -45,
+                                        lineWidth: 6,
+                                        spacing: 10
+                                    }
+                                ]}
+                                fill={[
+                                    {
+                                        match: {
+                                            id: 'ruby'
+                                        },
+                                        id: 'dots'
+                                    },
+                                    {
+                                        match: {
+                                            id: 'c'
+                                        },
+                                        id: 'dots'
+                                    },
+                                    {
+                                        match: {
+                                            id: 'go'
+                                        },
+                                        id: 'dots'
+                                    },
+                                    {
+                                        match: {
+                                            id: 'python'
+                                        },
+                                        id: 'dots'
+                                    },
+                                    {
+                                        match: {
+                                            id: 'scala'
+                                        },
+                                        id: 'lines'
+                                    },
+                                    {
+                                        match: {
+                                            id: 'lisp'
+                                        },
+                                        id: 'lines'
+                                    },
+                                    {
+                                        match: {
+                                            id: 'elixir'
+                                        },
+                                        id: 'lines'
+                                    },
+                                    {
+                                        match: {
+                                            id: 'javascript'
+                                        },
+                                        id: 'lines'
+                                    }
+                                ]}
                                 legends={[
                                     {
+                                        // isInteractive: true,
                                         anchor: 'bottom',
                                         direction: 'row',
                                         justify: false,
@@ -248,10 +331,10 @@ const SimpleGraph = () => {
                 </Grid>
                 <Grid item xs={4}>
                     <Grid container direction="column" alignItems="center">
-                        <Paper className={classes.form} elevation={10}>
+                        <Paper className={classes.form} elevation={!hover ? 3 : 20} onMouseOver={() => handleHover(true)} onMouseLeave={() => handleHover(false)}>
                         <form onSubmit={(ev) => handleSimpleSubmit(ev)}>
                             <Grid item xs={12}>
-                                <Typography variant="subtitle1" style={{textAlign: "center", color: "#338a3e"}}>
+                                <Typography variant="subtitle1" style={{textAlign: "center", color: "#7da453"}}>
                                     Create new expense
                                 </Typography>
                             </Grid>

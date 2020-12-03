@@ -78,8 +78,13 @@ const ViewPlan = () => {
                 })
                 catArr.push(category.cat)
             })
+            // debugger
             dispatch(setExpenseRows(rows))
             dispatch(setExpenseCategories(catArr))
+        }
+        else{
+            dispatch(setExpenseRows([]))
+            dispatch(setExpenseCategories([]))
         }
         if(data.incomeInfo.length > 0){
             let rows = []
@@ -93,8 +98,13 @@ const ViewPlan = () => {
                 })
                 catArr.push(category.cat)
             })
+            // debugger
             dispatch(setIncomeRows(rows))
             dispatch(setIncomeCategories(catArr))
+        }
+        else {
+            dispatch(setIncomeRows([]))
+            dispatch(setIncomeCategories([]))
         }
         dispatch(setBalance(incomeSum - expenseSum))
     }

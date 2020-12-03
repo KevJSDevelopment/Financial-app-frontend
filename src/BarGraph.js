@@ -12,7 +12,7 @@ const BarGraph = (props) => {
             groupMode="grouped"
             valueScale={{ type: 'linear' }}
             indexScale={{ type: 'band', round: true }}
-            colors={{ scheme: 'accent' }}
+            colors={{ scheme: 'set2' }}
             borderColor={{ from: 'color', modifiers: [ [ 'darker', 1.6 ] ] }}
             axisTop={null}
             axisRight={null}

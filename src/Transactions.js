@@ -117,7 +117,7 @@ const Transactions = () => {
     return (
         <div className={classes.grid}>
             <Paper elevation={3} style={{textAlign: "center"}}>
-                <Typography variant="overline" color="primary" >
+                <Typography variant="overline" color="primary" style={{fontSize: "16px"}} >
                     My Balance: {formatter.format(bankBalance)}
                 </Typography>
             </Paper>

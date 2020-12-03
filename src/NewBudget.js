@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {setNewBudgetType, resetStore} from './actions'
 import {useSelector, useDispatch} from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
@@ -8,6 +8,8 @@ import {useHistory} from 'react-router-dom';
 import {setCurrentBudget} from './actions'
 import SimplePlanForm from './SimplePlanForm';
 import FullPlanForm from './FullPlanForm'
+import leaves from './images/leaves.png'
+import Grow from '@material-ui/core/Grow'
 // import AppBar from '@material-ui/core/AppBar';
 // import Toolbar from '@material-ui/core/Toolbar';
 // import {openNewBudget} from './actions'
@@ -15,15 +17,18 @@ import FullPlanForm from './FullPlanForm'
 
 const useStyles = makeStyles((theme) => ({
   base:{
-    height: window.innerHeight,
-    overflowX: "hidden"
+    height: window.innerHeight /1.10,
+    backgroundImage: `url(${leaves})`,
+    width: "100%",
+    overflowX: "hidden",
+    backgroundPositionY: "155%"
   },
   paper: {
     width: 400,
-    backgroundColor: theme.palette.background.paper,
+    // backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+    // boxShadow: theme.shadows[5],
+    // padding: theme.spacing(2, 4, 3),
   }, 
   formGrid: {
     marginTop: "2%",
@@ -40,16 +45,19 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid grey",
     backgroundColor: "white",
     width:"100%",
-    marginTop: "5%"
+    marginTop: "5%",
+    '&:hover':{
+      transform: 'scale(1.05)'
+    }
   },
   select: {
     color: "#102027",
   },
   label: {
-    color: "#62727b"
+    color: "#7e858d"
   },
   icon: {
-    color: "#66bb6a"
+    color: "#aed581"
   },
 
 }));
@@ -60,6 +68,8 @@ const NewBudget = () => {
   const dateFrom = useSelector(state => state.fromDate)
   const dateTo = useSelector(state => state.toDate)
   const startDate = useSelector(state => state.startDate)
+
+  const [hover, setHover] = useState(false)
   // const token = useSelector(state => state.token)
   // const currentBudget = useSelector(state => state.currentBudget)
 
@@ -116,7 +126,7 @@ const NewBudget = () => {
           endDate = new Date((dateArr[2] - 0), (dateArr[0] - 0), (dateArr[1] - 0))
         }
         else{
-          endDate = new Date((dateArr[2] - 0 + 1), 1, (dateArr[1] - 0))
+          endDate = new Date((dateArr[2] - 0 + 1), 0, (dateArr[1] - 0))
         }
         // debugger
         const meta = {
@@ -134,11 +144,12 @@ const NewBudget = () => {
 
   return (
     <div className={classes.base}>
-      <Paper className={classes.form} elevation={3}>
+      <Grow in={true} timeout={500}>
+      <Paper className={classes.form} elevation={!hover ? 3 : 20} onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>
         <form onSubmit={(ev) => addBudget(ev)}>
           <Grid className={classes.formGrid} container spacing={3} alignItems="center" direction="column">
             <Grid item xs={3}>
-              <div style={{fontSize:"22px", textAlign: "center", color: "#338a3e"}}>
+              <div style={{fontSize:"22px", textAlign: "center", color: "#7da453"}}>
                 Create New Financial Plan
               </div>
             </Grid>
@@ -180,6 +191,7 @@ const NewBudget = () => {
           </Grid>
         </form>
       </Paper>
+      </Grow>
     </div>
   )
 }

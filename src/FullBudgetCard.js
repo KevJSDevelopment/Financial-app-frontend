@@ -1,17 +1,20 @@
 import React, {useEffect, useState} from 'react'
-import {Grid, makeStyles, Button, CardHeader, Paper, CardContent} from '@material-ui/core'
+import {Grid, makeStyles, Button, CardHeader, Paper, CardContent, Slide} from '@material-ui/core'
 import Card from '@material-ui/core/Card';
 import {useSelector, useDispatch} from 'react-redux'
 import {setPlanView, setBalance, setComparePlan} from './actions'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
     root: {
         width:"100%",
+        '&:hover':{
+            border: "1px solid #aed581",
+        },
     },
     header: {
         width: "100%", 
-        borderBottom: "2px solid #62727b", 
-        color: "#62727b", 
+        borderBottom: "2px solid #7e858d", 
+        color: "#7e858d", 
         borderRadius:"0 0 5px 5px", 
         textAlign: "center",
         backgroundColor: "white"
@@ -19,11 +22,11 @@ const useStyles = makeStyles((theme) => ({
     card: {
         backgroundColor: "white",
         '&:hover': {
-            backgroundColor:"whitesmoke"
+            backgroundColor:"whitesmoke",
         }
     }
   
-  }));
+  });
 
 const FullBudgetCard = (props) => {
 
@@ -31,9 +34,14 @@ const FullBudgetCard = (props) => {
     const accounts = useSelector(state => state.accounts)
     const [thisBalance, setThisBalance] = useState(0.00)
     const [currentPlan, setCurrentPlan] = useState({})
+    const [hover, setHover] = useState(false)
 
+    
     const dispatch = useDispatch()
-
+    
+    const handleHover = (bool) => {
+      setHover(bool)
+    }
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
@@ -79,7 +87,12 @@ const FullBudgetCard = (props) => {
 
     return (
         <Grid item xs={12}>
-            <Paper elevation={3} className={classes.root}>
+            <Slide 
+            in={true} 
+            direction="up"
+            {...(true ? { timeout: (props.count + 5) * 100 } : {})}
+            >
+            <Paper className={classes.root} elevation={!hover ? 3 : 20} onMouseOver={() => handleHover(true)} onMouseLeave={() => handleHover(false)}>
                 <div className={classes.header}>
                     {props.budget.name}
                 </div>
@@ -87,7 +100,7 @@ const FullBudgetCard = (props) => {
                     <CardHeader
                         title={`Finances for ${props.budget.date_from} - ${props.budget.date_to}`}
                         subheader={`Balance: ${formatter.format(thisBalance)}`}
-                        style={{color: '#338a3e'}}
+                        style={{color: '#7da453'}}
                         onClick={() => viewDetails()}
                         />
                     {accounts.length > 0 ? <CardContent>
@@ -97,6 +110,7 @@ const FullBudgetCard = (props) => {
                     </CardContent> : null}
                 </Card>
             </Paper>
+            </Slide>
         </Grid>
     )
 }

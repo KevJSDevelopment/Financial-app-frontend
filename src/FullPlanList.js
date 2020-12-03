@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
@@ -16,6 +16,11 @@ import { Paper } from '@material-ui/core';
 import BankInfo from './BankInfo'
 import Transactions from './Transactions'
 import ComparePlan from './ComparePlan'
+import BankOfAmerica from './images/Bankofamerica.png'
+import Chase from './images/Chase5.png'
+import Citi from './images/citi.png'
+import Suntrust from './images/Suntrust.png'
+import WellsFargo from './images/wellsfargo.png'
 
 export const TabPanel = (props) => {
     const { children, value, index, ...other } = props;
@@ -54,7 +59,7 @@ const allyProps = (index) => {
 const useStyles = makeStyles((theme) => ({
     root: {
     flexGrow: 1,
-    backgroundColor: "whitesmoke",
+    // backgroundColor: "whitesmoke",
     display: 'flex',
     paddingTop: "1%",
     marginTop: "1%",
@@ -63,40 +68,43 @@ const useStyles = makeStyles((theme) => ({
     label: {
         borderRadius: 0,
         textAlign: "center",
-        borderTop: "1px solid #62727b",
-        borderBottom: "1px solid #62727b"
+        borderTop: "1px solid #7e858d",
+        borderBottom: "1px solid #7e858d"
     },
     tab: {
         marginTop: "1%",
         marginBottom: "10%",
         padding: "5%",
-        '&:hover':{
-            backgroundColor: "whitesmoke"
-        }
+        '&:hover': {
+            borderRight: "2px solid #aed581",
+            cursor: "pointer",
+            backgroundColor: "whitesmoke",
+            // color: "#98ee99"
+        },
     },
     tabContainer: {
-        borderRight: `2px solid #62727b`,
+        borderRight: `2px solid #7e858d`,
         borderRadius: "0 25px 25px 0",
         backgroundColor: "white"
     },
     selected: {
-        color: "#98ee99",
-        backgroundColor: "#62727b"
+        color: "#e1ffb1",
+        backgroundColor: "#7e858d"
     },
     tabSelected: {
-        color: "#98ee99",
-        backgroundColor: "#98ee99"
+        color: "#e1ffb1",
+        backgroundColor: "#e1ffb1"
     }
 }));
 
 const FullPlanList = () => {
 
+    const images = [Chase, BankOfAmerica, Suntrust, WellsFargo, Citi]
     const selectedPanel = useSelector(state => state.selectedPanel)
     const budgets = useSelector(state => state.budgets)
     const planView = useSelector(state => state.planView)
     const accounts = useSelector(state => state.accounts)
     const comparePlan = useSelector(state => state.comparePlan)
-
     // const transactions = useSelector(state => state.transactions)
     // const loading = useSelector(state => state.loading)
     // const currentUser = useSelector(state => state.currentUser)
@@ -104,11 +112,9 @@ const FullPlanList = () => {
     let tabNum = 3
     let panelNum = 4
 
-    const history = useHistory()
     const classes = useStyles()
 
     const dispatch = useDispatch()
-
 
     const getUser = async () => {
         const res = await fetch("http://localhost:3000/users",{
@@ -179,20 +185,34 @@ const FullPlanList = () => {
                 <Tab classes={{selected: classes.selected}} className={classes.tab} label="My Plans" {...allyProps(1)} />
                 <Paper elevation={3} className={classes.label}>
                     <Typography variant="overline" color="secondary">
-                        My Banks
+                        Bank Information
                     </Typography>
                 </Paper>
                 <Tab classes={{selected: classes.selected}} className={classes.tab} label="My Transactions" {...allyProps(3)} />
                 {accounts.map((account)=> {
-                    return <Tab classes={{selected: classes.selected}} key={account.account.id} className={classes.tab} label={account.account.p_institution} {...allyProps((tabNum++))} />
+                    // debugger
+                     switch(account.account.p_institution){
+                        case "Chase":
+                            return <Tab classes={{selected: classes.selected}} key={account.account.id} className={classes.tab} label={<img src={images[0]} width="120" height="40" />} {...allyProps((tabNum++))} />
+                        case "Bank of America":
+                            return <Tab classes={{selected: classes.selected}} key={account.account.id} className={classes.tab} label={ <img src={images[1]} width="120" height="50" />} {...allyProps((tabNum++))} />                        
+                        case "SunTrust - Online Banking":
+                            return <Tab classes={{selected: classes.selected}} key={account.account.id} className={classes.tab} label={<img src={images[2]} width="150" height="40" />} {...allyProps((tabNum++))} />
+                        case "Wells Fargo":
+                            return <Tab classes={{selected: classes.selected}} key={account.account.id} className={classes.tab} label={<img src={images[3]} width="120" height="70" />} {...allyProps((tabNum++))} />
+                        case "Citi":
+                            return <Tab classes={{selected: classes.selected}} key={account.account.id} className={classes.tab} label={<img src={images[4]} width="120" height="25" />} {...allyProps((tabNum++))} />
+                        default:
+                            return <Tab classes={{selected: classes.selected}} key={account.account.id} className={classes.tab} label={account.account.p_institution} {...allyProps((tabNum++))} />
+                    }
                 })}
                 <Link getPlaidAccounts={getPlaidAccounts} />
             </Tabs>
             <TabPanel value={selectedPanel} index={1}>
                 <Grid container spacing={3} direction="row">
-                    {!planView && !comparePlan ? budgets.map(budget => {
+                    {!planView && !comparePlan ? budgets.map((budget, index) => {
                         if(budget.plan_type === "full"){
-                            return <FullBudgetCard budget={budget} key={budget.id}/> 
+                            return <FullBudgetCard budget={budget} count={index} key={budget.id}/> 
                         }
                     }) : planView ? <ViewPlan /> : <ComparePlan />}
                 </Grid>
