@@ -50,7 +50,7 @@ const App = () => {
     <div className={classes.root}>
       <div id="content-container">
       <Router>
-        {!open ? <MyAppBar />: null}
+        {!open ? <MyAppBar /> : null}
         {!open && token ? <TabsContainer /> : null}
         <Switch>
           <Route path="/" exact render={() => !token ? <Landing /> : <Redirect to="/planList"/> }/>

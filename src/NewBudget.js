@@ -9,6 +9,7 @@ import {setCurrentBudget} from './actions'
 import SimplePlanForm from './SimplePlanForm';
 import FullPlanForm from './FullPlanForm'
 import leaves from './images/leaves.png'
+import Grow from '@material-ui/core/Grow'
 // import AppBar from '@material-ui/core/AppBar';
 // import Toolbar from '@material-ui/core/Toolbar';
 // import {openNewBudget} from './actions'
@@ -143,6 +144,7 @@ const NewBudget = () => {
 
   return (
     <div className={classes.base}>
+      <Grow in={true} timeout={500}>
       <Paper className={classes.form} elevation={!hover ? 3 : 20} onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>
         <form onSubmit={(ev) => addBudget(ev)}>
           <Grid className={classes.formGrid} container spacing={3} alignItems="center" direction="column">
@@ -189,6 +191,7 @@ const NewBudget = () => {
           </Grid>
         </form>
       </Paper>
+      </Grow>
     </div>
   )
 }

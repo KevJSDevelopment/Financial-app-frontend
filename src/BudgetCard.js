@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import Card from '@material-ui/core/Card';
 // import CardActionArea from '@material-ui/core/CardActionArea';
+import {makeStyles, Paper, Slide} from '@material-ui/core'
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 // import CardMedia from '@material-ui/core/CardMedia';
@@ -10,17 +11,17 @@ import Grid from '@material-ui/core/Grid'
 import {useHistory} from 'react-router-dom'
 import {useDispatch} from 'react-redux'
 import {setCurrentBudget} from './actions'
-import {makeStyles, CardHeader, Paper, Slide} from '@material-ui/core'
+import CardHeader from '@material-ui/core/CardHeader'
 import {ResponsivePie} from '@nivo/pie'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   root: {
-    width: 345,
+    width: "75%",
     backgroundColor: "white",
-    '&:hover': {  
-      border: "2px solid #aed581",
-      transform: 'scale(1.05)'
+    '&:hover': {
+      border: '1px solid #aed581'
     },
+    borderRadius: "15px"
   },
   content: {
     '&:hover': {
@@ -28,10 +29,10 @@ const useStyles = makeStyles((theme) => ({
     },
     width: "90%", 
     marginLeft: "5%"
-  },
+  }
 
 
-}));
+});
 
 const BudgetCard = (props) => {
 
@@ -45,8 +46,14 @@ const BudgetCard = (props) => {
     {"id":"5th", "label": "5th", "value": Math.ceil((Math.random() * 5)).toFixed(2)}
   ]
 
-  const defaultColors = ["paired", "accent","dark2", "category10", "nivo", "pastel1", "pastel2", "set1", "set2", "set3"]
+  const defaultColors = ["paired", "accent", "dark2", "category10", "set1", "set2", "set3", "pastel1", "pastel2", "nivo"]
   const defaultColor = "greys"
+
+  const [hover, setHover] = useState(false)
+
+  const handleHover = (bool) => {
+    setHover(bool)
+  }
 
   const history = useHistory()
   const classes = useStyles()
@@ -110,19 +117,19 @@ const BudgetCard = (props) => {
   }, [])
 
     return (
-      <Grid item xs={4} className={classes.item}>
+      <Grid item xs={4} className={classes.container}>
           <Slide 
           in={true} 
           direction="left"
           {...(true ? { timeout: (props.count + 5) * 100 } : {})}
           >
-          <Card className={classes.root}>
+          <Card className={classes.root} elevation={!hover ? 3 : 20} onMouseOver={() => handleHover(true)} onMouseLeave={() => handleHover(false)}>
             <CardHeader
               title={toCaps(props.budget.name)}
               subheader={`${props.budget.date_from} - ${props.budget.date_to}`}
               style={{color: '#7da453'}}
             />
-              <Paper className={classes.content}>
+            <Paper className={classes.content}>
             <CardContent onClick={() => handleClick()}>
                 {dataArr.length > 0 ?
                 <div style={{height: "250px"}}>

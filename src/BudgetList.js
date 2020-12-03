@@ -81,7 +81,7 @@ const BudgetList = () => {
         {budgets.map((budget, index)=> {
           if(budget.plan_type !== "full"){
             // debugger
-            return <BudgetCard budget={budget} getBudgets={getBudgets} count={index} key={budget.id}/>
+            return <BudgetCard budget={budget} getBudgets={getBudgets} count={index - 2} key={budget.id}/>
           }
         })}
       </Grid>

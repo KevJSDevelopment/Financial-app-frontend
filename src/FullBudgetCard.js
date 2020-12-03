@@ -4,12 +4,12 @@ import Card from '@material-ui/core/Card';
 import {useSelector, useDispatch} from 'react-redux'
 import {setPlanView, setBalance, setComparePlan} from './actions'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
     root: {
         width:"100%",
-        '&:hover': {
-            border: "2px solid #aed581"
-        }
+        '&:hover':{
+            border: "1px solid #aed581",
+        },
     },
     header: {
         width: "100%", 
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
         }
     }
   
-  }));
+  });
 
 const FullBudgetCard = (props) => {
 
@@ -34,9 +34,14 @@ const FullBudgetCard = (props) => {
     const accounts = useSelector(state => state.accounts)
     const [thisBalance, setThisBalance] = useState(0.00)
     const [currentPlan, setCurrentPlan] = useState({})
+    const [hover, setHover] = useState(false)
 
+    
     const dispatch = useDispatch()
-
+    
+    const handleHover = (bool) => {
+      setHover(bool)
+    }
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
@@ -87,7 +92,7 @@ const FullBudgetCard = (props) => {
             direction="up"
             {...(true ? { timeout: (props.count + 5) * 100 } : {})}
             >
-            <Paper elevation={3} className={classes.root}>
+            <Paper className={classes.root} elevation={!hover ? 3 : 20} onMouseOver={() => handleHover(true)} onMouseLeave={() => handleHover(false)}>
                 <div className={classes.header}>
                     {props.budget.name}
                 </div>
