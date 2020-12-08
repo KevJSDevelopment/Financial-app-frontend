@@ -138,7 +138,7 @@ const BudgetCard = (props) => {
                   margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
                   innerRadius={.6}
                   cornerRadius={5}
-                  colors={{ scheme: defaultColors[props.count] }}
+                  colors={{ scheme: props.count <= 8 && props.count >= 0 ? defaultColors[props.count] : defaultColors[0]}}
                   borderWidth={1}
                   borderColor={{ from: 'color', modifiers: [ [ 'darker', 0.2 ] ] }}
                   radialLabelsSkipAngle={3}

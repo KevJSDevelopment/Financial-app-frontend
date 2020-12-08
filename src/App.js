@@ -11,7 +11,7 @@ import {makeStyles} from '@material-ui/core';
 import MyAppBar from './MyAppBar'
 import FullPlanList from './FullPlanList';
 import TabsContainer from './TabsContainer';
-import leaves from './images/leaves.png'
+// import leaves from './images/leaves.png'
 
 const useStyles = makeStyles((theme) => ({
   root: {
