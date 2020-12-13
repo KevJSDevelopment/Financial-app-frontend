@@ -62,7 +62,7 @@ const FullBudgetCard = (props) => {
         const data = await res.json()
         let costSum = 0.00
         let incomeSum = 0.00
-        // debugger
+        
         if(data.expenseInfo.length > 0){
             data.expenseInfo.forEach(category => {
                 category.expenses.forEach(expense => {

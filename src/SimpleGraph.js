@@ -10,10 +10,6 @@ import {setCategoryList, setCategory, setDataArr, setAmount, setCurrentBudget, s
 const useStyles = makeStyles({
     button: {
       color: "white",
-    //   backgroundColor: "#00ca00",
-    //   '&:hover': {
-    //     backgroundColor: "#59dd44",
-    //   },
     },
     formItem: {
         marginBottom: "5%",
@@ -66,7 +62,7 @@ const SimpleGraph = () => {
   
 
     const getData = () => {
-        // debugger
+        
         fetch(`http://localhost:3000/budgets/${localStorage.getItem("budgetId")}`)
         .then(res => res.json())
         .then(data => {
@@ -99,7 +95,7 @@ const SimpleGraph = () => {
         const num = parseFloat(value)
         
         if(isNaN(num) && value !== ""){
-            // debugger
+            
             alert("You must enter a number for the cost")
         }
         else if (value === ""){
@@ -144,7 +140,7 @@ const SimpleGraph = () => {
                     .then(res => res.json())
                     .then(expenseData => {
                         if(expenseData.auth){
-                            // debugger
+                            
                             localStorage.setItem("budgetId", expenseData.expense.budget_id)
                             ev.target.reset()
                             dispatch(setAmount(""))
@@ -157,13 +153,13 @@ const SimpleGraph = () => {
                     })
                 }
                 else {
-                    // debugger
+                    
                     alert(categoryData.message)
                 }
             })
         }
         else {
-            // debugger
+            
             fetch("http://localhost:3000/expense_categories", {
                 method: "PATCH",
                 headers: {"Content-Type" : "application/json"},
@@ -295,7 +291,6 @@ const SimpleGraph = () => {
                                 ]}
                                 legends={[
                                     {
-                                        // isInteractive: true,
                                         anchor: 'bottom',
                                         direction: 'row',
                                         justify: false,
@@ -371,7 +366,7 @@ const SimpleGraph = () => {
                                 label="Date"
                                 value={expDate}
                                 onChange={(value) => {
-                                    // debugger
+                                    
                                     dispatch(setExpDate(value))}}
                                 KeyboardButtonProps={{
                                     'aria-label': 'change date',

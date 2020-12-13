@@ -1,12 +1,9 @@
 import React, {useEffect} from 'react'
-// import {Grid, makeStyles} from '@material-ui/core'
 import BudgetCard from './BudgetCard'
 import {useSelector, useDispatch} from 'react-redux'
 import {setCurrentUser, setLink} from './actions'
-// import {setBudgets} from './actions'
-import {setBudgets, resetStore, setTransactions, setAccounts} from './actions'
-import {Grid, makeStyles, Grow} from '@material-ui/core'
-// import { transactions } from './reducers/categories'
+import {setBudgets} from './actions'
+import {Grid, makeStyles} from '@material-ui/core'
 
 const useStyles = makeStyles({
     icon: {
@@ -27,13 +24,10 @@ const useStyles = makeStyles({
 });
 
 const BudgetList = () => {
-    // debugger
+    
 
     const classes = useStyles()
     const budgets = useSelector(state => state.budgets)
-    // const accounts = useSelector(state => state.accounts)
-    // const transactions = useSelector(state => state.transactions)
-    // const currentBudget = useSelector(state => state.currentBudget)
 
     const dispatch = useDispatch()
 
@@ -61,7 +55,7 @@ const BudgetList = () => {
       headers: {"Content-Type": "application/json", "Authentication": `Bearer ${localStorage.getItem("token")}`},
     })
     const linkData = await resp.json()
-    // debugger
+    
     if(linkData.auth){
       localStorage.setItem("link", linkData.link)
       dispatch(setLink(linkData.link))
@@ -81,7 +75,7 @@ const BudgetList = () => {
       <Grid container alignItems="center" spacing={3} className={classes.container}>
         {budgets.map((budget, index)=> {
           if(budget.plan_type !== "full"){
-            // debugger
+            
             return <BudgetCard budget={budget} getBudgets={getBudgets} count={index - 2} key={budget.id}/>
           }
         })}

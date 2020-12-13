@@ -53,7 +53,6 @@ const TabsContainer = () => {
     const handleNewPlan = () => {
         dispatch(setTabNumber(3))
         history.push("/newPlan")
-        // dispatch(openNewBudget())
     }
 
     return (

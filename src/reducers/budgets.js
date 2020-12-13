@@ -1,5 +1,5 @@
 export const budgetsReducer = (state = [], action) => {
-    // debugger
+    
     switch(action.type){
         case "ADD_BUDGETS":
             return state.push(action.payload)

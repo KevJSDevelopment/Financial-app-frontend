@@ -78,7 +78,7 @@ const ViewPlan = () => {
                 })
                 catArr.push(category.cat)
             })
-            // debugger
+            
             dispatch(setExpenseRows(rows))
             dispatch(setExpenseCategories(catArr))
         }
@@ -98,7 +98,7 @@ const ViewPlan = () => {
                 })
                 catArr.push(category.cat)
             })
-            // debugger
+            
             dispatch(setIncomeRows(rows))
             dispatch(setIncomeCategories(catArr))
         }
@@ -113,7 +113,7 @@ const ViewPlan = () => {
         const num = parseFloat(value)
         
         if(isNaN(num) && value !== ""){
-            // debugger
+            
             alert("You must enter a number for the cost")
         }
         else if (value === ""){
@@ -213,7 +213,7 @@ const ViewPlan = () => {
         else {
             alert("You must choose either income or expense when adding a transaction")
         }
-        // debugger
+        
     }
 
     const handleCategorySelect = (ev) => {

@@ -10,10 +10,6 @@ import SimplePlanForm from './SimplePlanForm';
 import FullPlanForm from './FullPlanForm'
 import leaves from './images/leaves.png'
 import Grow from '@material-ui/core/Grow'
-// import AppBar from '@material-ui/core/AppBar';
-// import Toolbar from '@material-ui/core/Toolbar';
-// import {openNewBudget} from './actions'
-// import TabsContainer from './TabsContainer'
 
 const useStyles = makeStyles((theme) => ({
   base:{
@@ -25,10 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     width: 400,
-    // backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
-    // boxShadow: theme.shadows[5],
-    // padding: theme.spacing(2, 4, 3),
   }, 
   formGrid: {
     marginTop: "2%",
@@ -70,8 +63,6 @@ const NewBudget = () => {
   const startDate = useSelector(state => state.startDate)
 
   const [hover, setHover] = useState(false)
-  // const token = useSelector(state => state.token)
-  // const currentBudget = useSelector(state => state.currentBudget)
 
   const history = useHistory()
   const dispatch = useDispatch()
@@ -128,7 +119,7 @@ const NewBudget = () => {
         else{
           endDate = new Date((dateArr[2] - 0 + 1), 0, (dateArr[1] - 0))
         }
-        // debugger
+        
         const meta = {
           method: "POST",
           headers: {"Content-Type":"application/json",

@@ -3,7 +3,6 @@ import {Grid, TextField, Button, makeStyles, Typography, Paper} from '@material-
 import {setCurrentUser, setToken} from './actions'
 import {useDispatch} from 'react-redux'
 import leaves from './images/leaves.png'
-// import Button from '@material-ui/core/Button'
 import {useHistory} from 'react-router-dom'
 
 const useStyles = makeStyles({
@@ -29,8 +28,6 @@ const useStyles = makeStyles({
 const Landing = () => {
 
     const dispatch = useDispatch()
-    // const token = useSelector(state => state.token)
-    // const currentBudget = useSelector(state => state.currentBudget)
     const [hover, setHover] = useState(false)
     const [secondHover, setSecondHover] = useState(false)
     const classes = useStyles()
@@ -46,7 +43,6 @@ const Landing = () => {
 
     const login = (ev) => {
         ev.preventDefault()
-        // debugger
         const meta = {
             method: "POST",
             headers: {
@@ -61,7 +57,6 @@ const Landing = () => {
             localStorage.setItem("token", data.token)
             dispatch(setCurrentUser(data.user))
             dispatch(setToken(data.token))
-            // history.push("/planList");
           }
           else {
             alert(data.info)
@@ -87,7 +82,6 @@ const Landing = () => {
             localStorage.setItem("token", data.token)
             dispatch(setCurrentUser(data.user))
             dispatch(setToken(data.token))
-            // history.push("/planList");
           }
           else {
             alert(data.info)

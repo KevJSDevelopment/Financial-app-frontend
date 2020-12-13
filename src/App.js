@@ -11,14 +11,12 @@ import {makeStyles} from '@material-ui/core';
 import MyAppBar from './MyAppBar'
 import FullPlanList from './FullPlanList';
 import TabsContainer from './TabsContainer';
-// import leaves from './images/leaves.png'
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     margin: 0,
     backgroundColor: "whitesmoke",
-    // backgroundImage: `url(${leaves})`,
     backgroundSize: "100%",
     height: window.innerHeight * 1.225 
   },
@@ -31,12 +29,9 @@ const App = () => {
   const open = useSelector(state => state.budgetOpen)
   const token = useSelector(state => state.token)
   const currentUser = useSelector(state => state.currentUser)
-  // const accounts = useSelector(state => state.accounts)
-  // const currentBudget = useSelector(state => state.currentBudget)
   const dispatch = useDispatch()
 
   const classes = useStyles()
-  // const history = useHistory()
   
   const getToken = () => {
     dispatch(setToken(localStorage.getItem("token")))

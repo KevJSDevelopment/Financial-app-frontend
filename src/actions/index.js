@@ -87,7 +87,7 @@ export const setTotal = (total) => {
 }
 
 export const setCurrentBudget = (budgetObject) => {
-    // debugger
+    
     return {
             type: "VIEW",
             payload: budgetObject
@@ -304,7 +304,7 @@ export const setBalance = (total) => {
 }
 // //-------using thunk---------
 // export const setCurrentBudget = (budgetId) => {
-//     // debugger
+//     
 //     return (dispatch) => {
 //         fetch(`http://localhost:3000/budgets/${budgetId}`)
 //         .then(res => res.json())

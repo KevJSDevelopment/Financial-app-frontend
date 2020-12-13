@@ -59,7 +59,6 @@ const allyProps = (index) => {
 const useStyles = makeStyles((theme) => ({
     root: {
     flexGrow: 1,
-    // backgroundColor: "whitesmoke",
     display: 'flex',
     paddingTop: "1%",
     marginTop: "1%",
@@ -79,7 +78,6 @@ const useStyles = makeStyles((theme) => ({
             borderRight: "2px solid #aed581",
             cursor: "pointer",
             backgroundColor: "whitesmoke",
-            // color: "#98ee99"
         },
     },
     tabContainer: {
@@ -105,9 +103,6 @@ const FullPlanList = () => {
     const planView = useSelector(state => state.planView)
     const accounts = useSelector(state => state.accounts)
     const comparePlan = useSelector(state => state.comparePlan)
-    // const transactions = useSelector(state => state.transactions)
-    // const loading = useSelector(state => state.loading)
-    // const currentUser = useSelector(state => state.currentUser)
 
     let tabNum = 3
     let panelNum = 4
@@ -153,7 +148,6 @@ const FullPlanList = () => {
         else{
             alert(data.message)
         }
-        // dispatch(setLoading(false))
     }
 
     const handleSelection = (newValue) => {
@@ -190,7 +184,6 @@ const FullPlanList = () => {
                 </Paper>
                 <Tab classes={{selected: classes.selected}} className={classes.tab} label="My Transactions" {...allyProps(3)} />
                 {accounts.map((account)=> {
-                    // debugger
                      switch(account.account.p_institution){
                         case "Chase":
                             return <Tab classes={{selected: classes.selected}} key={account.account.id} className={classes.tab} label={<img src={images[0]} width="120" height="40" />} {...allyProps((tabNum++))} />
