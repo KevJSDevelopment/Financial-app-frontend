@@ -1,6 +1,5 @@
 import React from 'react'
 import { PlaidLink, usePlaidLink }from "react-plaid-link";
-// import { trackPromise } from 'react-promise-tracker'
 import {makeStyles} from '@material-ui/core'
 import {useSelector} from 'react-redux'
 
@@ -12,7 +11,6 @@ const useStyles = makeStyles({
         borderRight: "2px solid #aed581",
         cursor: "pointer",
         backgroundColor: "whitesmoke",
-        // color: "#98ee99"
       },
     },
     
@@ -24,8 +22,6 @@ const Link = (props) => {
     const classes = useStyles()
 
     const handleOnSuccess = (public_token, metadata) => {
-        // debugger
-        // trackPromise(
         fetch("http://localhost:3000/get_access_token", {
           method: "POST",
           headers: {
@@ -45,14 +41,6 @@ const Link = (props) => {
           } 
           else {
             props.getPlaidAccounts()
-            // transactions have account_ids, need to add account_names and institution
-            // let transactions = data.transactions.map( tran => {
-            //     let account = data.accounts.filter( acc => { 
-            //         return acc.account_id === tran.account_id
-            //     })
-            //     return {...tran, account_name: account[0].name}
-            // })
-            // )
           }
         })
       }

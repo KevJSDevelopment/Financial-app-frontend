@@ -16,12 +16,6 @@ const useStyles = makeStyles({
 const ComparePlan = () => {
 
     const comparePlan = useSelector(state => state.comparePlan)
-    // const expectedIncomesArray = useSelector(state => state.expectedIncomesArray)
-    // const expectedExpensesArray = useSelector(state => state.expectedExpensesArray)
-    // const actualIncomesArray = useSelector(state => state.actualIncomesArray)
-    // const actualExpensesArray = useSelector(state => state.actualExpensesArray)
-    // const incomeCategories = useSelector(state => state.incomeCategories)
-    // const expenseCategories = useSelector(state => state.expenseCategories)
     const displayLine = useSelector(state => state.displayLine)
     const accounts = useSelector(state => state.accounts)
     const incomeKeys = useSelector(state => state.incomeKeys)
@@ -63,7 +57,7 @@ const ComparePlan = () => {
         const data = await res.json()
         let costSum = 0.00
         let incomeSum = 0.00
-        // debugger
+        
         if(data.expenseInfo.length > 0){
             data.expenseInfo.forEach(category => {
                 category.expenses.forEach(expense => {
@@ -97,7 +91,7 @@ const ComparePlan = () => {
         }
         const res = await fetch(`http://localhost:3000/line_comparison`, meta)
         const data = await res.json()
-        // debugger
+        
         dispatch(setIncomeLineData(data.incomeData))
         dispatch(setExpenseLineData(data.expenseData))
     }

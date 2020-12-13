@@ -5,7 +5,6 @@ import { DataGrid } from '@material-ui/data-grid';
 import { Select, Grid, TextField, Button, makeStyles, Paper, Input, InputAdornment, Typography} from '@material-ui/core';
 import {MuiPickersUtilsProvider,KeyboardDatePicker} from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-// import { simpleTableRows } from './reducers/budgets';
 
 const useStyles = makeStyles({
     form: {
@@ -84,7 +83,7 @@ const SimpleLog = () => {
         dispatch(setCategoryList(catArr))
         dispatch(setSimpleRows(tableRows))
         dispatch(setSelectedArr([]))
-        // debugger
+        
     }
 
     const handleRowClick = (ev) => {
@@ -156,7 +155,7 @@ const SimpleLog = () => {
         ev.preventDefault()
 
         if(ev.target[0].value !== "add"){
-            // debugger
+            
             const meta = {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
@@ -173,7 +172,7 @@ const SimpleLog = () => {
             }
         }
         else {
-            // debugger
+            
             const meta = {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
@@ -207,7 +206,7 @@ const SimpleLog = () => {
         const num = parseFloat(value)
         
         if(isNaN(num) && value !== ""){
-            // debugger
+            
             alert("You must enter a number for the cost")
         }
         else if (value === ""){

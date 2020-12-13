@@ -5,8 +5,6 @@ import FullPlan from './FullPlanList'
 import {useSelector, useDispatch} from 'react-redux'
 import {setCurrentBudget, resetStore, openNewBudget} from './actions'
 import {Grid, Button, makeStyles} from '@material-ui/core'
-// import {setCurrentUser, setToken} from './actions'
-// import {useDispatch, useSelector} from 'react-redux'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 

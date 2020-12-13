@@ -74,7 +74,7 @@ const BankInfo = (props) => {
         let expenseRowArr = []
         let balanceSum = 0.00
         props.account.transactions.map(transaction => {
-            // debugger
+            
             if(transaction.transaction.value >= 0){
                 incomeArr.push(transaction)
                 incomeRowArr.push(createData(transaction.transaction_category.name, transaction.transaction.description, transaction.transaction.date, formatter.format(transaction.transaction.value)))
@@ -96,7 +96,7 @@ const BankInfo = (props) => {
         setArrays()
         getImage()
     }, [])
-    // debugger
+    
     return (
         <TabPanel value={selectedPanel} index={props.num}>
             <Grid container direction="column" alignItems="center" spacing={3}>

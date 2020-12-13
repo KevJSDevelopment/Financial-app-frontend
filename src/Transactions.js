@@ -3,7 +3,6 @@ import {useSelector, useDispatch} from 'react-redux'
 import {makeStyles, Paper, Typography} from '@material-ui/core'
 import {setTransactions, setSelectedArr, setBankBalance} from './actions'
 import { DataGrid } from '@material-ui/data-grid';
-// import { XGrid } from '@material-ui/x-grid';
 
 const useStyles = makeStyles({
     grid: {
@@ -18,8 +17,6 @@ const Transactions = () => {
     const transactions = useSelector(state => state.transactions)
     const selectedArr = useSelector(state => state.selectedArr)
     const bankBalance = useSelector(state => state.bankBalance)
-    // const transactionRows = useSelector(state => state.transactionRows)
-    // const loading = useSelector(state => state.loading)
 
     const dispatch = useDispatch()
 
@@ -30,7 +27,6 @@ const Transactions = () => {
         { field: 'id', headerName: 'ID', width: width },
         { field: 'Date', headerName: 'Date', width: width },
         { field: 'Description', headerName: 'Description', width: width },
-        // { field: 'Category', headerName: 'Category', width: width },
         { field: 'Bank', headerName: 'Bank', width: width },
         { field: 'Type', headerName: 'Type', width: width },
         { 
@@ -60,7 +56,7 @@ const Transactions = () => {
     };
 
     const handleRowClick = (ev) => {
-        // debugger
+        
         if(ev.target){
             let newArr = selectedArr
             if(selectedArr.includes(ev.data)){
@@ -110,7 +106,6 @@ const Transactions = () => {
     }
 
     useEffect(() => {
-        // getRows()
         getTransactions()
     }, [])
 
