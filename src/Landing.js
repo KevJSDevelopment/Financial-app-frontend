@@ -43,16 +43,18 @@ const Landing = () => {
 
     const login = (ev) => {
         ev.preventDefault()
+
         const meta = {
             method: "POST",
             headers: {
               "Content-Type" : "application/json"
             },
             body: JSON.stringify({username: ev.target[0].value, password: ev.target[1].value})
-          }
+        }
+
         fetch(`http://localhost:3000/login`, meta)
         .then(res => res.json())
-        .then(async (data) => {
+        .then(data => {
           if(data.auth){
             localStorage.setItem("token", data.token)
             dispatch(setCurrentUser(data.user))
