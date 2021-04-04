@@ -6,6 +6,7 @@ import {MuiPickersUtilsProvider,KeyboardDatePicker} from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import {setExpDate, setCategory, setAmount, setExpenseRows, setIncomeRows, setCategoryList, setIncomeCategories, setExpenseCategories, setPlanView, setBalance} from './actions'
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
+
 const useStyles = makeStyles({
     dataGrid: {
         backgroundColor: "white",
@@ -220,10 +221,6 @@ const ViewPlan = () => {
         dispatch(setCategory(ev.target.value))
     }
 
-    const handleRowClick = () => {
-
-    }
-
     const radioClick = (ev) => {
         console.log(ev.target.value)
         if(ev.target.checked){
@@ -311,7 +308,7 @@ const ViewPlan = () => {
                                     }}
                                 >
                                     <option aria-label="None" value="" />
-                                    {categoryList != [] ? categoryList.map(catObj=> {
+                                    {categoryList !== [] ? categoryList.map(catObj=> {
                                         return <option value={catObj.id} key={catObj.id}>{catObj.name}</option>
                                     }): null}
                                     <option value="add">Add Category</option>
